@@ -10,7 +10,13 @@ import {
   IconReceipt2,
   IconSwitchHorizontal,
   IconLogout,
+  IconHome,
+  IconPageBreak,
+  IconLayoutKanban,
+  IconUsers,
 } from '@tabler/icons';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 
 const useStyles = createStyles((theme, _params, getRef) => {
@@ -19,17 +25,15 @@ const useStyles = createStyles((theme, _params, getRef) => {
     header: {
       paddingBottom: theme.spacing.md,
       marginBottom: theme.spacing.md * 1.5,
-      borderBottom: `1px solid ${
-        theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
-      }`,
+      borderBottom: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
+        }`,
     },
 
     footer: {
       paddingTop: theme.spacing.md,
       marginTop: theme.spacing.md,
-      borderTop: `1px solid ${
-        theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
-      }`,
+      borderTop: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
+        }`,
     },
 
     link: {
@@ -73,32 +77,24 @@ const useStyles = createStyles((theme, _params, getRef) => {
 });
 
 const data = [
-  { link: '', label: 'Notifications', icon: IconBellRinging },
-  { link: '', label: 'Billing', icon: IconReceipt2 },
-  { link: '', label: 'Security', icon: IconFingerprint },
-  { link: '', label: 'SSH Keys', icon: IconKey },
-  { link: '', label: 'Databases', icon: IconDatabaseImport },
-  { link: '', label: 'Authentication', icon: Icon2fa },
-  { link: '', label: 'Other Settings', icon: IconSettings },
+  { link: '/dashboard', label: 'Ana sayfa', icon: IconHome },
+  { link: '/dashboard/ozet', label: 'Ozet', icon: IconPageBreak },
+  { link: '/dashboard/gorevler', label: 'Gorevler', icon: IconLayoutKanban },
+  { link: '/dashboard/kisiler', label: 'Kisiler', icon: IconUsers },
 ];
 
 export function DashboardNavbar() {
   const { classes, cx } = useStyles();
-  const [active, setActive] = useState('Billing');
-
+  const router = useRouter()
   const links = data.map((item) => (
-    <a
-      className={cx(classes.link, { [classes.linkActive]: item.label === active })}
+    <Link
+      className={cx(classes.link, { [classes.linkActive]: item.link === router.route })}
       href={item.link}
       key={item.label}
-      onClick={(event) => {
-        event.preventDefault();
-        setActive(item.label);
-      }}
     >
       <item.icon className={classes.linkIcon} stroke={1.5} />
       <span>{item.label}</span>
-    </a>
+    </Link>
   ));
 
   return (

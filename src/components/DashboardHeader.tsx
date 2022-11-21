@@ -1,6 +1,6 @@
 import { createStyles, Header, Autocomplete, Group, Burger, UnstyledButton, Text, Menu, Avatar } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconChevronDown, IconHeart, IconLayoutKanban, IconLogout, IconSearch, IconSettings, IconStar, IconSwitchHorizontal } from '@tabler/icons';
+import { IconChevronDown, IconHeart, IconHome, IconLayoutKanban, IconLogout, IconSearch, IconSettings, IconStar, IconSwitchHorizontal } from '@tabler/icons';
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -101,12 +101,12 @@ export function DashboardHeader({ links }: HeaderSearchProps) {
     const router = useRouter();
     const session = useSession()
     console.log(session);
-    
+
     const items = links.map((link) => (
         <Link
             key={link.label}
             href={link.link}
-            className={router.route === link.link ? classes.linkSelected : classes.link}
+            className={router.route.includes(link.link) ? classes.linkSelected : classes.link}
 
 
         >
@@ -151,6 +151,9 @@ export function DashboardHeader({ links }: HeaderSearchProps) {
                             <Menu.Item icon={<IconSettings size={14} stroke={1.5} />}>Account settings</Menu.Item>
                             <Menu.Item icon={<IconSwitchHorizontal size={14} stroke={1.5} />}>
                                 Change account
+                            </Menu.Item>
+                            <Menu.Item component={Link} href='/' icon={<IconHome size={14} stroke={1.5} />}>
+                                Ana sayfaya git
                             </Menu.Item>
                             <Menu.Item onClick={() => signOut({
                                 callbackUrl: `${window.location.origin}/`
