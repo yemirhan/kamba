@@ -17,6 +17,8 @@ import {
     Collapse,
     ScrollArea,
     Loader,
+    ActionIcon,
+    useMantineColorScheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
@@ -28,6 +30,8 @@ import {
     IconCoin,
     IconChevronDown,
     IconLayoutKanban,
+    IconSun,
+    IconMoonStars,
 } from '@tabler/icons';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
@@ -130,6 +134,8 @@ export function SplashHeader() {
     const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
     const session = useSession()
     const { classes, theme } = useStyles();
+    const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+    const dark = colorScheme === 'dark';
 
     const links = mockdata.map((item) => (
         <UnstyledButton className={classes.subLink} key={item.title}>
@@ -216,10 +222,20 @@ export function SplashHeader() {
                         session.status === "loading" ? (
                             <Loader />
                         ) :
-                            session.status === "authenticated" ? (
+                            session.status === "authenticated" ? (<Group>
+                                <ActionIcon
+                                    variant="outline"
+                                    color={dark ? 'yellow' : 'blue'}
+                                    onClick={() => toggleColorScheme()}
+                                    title="Toggle color scheme"
+                                >
+                                    {dark ? <IconSun size={20} /> : <IconMoonStars size={20} />}
+                                </ActionIcon>
                                 <Button component={Link} href="/dashboard" variant="default">
                                     Go To Dashboard
                                 </Button>
+                            </Group>
+
                             ) :
                                 (
                                     <Group className={classes.hiddenMobile}>

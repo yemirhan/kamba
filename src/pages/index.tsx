@@ -23,7 +23,7 @@ const Home: NextPage = () => {
         footer={<SplashFooter links={[]} />}
       >
         <SplashHero />
-        <SplashFeatures title={"title"} description="desc" />
+        <SplashFeatures title={"gdgdgfdgf"} description="desc" />
       </AppShell>
     </>
   );

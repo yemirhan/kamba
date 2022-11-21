@@ -5,6 +5,7 @@ import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { Logo } from './Logo';
 
 
 const useStyles = createStyles((theme) => ({
@@ -118,14 +119,7 @@ export function DashboardHeader({ links }: HeaderSearchProps) {
             <div className={classes.inner}>
                 <Group>
                     <Burger opened={opened} onClick={toggle} size="sm" />
-                    <UnstyledButton>
-                        <Group>
-                            <IconLayoutKanban size={20} />
-                            <Text>
-                                Kamba
-                            </Text>
-                        </Group>
-                    </UnstyledButton>
+                    <Logo href='/dashboard' />
                 </Group>
 
                 <Group>

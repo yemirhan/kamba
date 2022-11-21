@@ -8,7 +8,7 @@ export const Logo = ({ href = "/" }) => {
         <UnstyledButton component={Link} href={href}>
             <Group>
                 <IconLayoutKanban size={20} />
-                <Text>
+                <Text weight={'bolder'}>
                     Kamba
                 </Text>
             </Group>

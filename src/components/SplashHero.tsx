@@ -76,7 +76,7 @@ export function SplashHero() {
                 radius="lg"
             />
             <Container className={classes.container}>
-                <Title className={classes.title}>A fully featured React components library</Title>
+                <Title className={classes.title}>Kobinizin yonetiminde yardimci olalim</Title>
                 <Text className={classes.description} size="xl" mt="xl">
                     Build fully functional accessible web applications faster than ever – Mantine includes
                     more than 120 customizable components and hooks to cover you in any situation
