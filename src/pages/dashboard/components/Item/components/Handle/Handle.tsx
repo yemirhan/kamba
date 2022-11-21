@@ -2,6 +2,7 @@ import React, {forwardRef} from 'react';
 
 import {Action, ActionProps} from '../Action';
 
+// eslint-disable-next-line react/display-name
 export const Handle = forwardRef<HTMLButtonElement, ActionProps>(
   (props, ref) => {
     return (

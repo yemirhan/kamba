@@ -11,6 +11,7 @@ export interface Props extends React.HTMLAttributes<HTMLButtonElement> {
   cursor?: CSSProperties['cursor'];
 }
 
+// eslint-disable-next-line react/display-name
 export const Action = forwardRef<HTMLButtonElement, Props>(
   ({active, className, cursor, style, ...props}, ref) => {
     return (
