@@ -63,7 +63,7 @@ export function Login() {
                 <Button onClick={() => {
                     signIn("email", {
                         email,
-                        callbackUrl: "http://localhost:3000/dashboard",
+                        
                     })
                 }} fullWidth mt="xl" size="md">
                     Send Magic Link
