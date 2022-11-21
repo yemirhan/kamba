@@ -1,5 +1,5 @@
 import React from 'react'
-import { ShellLayout } from '../components/ShellLayout';
+import { ShellLayout } from '../../../components/ShellLayout';
 
 const SummaryPage = () => {
     return (

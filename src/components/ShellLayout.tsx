@@ -4,8 +4,8 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { DashboardHeader } from "../../../components/DashboardHeader";
-import { DashboardNavbar } from "../../../components/DashboardNavbar";
+import { DashboardHeader } from "./DashboardHeader";
+import { DashboardNavbar } from "./DashboardNavbar";
 
 export const ShellLayout = ({ children }: { children: React.ReactNode }) => {
     const session = useSession();

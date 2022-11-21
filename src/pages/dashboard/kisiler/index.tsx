@@ -2,9 +2,9 @@ import { Button, Container, Group, Stack, Title } from '@mantine/core'
 import { Tab } from '@mantine/core/lib/Tabs/Tab/Tab'
 import { IconUserPlus } from '@tabler/icons'
 import React, { useState } from 'react'
-import { ShellLayout } from '../components/ShellLayout'
-import { AddNewUserModal } from './AddNewUserModal'
-import { TableSelection } from './TableLayout'
+import { ShellLayout } from '../../../components/ShellLayout'
+import { AddNewUserModal } from '../../../components/AddNewUserModal'
+import { TableSelection } from '../../../components/TableLayout'
 const data = [
     {
         "id": "1",

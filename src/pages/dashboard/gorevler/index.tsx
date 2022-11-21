@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { MultipleContainers } from '../components/MultipleContainers'
-import { ShellLayout } from '../components/ShellLayout'
+import { MultipleContainers } from '../../../components/MultipleContainers'
+import { ShellLayout } from '../../../components/ShellLayout'
 
 const Tasks = () => {
     const [loadable, setLoadable] = useState(false)

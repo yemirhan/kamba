@@ -5,8 +5,8 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import { DashboardHeader } from '../../components/DashboardHeader';
 import { DashboardNavbar } from '../../components/DashboardNavbar';
-import { MultipleContainers } from './components/MultipleContainers';
-import { ShellLayout } from './components/ShellLayout';
+import { MultipleContainers } from '../../components/MultipleContainers';
+import { ShellLayout } from '../../components/ShellLayout';
 
 const Dashboard = () => {
     const session = useSession();
