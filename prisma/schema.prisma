@@ -15,7 +15,7 @@ datasource db {
 }
 
 model Status {
-  id         String         @id @default(cuid())
+  id         String      @id @default(cuid())
   name       String
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
@@ -34,6 +34,7 @@ model Workspace {
   statuses  Status[]
   items     Item[]
 }
+
 model Comment {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
@@ -43,8 +44,8 @@ model Comment {
   itemId    String
   user      User     @relation(fields: [userId], references: [id])
   userId    String
-  personal Boolean  @default(false)
-  images  Image[]
+  personal  Boolean  @default(false)
+  images    Image[]
 }
 
 model Item {
@@ -57,24 +58,26 @@ model Item {
   workspaceId String
   status      Status    @relation(fields: [statusId], references: [id])
   statusId    String
-  assignees  User[]
-  startDate DateTime?
-  endDate   DateTime?
+  assignees   User[]
+  startDate   DateTime?
+  endDate     DateTime?
   description String?
-  comments Comment[]
-  images Image[]
+  comments    Comment[]
+  images      Image[]
 }
+
 model Image {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   name      String
   url       String
-  item      Item?     @relation(fields: [itemId], references: [id])
+  item      Item?    @relation(fields: [itemId], references: [id])
   itemId    String?
-  comment   Comment?  @relation(fields: [commentId], references: [id])
+  comment   Comment? @relation(fields: [commentId], references: [id])
   commentId String?
 }
+
 // Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
@@ -107,14 +110,14 @@ model User {
   name          String?
   email         String?     @unique
   emailVerified DateTime?
-  image         String?
+  image         String?     @default("https://media.istockphoto.com/id/1288129985/vector/missing-image-of-a-person-placeholder.jpg?s=612x612&w=0&k=20&c=9kE777krx5mrFHsxx02v60ideRWvIgI1RWzR1X4MG2Y=")
   bio           String?
-  avatar       String? @default("https://media.istockphoto.com/id/1288129985/vector/missing-image-of-a-person-placeholder.jpg?s=612x612&w=0&k=20&c=9kE777krx5mrFHsxx02v60ideRWvIgI1RWzR1X4MG2Y=")
-  accounts      Account[] 
+  avatar        String?     @default("https://media.istockphoto.com/id/1288129985/vector/missing-image-of-a-person-placeholder.jpg?s=612x612&w=0&k=20&c=9kE777krx5mrFHsxx02v60ideRWvIgI1RWzR1X4MG2Y=")
+  accounts      Account[]
   sessions      Session[]
   Workspace     Workspace[]
   items         Item[]
-  comments     Comment[]
+  comments      Comment[]
 }
 
 model VerificationToken {

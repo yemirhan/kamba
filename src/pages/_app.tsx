@@ -8,6 +8,7 @@ import "../styles/globals.css";
 import { ColorScheme, ColorSchemeProvider, MantineProvider } from "@mantine/core";
 import { useState } from "react";
 import { RouterTransition } from "../components/RouterTransition";
+import { NotificationsProvider } from "@mantine/notifications";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -28,9 +29,10 @@ const MyApp: AppType<{ session: Session | null }> = ({
             primaryColor: "teal"
           }}
         >
-
-          <RouterTransition />
-          <Component {...pageProps} />
+          <NotificationsProvider>
+            <RouterTransition />
+            <Component {...pageProps} />
+          </NotificationsProvider>
         </MantineProvider>
       </ColorSchemeProvider>
     </SessionProvider>

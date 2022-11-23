@@ -1,26 +1,30 @@
-import { AppShell, Loader } from "@mantine/core";
-import { chown } from "fs";
-import { useSession } from "next-auth/react";
+import { AppShell } from "@mantine/core";
+import type { GetServerSideProps } from "next";
+import { getSession } from "next-auth/react";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { DashboardHeader } from "./DashboardHeader";
 import { DashboardNavbar } from "./DashboardNavbar";
 
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    const session = await getSession(ctx);
+    if (!session) {
+        return {
+            redirect: {
+                destination: '/auth/signin',
+                permanent: false,
+            },
+        };
+    }
+    return {
+        props: {
+            session,
+        },
+    };
+}
+
 export const ShellLayout = ({ children }: { children: React.ReactNode }) => {
-    const session = useSession();
-    const router = useRouter();
-    if (session.status === "unauthenticated") {
-        router.push("/login");
-    }
-    if (session.status === "loading") {
-        return <div className='fixed inset-0 flex items-center justify-center'>
-            <Loader />
-        </div>
-    }
-    if (session.status === "unauthenticated") {
-        return <div>asd</div>
-    }
+    const [menu, setMenu] = useState(false)
     return (<>
         <Head>
             <title>Kamba</title>
@@ -43,8 +47,11 @@ export const ShellLayout = ({ children }: { children: React.ReactNode }) => {
                 label: "Masa Takip",
                 link: "/tables"
             }
-            ]} />}
-            navbar={<DashboardNavbar />}
+            ]}
+                isMenuCollapsed={menu}
+                setMenuCollapse={() => setMenu(e => !e)}
+            />}
+            navbar={<DashboardNavbar isMenuCollapsed={menu} />}
         >
             {children}
         </AppShell>

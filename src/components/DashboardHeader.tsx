@@ -92,15 +92,15 @@ const useStyles = createStyles((theme) => ({
 
 interface HeaderSearchProps {
     links: { link: string; label: string }[];
+    isMenuCollapsed: boolean;
+    setMenuCollapse: () => void;
 }
 
-export function DashboardHeader({ links }: HeaderSearchProps) {
-    const [opened, { toggle }] = useDisclosure(false);
+export function DashboardHeader({ links, isMenuCollapsed, setMenuCollapse }: HeaderSearchProps) {
     const [userMenuOpened, setUserMenuOpened] = useState(false);
     const { classes, theme, cx } = useStyles();
     const router = useRouter();
     const session = useSession()
-    console.log(session);
 
     const items = links.map((link) => (
         <Link
@@ -118,7 +118,7 @@ export function DashboardHeader({ links }: HeaderSearchProps) {
         <Header height={56} className={classes.header} mb={120}>
             <div className={classes.inner}>
                 <Group>
-                    <Burger opened={opened} onClick={toggle} size="sm" />
+                    <Burger opened={isMenuCollapsed} onClick={setMenuCollapse} size="sm" />
                     <Logo href='/dashboard' />
                 </Group>
 

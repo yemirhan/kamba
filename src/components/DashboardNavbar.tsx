@@ -60,7 +60,10 @@ const useStyles = createStyles((theme, _params, getRef) => {
     linkIcon: {
       ref: icon,
       color: theme.colorScheme === 'dark' ? theme.colors.dark[2] : theme.colors.gray[6],
-      marginRight: theme.spacing.sm,
+
+    },
+    label: {
+      marginLeft: theme.spacing.xs,
     },
 
     linkActive: {
@@ -83,7 +86,7 @@ const data = [
   { link: '/dashboard/kisiler', label: 'Kisiler', icon: IconUsers },
 ];
 
-export function DashboardNavbar() {
+export function DashboardNavbar({ isMenuCollapsed }: { isMenuCollapsed: boolean }) {
   const { classes, cx } = useStyles();
   const router = useRouter()
   const links = data.map((item) => (
@@ -93,12 +96,12 @@ export function DashboardNavbar() {
       key={item.label}
     >
       <item.icon className={classes.linkIcon} stroke={1.5} />
-      <span>{item.label}</span>
+      {isMenuCollapsed ? null : <span className={classes.label}>{item.label}</span>}
     </Link>
   ));
 
   return (
-    <Navbar height={"full"} width={{ sm: 300 }} p="md">
+    <Navbar height={"full"} width={{ sm: isMenuCollapsed ? 84 : 300 }} p="md">
       <Navbar.Section grow>
         {links}
       </Navbar.Section>
@@ -106,12 +109,7 @@ export function DashboardNavbar() {
       <Navbar.Section className={classes.footer}>
         <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
           <IconSwitchHorizontal className={classes.linkIcon} stroke={1.5} />
-          <span>Change account</span>
-        </a>
-
-        <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
-          <IconLogout className={classes.linkIcon} stroke={1.5} />
-          <span>Logout</span>
+          {isMenuCollapsed ? null : <span className={classes.label}>Change account</span>}
         </a>
       </Navbar.Section>
     </Navbar>
