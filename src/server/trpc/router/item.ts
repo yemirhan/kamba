@@ -8,7 +8,7 @@ export const itemRouter = router({
       name: z.string().min(1).max(40),
       statusId: z.string(),
       description: z.string().optional(),
-      workspaceId: z.string(),
+      boardId: z.string(),
     }))
     .mutation(async ({ input, ctx }) => {
       return await ctx.prisma.item.create({
@@ -17,7 +17,7 @@ export const itemRouter = router({
           slug: crypto.randomUUID(),
           statusId: input?.statusId,
           description: input?.description,
-          workspaceId: input?.workspaceId,
+          boardId: input?.boardId,
         },
       })
     }),
@@ -27,7 +27,7 @@ export const itemRouter = router({
         slug: input.slug
       },
       include: {
-        workspace: {
+        board: {
           select: {
             id: true,
             name: true,
@@ -112,5 +112,25 @@ export const itemRouter = router({
         statusId: input.statusId
       }
     })
-  })
+  }),
+  addCommentToItem: protectedProcedure.input(z.object({ slug: z.string(), text: z.string() })).mutation(async ({ ctx, input }) => {
+    return await ctx.prisma.comment.create({
+      data: {
+        text: input.text,
+        itemId: input.slug,
+        personal: false,
+        userId: ctx.session.user.id
+      }
+    })
+  }),
+  addPersonalCommentToItem: protectedProcedure.input(z.object({ slug: z.string(), text: z.string() })).mutation(async ({ ctx, input }) => {
+    return await ctx.prisma.comment.create({
+      data: {
+        text: input.text,
+        itemId: input.slug,
+        personal: true,
+        userId: ctx.session.user.id
+      }
+    })
+  }),
 });

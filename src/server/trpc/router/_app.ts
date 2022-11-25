@@ -1,12 +1,12 @@
 import { itemRouter } from './item';
-import { workspaceRouter } from './workspace';
+import { boardRouter } from './boards';
 import { router } from "../trpc";
 import { authRouter } from "./auth";
 import { statusRouter } from './status';
 
 export const appRouter = router({
   auth: authRouter,
-  workspaces: workspaceRouter,
+  boards: boardRouter,
   item: itemRouter,
   status: statusRouter,
 });

@@ -5,7 +5,7 @@ import { trpc } from '../../utils/trpc'
 
 const Workspace = () => {
     const router = useRouter()
-    const { data, isLoading } = trpc.workspaces.getWorkspaceBySlug.useQuery({ slug: router.query.slug as string })
+    const { data, isLoading } = trpc.boards.getBoardBySlug.useQuery({ slug: router.query.slug as string, workspaceId: router.query.workspaceId as string })
     console.log(data);
 
     return (

@@ -10,6 +10,7 @@ import {
     Anchor,
     UnstyledButton,
     Group,
+    Flex,
     Stack,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
@@ -25,7 +26,7 @@ const useStyles = createStyles((theme) => ({
         height: "100vh",
         backgroundSize: 'cover',
         backgroundImage:
-            'url(https://images.unsplash.com/photo-1484242857719-4b9144542727?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1280&q=80)',
+            'url(https://images.unsplash.com/photo-1556761175-4b46a572b786?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2274&q=80)',
     },
 
     form: {
@@ -38,6 +39,7 @@ const useStyles = createStyles((theme) => ({
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
+
 
         [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
             maxWidth: '100%',
@@ -58,7 +60,7 @@ const useStyles = createStyles((theme) => ({
     },
 }));
 
-export function Login() {
+export function Register() {
     const { classes } = useStyles();
     const session = useSession();
     const form = useForm({
@@ -75,6 +77,7 @@ export function Login() {
             <title>Kamba - Giriş Yap</title>
             <link rel="icon" href="/layout-kanban.svg" />
         </Head>
+
         <div className={classes.wrapper}>
             <Paper className={classes.form} radius={0} p={30}>
                 <Stack spacing={"xs"}>
@@ -96,9 +99,9 @@ export function Login() {
                     </Button>
 
                     <Text align="center" >
-                        Hesabın yok mu?{' '}
-                        <Anchor component={Link} href="/auth/register" weight={700} >
-                            Kayıt Ol
+                        Daha önce kaydoldun mu?{' '}
+                        <Anchor component={Link} href="/auth/signin" weight={700} >
+                            Giriş Yap
                         </Anchor>
                     </Text>
                 </Stack>
@@ -114,10 +117,12 @@ export function Login() {
                     </Group>
 
                 </UnstyledButton>
+
             </Paper>
+
         </div>
     </>
     );
 }
 
-export default Login;
+export default Register;
