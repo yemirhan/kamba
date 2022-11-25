@@ -2,10 +2,10 @@ import { z } from "zod";
 import { protectedProcedure, router } from "../trpc";
 
 export const statusRouter = router({
-  getStatusesOfWorkspace: protectedProcedure.input(z.object({ workspaceId: z.string() })).query(async ({ ctx, input }) => {
-    return await ctx.prisma.workspace.findMany({
+  getStatusesOfBoard: protectedProcedure.input(z.object({ boardId: z.string() })).query(async ({ ctx, input }) => {
+    return await ctx.prisma.board.findMany({
       where: {
-        id: input.workspaceId
+        id: input.boardId
       },
       include: {
         statuses: true
@@ -14,14 +14,14 @@ export const statusRouter = router({
   }),
   createNewStatus: protectedProcedure.input(z.object({
     name: z.string(),
-    workspaceId: z.string()
+    boardId: z.string()
   })).mutation(async ({ ctx, input }) => {
     return await ctx.prisma.status.create({
       data: {
         name: input.name,
-        workspaces: {
+        boards: {
           connect: {
-            id: input.workspaceId
+            id: input.boardId
           }
         }
       },
