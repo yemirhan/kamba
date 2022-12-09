@@ -1,6 +1,7 @@
+import { ShellLayout } from '@/components/ShellLayout';
 import { useRouter } from 'next/router';
 import React from 'react'
-import { ShellLayout } from '../../components/ShellLayout';
+
 
 const Inventory = () => {
     const router = useRouter();

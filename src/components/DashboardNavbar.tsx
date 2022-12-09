@@ -79,16 +79,18 @@ const useStyles = createStyles((theme, _params, getRef) => {
   };
 });
 
-const data = [
-  { link: '/dashboard', label: 'Ana sayfa', icon: IconHome },
-  { link: '/dashboard/ozet', label: 'Ozet', icon: IconPageBreak },
-  { link: '/dashboard/gorevler', label: 'Gorevler', icon: IconLayoutKanban },
-  { link: '/dashboard/kisiler', label: 'Kisiler', icon: IconUsers },
-];
+
 
 export function DashboardNavbar({ isMenuCollapsed }: { isMenuCollapsed: boolean }) {
   const { classes, cx } = useStyles();
   const router = useRouter()
+
+  const data = [
+    { link: `/workspace/${router.query.workspaceId}`, label: 'Ana sayfa', icon: IconHome },
+    { link: `/workspace/${router.query.workspaceId}/ozet`, label: 'Ozet', icon: IconPageBreak },
+    { link: `/workspace/${router.query.workspaceId}/gorevler`, label: 'Gorevler', icon: IconLayoutKanban },
+    { link: `/workspace/${router.query.workspaceId}/kisiler`, label: 'Kisiler', icon: IconUsers },
+  ];
   const links = data.map((item) => (
     <Link
       className={cx(classes.link, { [classes.linkActive]: item.link === router.route })}

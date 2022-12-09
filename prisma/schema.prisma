@@ -6,12 +6,29 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "cockroachdb"
   // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
   // Further reading:
   // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
   // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
   url      = env("DATABASE_URL")
+}
+
+enum Colors {
+  SLATE      @map("#25262b")
+  GRAY       @map("#868e96")
+  RED        @map("#fa5252")
+  PINK       @map("#e64980")
+  PURPLE     @map("#be4bdb")
+  VIOLET     @map("#7950f2")
+  DARKBLUE   @map("#4c6ef5")
+  BLUE       @map("#228be6")
+  TURQUOISE  @map("#15aabf")
+  OCEAN      @map("#12b886")
+  GREEN      @map("#40c057")
+  LIGHTGREEN @map("#82c91e")
+  YELLOW     @map("#fab005")
+  ORANGE     @map("#fd7e14")
 }
 
 model Status {
@@ -33,7 +50,7 @@ model Board {
   users       User[]
   statuses    Status[]
   items       Item[]
-  workspace     Workspace @relation(fields: [workspaceId], references: [id])
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
   workspaceId String
 
   @@unique([slug, workspaceId])
@@ -89,12 +106,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -110,20 +127,20 @@ model Session {
 }
 
 model User {
-  id            String     @id @default(cuid())
+  id            String      @id @default(cuid())
   name          String?
-  email         String?    @unique
+  email         String?     @unique
   emailVerified DateTime?
-  image         String?    @default("https://media.istockphoto.com/id/1288129985/vector/missing-image-of-a-person-placeholder.jpg?s=612x612&w=0&k=20&c=9kE777krx5mrFHsxx02v60ideRWvIgI1RWzR1X4MG2Y=")
+  onboarded     Boolean     @default(false)
+  image         String?     @default("https://media.istockphoto.com/id/1288129985/vector/missing-image-of-a-person-placeholder.jpg?s=612x612&w=0&k=20&c=9kE777krx5mrFHsxx02v60ideRWvIgI1RWzR1X4MG2Y=")
   bio           String?
-  avatar        String?    @default("https://media.istockphoto.com/id/1288129985/vector/missing-image-of-a-person-placeholder.jpg?s=612x612&w=0&k=20&c=9kE777krx5mrFHsxx02v60ideRWvIgI1RWzR1X4MG2Y=")
+  avatar        String?     @default("https://media.istockphoto.com/id/1288129985/vector/missing-image-of-a-person-placeholder.jpg?s=612x612&w=0&k=20&c=9kE777krx5mrFHsxx02v60ideRWvIgI1RWzR1X4MG2Y=")
   accounts      Account[]
   sessions      Session[]
   board         Board[]
   items         Item[]
   comments      Comment[]
-  workspace     Workspace? @relation(fields: [workspaceId], references: [id])
-  workspaceId   String?
+  workspaces    Workspace[]
 }
 
 model VerificationToken {
@@ -140,7 +157,130 @@ model Workspace {
   updatedAt DateTime @updatedAt
   name      String
   slug      String   @unique
+  color     String   @default("#000000")
 
-  users  User[]
-  boards Board[]
+  users           User[]
+  boards          Board[]
+  MenuItem        MenuItem[]
+  MenuCategory    MenuCategory[]
+  TableModule     TableModule[]
+  Story           Story[]
+  InventoryModule InventoryModule[]
+}
+
+model TableModule {
+  id             String           @id @default(cuid())
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  name           String
+  slug           String           @unique
+  tables         Table[]
+  menuItems      MenuItem[]
+  menuCategories MenuCategory[]
+  stories        Story[]
+  previousOrders PreviousOrders[]
+  workspace      Workspace        @relation(fields: [workspaceId], references: [id])
+  workspaceId    String           @unique
+}
+
+model Table {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String
+  slug      String   @unique
+  color     Colors   @default(OCEAN)
+  icon      String
+  chairs    Int      @default(0)
+
+  orders         TableOrder[]
+  TableModule    TableModule?     @relation(fields: [tableModuleId], references: [id])
+  tableModuleId  String?
+  story          Story?           @relation(fields: [storyId], references: [id])
+  storyId        String?
+  PreviousOrders PreviousOrders[]
+}
+
+model TableOrder {
+  id        String     @id @default(cuid())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  name      String
+  slug      String     @unique
+  orders    MenuItem[]
+  Table     Table?     @relation(fields: [tableId], references: [id])
+  tableId   String?
+}
+
+model MenuItem {
+  id               String          @id @default(cuid())
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  name             String
+  slug             String          @unique
+  icon             String
+  color            Colors          @default(OCEAN)
+  order            Int
+  workspace        Workspace       @relation(fields: [workspaceId], references: [id])
+  workspaceId      String
+  MenuCategory     MenuCategory?   @relation(fields: [menuCategoryId], references: [id])
+  menuCategoryId   String?
+  TableOrder       TableOrder?     @relation(fields: [tableOrderId], references: [id])
+  tableOrderId     String?
+  TableModule      TableModule?    @relation(fields: [tableModuleId], references: [id])
+  tableModuleId    String?
+  PreviousOrders   PreviousOrders? @relation(fields: [previousOrdersId], references: [id])
+  previousOrdersId String?
+}
+
+model MenuCategory {
+  id            String       @id @default(cuid())
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  name          String
+  slug          String       @unique
+  order         Int
+  workspace     Workspace    @relation(fields: [workspaceId], references: [id])
+  workspaceId   String
+  menuItems     MenuItem[]
+  TableModule   TableModule? @relation(fields: [tableModuleId], references: [id])
+  tableModuleId String?
+}
+
+model Story {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String
+  slug      String   @unique
+
+  TableModule   TableModule? @relation(fields: [tableModuleId], references: [id])
+  tableModuleId String?
+  tables        Table[]
+  workspace     Workspace?   @relation(fields: [workspaceId], references: [id])
+  workspaceId   String?
+}
+
+model PreviousOrders {
+  id            String       @id @default(cuid())
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  name          String
+  slug          String       @unique
+  orders        MenuItem[]
+  table         Table?       @relation(fields: [tableId], references: [id])
+  tableId       String?
+  TableModule   TableModule? @relation(fields: [tableModuleId], references: [id])
+  tableModuleId String?
+}
+
+model InventoryModule {
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  name        String
+  slug        String    @unique
+  color       Colors    @default(OCEAN)
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  workspaceId String
 }

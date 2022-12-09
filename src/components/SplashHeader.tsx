@@ -33,7 +33,7 @@ import {
     IconSun,
     IconMoonStars,
 } from '@tabler/icons';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { Logo } from './Logo';
 
@@ -136,7 +136,7 @@ export function SplashHeader() {
     const { classes, theme } = useStyles();
     const { colorScheme, toggleColorScheme } = useMantineColorScheme();
     const dark = colorScheme === 'dark';
-
+    console.log(session.data?.user);
     const links = mockdata.map((item) => (
         <UnstyledButton className={classes.subLink} key={item.title}>
             <Group noWrap align="flex-start">
@@ -231,7 +231,12 @@ export function SplashHeader() {
                                 >
                                     {dark ? <IconSun size={20} /> : <IconMoonStars size={20} />}
                                 </ActionIcon>
-                                <Button component={Link} href="/dashboard" variant="default">
+                                <Button onClick={() => signOut({
+                                    callbackUrl: "http://localhost:3000/",
+                                })} variant="default">
+                                    Log Out
+                                </Button>
+                                <Button component={Link} href="/workspaces" variant="default">
                                     Go To Dashboard
                                 </Button>
                             </Group>

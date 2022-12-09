@@ -1,4 +1,4 @@
-import { createStyles, Header, Autocomplete, Group, Burger, UnstyledButton, Text, Menu, Avatar } from '@mantine/core';
+import { createStyles, Header, Autocomplete, Group, Burger, UnstyledButton, Text, Menu, Avatar, Tooltip } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconChevronDown, IconHeart, IconHome, IconLayoutKanban, IconLogout, IconSearch, IconSettings, IconStar, IconSwitchHorizontal } from '@tabler/icons';
 import { signOut, useSession } from 'next-auth/react';
@@ -91,9 +91,9 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface HeaderSearchProps {
-    links: { link: string; label: string }[];
-    isMenuCollapsed: boolean;
-    setMenuCollapse: () => void;
+    links: { link: string; label: string, pageType: string }[];
+    isMenuCollapsed?: boolean;
+    setMenuCollapse?: () => void;
 }
 
 export function DashboardHeader({ links, isMenuCollapsed, setMenuCollapse }: HeaderSearchProps) {
@@ -106,7 +106,7 @@ export function DashboardHeader({ links, isMenuCollapsed, setMenuCollapse }: Hea
         <Link
             key={link.label}
             href={link.link}
-            className={router.route.includes(link.link) ? classes.linkSelected : classes.link}
+            className={router.route.includes(link.pageType) ? classes.linkSelected : classes.link}
 
 
         >
@@ -117,10 +117,12 @@ export function DashboardHeader({ links, isMenuCollapsed, setMenuCollapse }: Hea
     return (
         <Header height={56} className={classes.header} mb={120}>
             <div className={classes.inner}>
-                <Group>
-                    <Burger opened={isMenuCollapsed} onClick={setMenuCollapse} size="sm" />
-                    <Logo href='/dashboard' />
-                </Group>
+                {isMenuCollapsed !== undefined ? <Group>
+                    <Burger opened={isMenuCollapsed || false} onClick={setMenuCollapse} size="sm" />
+                    <Tooltip label="Tüm Çalışma Alanları" position='bottom'>
+                        <Logo href='/workspaces' />
+                    </Tooltip>
+                </Group> : <Logo href='/workspaces' />}
 
                 <Group>
                     <Group ml={50} spacing={5} className={classes.links}>

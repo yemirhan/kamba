@@ -1,0 +1,43 @@
+Date : 2022-11-28 02:55:51
+Directory : /Users/yemirhan/Developer/kamba/src
+Total : 11 files,  -12397 codes, -24 comments, -39 blanks, all -12460 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| XML                |          1 |         -7 |          0 |         -3 |        -10 |
+| Markdown           |          1 |        -17 |          0 |        -11 |        -28 |
+| JavaScript         |          4 |        -28 |         -8 |         -5 |        -41 |
+| JSON with Comments |          2 |        -32 |         -9 |         -1 |        -42 |
+| Prisma             |          1 |       -124 |         -7 |        -17 |       -148 |
+| JSON               |          2 |    -12,189 |          0 |         -2 |    -12,191 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                     | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                        |         11 |    -12,397 |        -24 |        -39 |    -12,460 |
+| ..                                                       |         11 |    -12,397 |        -24 |        -39 |    -12,460 |
+| ../prisma                                                |          1 |       -124 |         -7 |        -17 |       -148 |
+| ../public                                                |          1 |         -7 |          0 |         -3 |        -10 |
++----------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                 | language           | code       | comment    | blank      | total      |
++----------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| /Users/yemirhan/Developer/kamba/.eslintrc.json           | JSON with Comments |        -11 |          0 |         -1 |        -12 |
+| /Users/yemirhan/Developer/kamba/README.md                | Markdown           |        -17 |          0 |        -11 |        -28 |
+| /Users/yemirhan/Developer/kamba/next.config.mjs          | JavaScript         |        -10 |         -6 |         -2 |        -18 |
+| /Users/yemirhan/Developer/kamba/package-lock.json        | JSON               |    -12,117 |          0 |         -1 |    -12,118 |
+| /Users/yemirhan/Developer/kamba/package.json             | JSON               |        -72 |          0 |         -1 |        -73 |
+| /Users/yemirhan/Developer/kamba/postcss.config.cjs       | JavaScript         |         -8 |          0 |         -1 |         -9 |
+| /Users/yemirhan/Developer/kamba/prettier.config.cjs      | JavaScript         |         -3 |         -1 |         -1 |         -5 |
+| /Users/yemirhan/Developer/kamba/prisma/schema.prisma     | Prisma             |       -124 |         -7 |        -17 |       -148 |
+| /Users/yemirhan/Developer/kamba/public/layout-kanban.svg | XML                |         -7 |          0 |         -3 |        -10 |
+| /Users/yemirhan/Developer/kamba/tailwind.config.cjs      | JavaScript         |         -7 |         -1 |         -1 |         -9 |
+| /Users/yemirhan/Developer/kamba/tsconfig.json            | JSON with Comments |        -21 |         -9 |          0 |        -30 |
+| Total                                                    |                    |    -12,397 |        -24 |        -39 |    -12,460 |
++----------------------------------------------------------+--------------------+------------+------------+------------+------------+

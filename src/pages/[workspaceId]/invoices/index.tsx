@@ -1,5 +1,6 @@
+import { ShellLayout } from '@/components/ShellLayout'
 import React from 'react'
-import { ShellLayout } from '../../components/ShellLayout'
+
 
 const Invoices = () => {
     return (

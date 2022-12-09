@@ -19,22 +19,23 @@ const MyApp: AppType<{ session: Session | null }> = ({
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
   return (
     <SessionProvider session={session}>
-      <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-        <MantineProvider
-          withGlobalStyles
-          withNormalizeCSS
-          theme={{
-            /** Put your mantine theme override here */
-            colorScheme: colorScheme,
-            primaryColor: "teal"
-          }}
-        >
-          <NotificationsProvider>
-            <RouterTransition />
-            <Component {...pageProps} />
-          </NotificationsProvider>
-        </MantineProvider>
-      </ColorSchemeProvider>
+        <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+          <MantineProvider
+            withGlobalStyles
+            withNormalizeCSS
+            theme={{
+              /** Put your mantine theme override here */
+              colorScheme: colorScheme,
+              primaryColor: "teal",
+              fontFamily: "Montserrat !important",
+            }}
+          >
+            <NotificationsProvider>
+              <RouterTransition />
+              <Component {...pageProps} />
+            </NotificationsProvider>
+          </MantineProvider>
+        </ColorSchemeProvider>
     </SessionProvider>
   );
 };

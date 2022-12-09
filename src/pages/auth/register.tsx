@@ -92,7 +92,7 @@ export function Register() {
                         onClick={() => {
                             signIn("email", {
                                 email: form.values.email,
-                                callbackUrl: "http://localhost:3000/dashboard",
+                                callbackUrl: "http://localhost:3000/onboard",
                             })
                         }} fullWidth mt={"xs"} size="md">
                         E-Postama link gönder

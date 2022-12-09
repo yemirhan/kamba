@@ -6,7 +6,7 @@ import { trpc } from '../utils/trpc';
 
 export const CreateNewWorkspace = ({ open, setClose }: { open: boolean; setClose: () => void; }) => {
     const [title, setTitle] = useState("");
-    const { query: { companyId } } = useRouter()
+    const { query: { workspaceId } } = useRouter()
     const context = trpc.useContext();
     const { mutate, isLoading, } = trpc.boards.createNewBoard.useMutation({
         onSuccess: () => {
@@ -32,7 +32,7 @@ export const CreateNewWorkspace = ({ open, setClose }: { open: boolean; setClose
                     loading={isLoading}
                     onClick={() => mutate({
                         name: title,
-                        workspaceId: companyId as string
+                        workspaceId: workspaceId as string
                     })}
                     disabled={title.length < 3}>
                     Oluştur

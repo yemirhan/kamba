@@ -89,7 +89,7 @@ export function Login() {
                         onClick={() => {
                             signIn("email", {
                                 email: form.values.email,
-                                callbackUrl: "http://localhost:3000/dashboard",
+                                callbackUrl: "http://localhost:3000/workspaces",
                             })
                         }} fullWidth mt={"xs"} size="md">
                         E-Postama link gönder
