@@ -1,15 +1,18 @@
-import { Logo } from '@/components/Logo'
-import { trpc } from '@/utils/trpc'
+
+import { api } from '@acme/api/src/client'
+import { useAuth } from '@clerk/nextjs'
 import { AppShell, Button, Center, Group, Header, Paper, Stack, Text, Textarea, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { IconArrowRight, IconLogout } from '@tabler/icons'
-import { signOut } from 'next-auth/react'
+
 import { useRouter } from 'next/router'
 import React from 'react'
+import { Logo } from '../components/Logo'
 
 const Onboard = () => {
     const router = useRouter()
-    const { mutate, isLoading } = trpc.profile.updateProfile.useMutation({
+    const { signOut } = useAuth()
+    const { mutate, isLoading } = api.profile.updateProfile.useMutation({
         onSuccess: () => {
             router.push("/workspaces")
         }
@@ -32,9 +35,7 @@ const Onboard = () => {
                     <Button
                         variant="default"
                         leftIcon={<IconLogout size={18} />}
-                        onClick={() => signOut({
-                            callbackUrl: '/'
-                        })}>
+                        onClick={() => signOut()}>
                         Çıkış Yap
                     </Button>
                 </Group>
@@ -45,7 +46,7 @@ const Onboard = () => {
                 <Paper withBorder p={"xl"} >
                     <form onSubmit={form.onSubmit(() => {
                         mutate(form.values)
-                    })}> 
+                    })}>
                         <Stack>
                             <Text
                                 variant="gradient"

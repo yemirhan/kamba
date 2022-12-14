@@ -1,17 +1,17 @@
-import { ShellLayout } from '@/components/ShellLayout'
-import { CreateTableModal } from '@/components/Tables/CreateTableModal'
-import { TableItem } from '@/components/Tables/TableItem'
-import { trpc } from '@/utils/trpc'
+import { api } from '@acme/api/src/client'
 import { Button, Container, Grid, Group, Title } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { IconChevronLeft } from '@tabler/icons'
 import { useRouter } from 'next/router'
 import React from 'react'
+import { ShellLayout } from '../../../components/ShellLayout'
+import { CreateTableModal } from '../../../components/Tables/CreateTableModal'
+import { TableItem } from '../../../components/Tables/TableItem'
 
 const Story = () => {
     const { query, isReady, ...router } = useRouter()
     const [opened, { close, open }] = useDisclosure(false)
-    const { data: story } = trpc.story.getStoryBySlug.useQuery({
+    const { data: story } = api.story.getStoryBySlug.useQuery({
         slug: query.storyId as string
     }, { enabled: isReady })
     console.log(story);
