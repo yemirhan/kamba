@@ -1,7 +1,7 @@
 
 import { z } from "zod";
 import { protectedProcedure, router } from "../trpc";
-
+import { v4 as uuidv4 } from "uuid";
 export const storyRoutes = router({
   getStoryBySlug: protectedProcedure.input(z.object({
     slug: z.string()
@@ -77,7 +77,7 @@ export const storyRoutes = router({
       data: {
         stories: {
           create: {
-            slug: self.crypto.randomUUID(),
+            slug: uuidv4(),
             name: input.name,
           }
         }

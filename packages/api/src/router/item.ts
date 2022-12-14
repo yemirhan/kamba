@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { router, publicProcedure, protectedProcedure } from "../trpc";
-
+import { v4 as uuidv4 } from "uuid";
 export const itemRouter = router({
   createItem: protectedProcedure
     .input(z.object({
@@ -14,7 +14,7 @@ export const itemRouter = router({
       return await ctx.prisma.item.create({
         data: {
           name: input?.name,
-          slug: self.crypto.randomUUID(),
+          slug: uuidv4(),
           statusId: input?.statusId,
           description: input?.description,
           boardId: input?.boardId,

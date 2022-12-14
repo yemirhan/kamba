@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { protectedProcedure, router } from '../trpc';
-
+import { v4 as uuidv4 } from "uuid";
 import { Colors } from '@prisma/client';
 const createTableInput = z.object({
   name: z.string().min(1),
@@ -49,7 +49,7 @@ export const tableRoutes = router({
           create: {
             icon: "table",
             name: input.name,
-            slug: self.crypto.randomUUID(),
+            slug: uuidv4(),
             chairs: input.chairs,
             color: input.color,
 

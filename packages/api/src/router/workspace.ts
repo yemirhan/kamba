@@ -1,6 +1,6 @@
-import { Code } from '@mantine/core';
 import { z } from 'zod';
 import { protectedProcedure, router } from './../trpc';
+import { v4 as uuidv4 } from 'uuid';
 
 
 export const workspaceRouter = router({
@@ -10,7 +10,7 @@ export const workspaceRouter = router({
     inventory: z.boolean(),
 
   })).mutation(async ({ ctx, input }) => {
-    const randomId = self.crypto.randomUUID()
+    const randomId = uuidv4()
     return await ctx.prisma.workspace.create({
       data: {
         name: input.name,
