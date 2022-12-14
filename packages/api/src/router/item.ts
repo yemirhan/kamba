@@ -1,5 +1,5 @@
 import { z } from "zod";
-import crypto from 'node:crypto';
+
 import { router, publicProcedure, protectedProcedure } from "../trpc";
 
 export const itemRouter = router({
@@ -14,7 +14,7 @@ export const itemRouter = router({
       return await ctx.prisma.item.create({
         data: {
           name: input?.name,
-          slug: crypto.randomUUID(),
+          slug: self.crypto.randomUUID(),
           statusId: input?.statusId,
           description: input?.description,
           boardId: input?.boardId,

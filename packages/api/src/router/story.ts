@@ -1,4 +1,4 @@
-import crypto from 'node:crypto';
+
 import { z } from "zod";
 import { protectedProcedure, router } from "../trpc";
 
@@ -77,7 +77,7 @@ export const storyRoutes = router({
       data: {
         stories: {
           create: {
-            slug: crypto.randomUUID(),
+            slug: self.crypto.randomUUID(),
             name: input.name,
           }
         }
