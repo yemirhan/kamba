@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 import { z } from "zod";
 import { protectedProcedure, router } from "../trpc";
 

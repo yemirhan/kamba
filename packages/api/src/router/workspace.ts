@@ -1,7 +1,7 @@
 import { Code } from '@mantine/core';
 import { z } from 'zod';
 import { protectedProcedure, router } from './../trpc';
-import crypto from "crypto"
+import crypto from 'node:crypto';
 
 
 export const workspaceRouter = router({
