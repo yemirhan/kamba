@@ -9,7 +9,7 @@ import { tokenCache } from "./cache";
 import SignInScreen from "./SignInScreen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-const clerk_frontend_api = "clerk.able.sawfly-57.lcl.dev";
+const clerk_frontend_api = "clerk.nice.macaque-25.lcl.dev";
 
 export const App = () => {
   return (

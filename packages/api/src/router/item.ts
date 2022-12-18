@@ -113,24 +113,29 @@ export const itemRouter = router({
       }
     })
   }),
-  addCommentToItem: protectedProcedure.input(z.object({ slug: z.string(), text: z.string() })).mutation(async ({ ctx, input }) => {
-    return await ctx.prisma.comment.create({
-      data: {
-        text: input.text,
-        itemId: input.slug,
-        personal: false,
-        useremail: ctx.clerkuser.emailAddresses[0]?.emailAddress
-      }
-    })
-  }),
-  addPersonalCommentToItem: protectedProcedure.input(z.object({ slug: z.string(), text: z.string() })).mutation(async ({ ctx, input }) => {
-    return await ctx.prisma.comment.create({
-      data: {
-        text: input.text,
-        itemId: input.slug,
-        personal: true,
-        useremail: ctx.clerkuser.emailAddresses[0]?.emailAddress
-      }
-    })
-  }),
+  // addCommentToItem: protectedProcedure.input(z.object({ slug: z.string(), text: z.string() })).mutation(async ({ ctx, input }) => {
+  //   return await ctx.prisma.comment.create({
+  //     data: {
+  //       text: input.text,
+  //       itemId: input.slug,
+  //       personal: false,
+
+  //       user: {
+  //         connect: {
+  //           email: ctx.clerkuser.emailAddresses[0]?.emailAddress
+  //         }
+  //       }
+  //     }
+  //   })
+  // }),
+  // addPersonalCommentToItem: protectedProcedure.input(z.object({ slug: z.string(), text: z.string() })).mutation(async ({ ctx, input }) => {
+  //   return await ctx.prisma.comment.create({
+  //     data: {
+  //       text: input.text,
+  //       itemId: input.slug,
+  //       personal: true,
+  //       useremail: ctx.clerkuser.emailAddresses[0]?.emailAddress
+  //     }
+  //   })
+  // }),
 });

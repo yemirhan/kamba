@@ -14,15 +14,21 @@ export default function SignInScreen() {
       return;
     }
 
+    console.log("buttonTest")
     try {
+      console.log(emailAddress);
+
       const completeSignIn = await signIn.create({
         identifier: emailAddress,
+
         password,
       });
-
+      console.log(completeSignIn)
       await setSession(completeSignIn.createdSessionId);
     } catch (err) {
       //LOG IT
+      console.log(JSON.stringify(err));
+
     }
   };
 
