@@ -119,7 +119,7 @@ export const itemRouter = router({
         text: input.text,
         itemId: input.slug,
         personal: false,
-        userId: ctx.clerkuser.id
+        useremail: ctx.clerkuser.emailAddresses[0]?.emailAddress
       }
     })
   }),
@@ -129,7 +129,7 @@ export const itemRouter = router({
         text: input.text,
         itemId: input.slug,
         personal: true,
-        userId: ctx.clerkuser.id
+        useremail: ctx.clerkuser.emailAddresses[0]?.emailAddress
       }
     })
   }),

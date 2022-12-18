@@ -5,7 +5,7 @@ export const profileRouter = router({
   getProfile: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.user.findFirst({
       where: {
-        id: ctx.clerkuser.id
+        email: ctx.clerkuser.emailAddresses[0]?.emailAddress
       },
       include: {
         workspaces: {
@@ -22,7 +22,7 @@ export const profileRouter = router({
   })).mutation(async ({ ctx, input }) => {
     return await ctx.prisma.user.update({
       where: {
-        id: ctx.clerkuser.id
+        email: ctx.clerkuser.emailAddresses[0]?.emailAddress
       },
       data: {
         name: input.name,

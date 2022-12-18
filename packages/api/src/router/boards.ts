@@ -13,7 +13,7 @@ export const boardRouter = router({
           workspaceId: input.workspaceId,
           users: {
             some: {
-              id: ctx.clerkuser.id
+              email: ctx.clerkuser.emailAddresses[0]?.emailAddress
             }
           }
         },
@@ -47,7 +47,7 @@ export const boardRouter = router({
           slug: input.name.slice(0, 3).toUpperCase(),
           users: {
             connect: {
-              id: ctx.clerkuser.id
+              email: ctx.clerkuser.emailAddresses[0]?.emailAddress
             }
           }
         }

@@ -7,26 +7,29 @@ import { HomeScreen } from "./screens/home";
 import { ClerkProvider, SignedIn, SignedOut } from "@clerk/clerk-expo";
 import { tokenCache } from "./cache";
 import SignInScreen from "./SignInScreen";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const clerk_frontend_api = "clerk.able.sawfly-57.lcl.dev";
 
 export const App = () => {
   return (
-    <ClerkProvider
-      frontendApi={clerk_frontend_api}
-      tokenCache={tokenCache} //THIS IS REQUIRED!!!!
-    >
-      <SignedIn>
-        <TRPCAuthContext>
-          <SafeAreaProvider>
-            <HomeScreen />
-            <StatusBar />
-          </SafeAreaProvider>
-        </TRPCAuthContext>
-      </SignedIn>
-      <SignedOut>
-        <SignInScreen />
-      </SignedOut>
-    </ClerkProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ClerkProvider
+        frontendApi={clerk_frontend_api}
+        tokenCache={tokenCache} //THIS IS REQUIRED!!!!
+      >
+        <SignedIn>
+          <TRPCAuthContext>
+            <SafeAreaProvider>
+              <HomeScreen />
+              <StatusBar />
+            </SafeAreaProvider>
+          </TRPCAuthContext>
+        </SignedIn>
+        <SignedOut>
+          <SignInScreen />
+        </SignedOut>
+      </ClerkProvider>
+    </GestureHandlerRootView>
   );
 };

@@ -11,13 +11,15 @@ export const workspaceRouter = router({
 
   })).mutation(async ({ ctx, input }) => {
     const randomId = uuidv4()
+    console.log(ctx.clerkuser.id);
+
     return await ctx.prisma.workspace.create({
       data: {
         name: input.name,
         slug: randomId,
         users: {
           connect: {
-            id: ctx.clerkuser.id
+            email: ctx.clerkuser.emailAddresses[0]?.emailAddress
           }
         },
         ...(input.tables ? {
@@ -45,7 +47,7 @@ export const workspaceRouter = router({
       where: {
         users: {
           some: {
-            id: ctx.clerkuser.id
+            email: ctx.clerkuser.emailAddresses[0]?.emailAddress
           }
         }
       },
@@ -68,7 +70,7 @@ export const workspaceRouter = router({
         slug: input.slug,
         users: {
           some: {
-            id: ctx.clerkuser.id
+            email: ctx.clerkuser.emailAddresses[0]?.emailAddress
           }
         }
       }
