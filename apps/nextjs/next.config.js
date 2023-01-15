@@ -4,7 +4,7 @@
  * This is especially useful for Docker builds.
  */
 
-const { withExpo } = require("@expo/next-adapter");
+
 const withFonts = require("next-fonts");
 const withImages = require("next-images");
 const withPlugins = require("next-compose-plugins");
@@ -49,7 +49,7 @@ const nextConfig = {
   },
 };
 
-const transform = withPlugins([withTM, withFonts, withImages, withExpo]);
+const transform = withPlugins([withTM, withFonts, withImages]);
 
 module.exports = function (name, { defaultConfig }) {
   return transform(name, {

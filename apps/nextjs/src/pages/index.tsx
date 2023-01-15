@@ -10,10 +10,10 @@ const Home: NextPage = () => {
 
   return (
     <>
-      
+
       <Head>
         <title>Kamba</title>
-        <link rel="icon" href="/layout-kanban.svg" />
+
       </Head>
       <AppShell
         header={<SplashHeader />}
