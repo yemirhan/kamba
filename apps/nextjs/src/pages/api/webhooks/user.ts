@@ -3,21 +3,18 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { Webhook, WebhookRequiredHeaders } from "svix";
 import { buffer } from "micro";
 import { prisma } from "@acme/db"
-import type { Prisma } from "@acme/db"
 // Disable the bodyParser so we can access the raw
 // request body for verification.
 function upsert(externalId: string, attributes: Omit<EventData, "id">) {
 
   return prisma.user.upsert({
-    where: { id: externalId },
+    where: { externalId: externalId },
     update: {
       avatar: attributes.profile_image_url,
       email: attributes?.email_addresses?.[0]?.email_address || undefined,
       name: attributes.first_name + " " + attributes.last_name,
-
     },
     create: {
-      id: externalId,
       avatar: attributes.profile_image_url,
       email: attributes?.email_addresses?.[0]?.email_address || undefined,
       name: attributes.first_name + " " + attributes.last_name,
@@ -30,7 +27,7 @@ export const config = {
   },
 };
 
-const webhookSecret = process.env.SVIX_WEBHOOK_SECRET || "";
+const webhookSecret = process.env.SVIX_WEBHOOK_SECRET || "whsec_F860cdS+FsxC7RsWVwKdXCQHUeY15MSa";
 
 export default async function handler(
   req: NextApiRequestWithSvixRequiredHeaders,
