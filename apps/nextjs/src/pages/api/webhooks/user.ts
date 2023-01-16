@@ -30,7 +30,7 @@ export const config = {
   },
 };
 
-const webhookSecret = "whsec_aZRrxfT0OROO8YFDIPHLUNeM9sialzwS";
+const webhookSecret = process.env.SVIX_WEBHOOK_SECRET || "";
 
 export default async function handler(
   req: NextApiRequestWithSvixRequiredHeaders,
