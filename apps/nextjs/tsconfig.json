@@ -1,6 +1,17 @@
 {
   "extends": "../../tsconfig.json",
   "exclude": [],
+  "compilerOptions": {
+    "baseUrl": "src/",
+    "paths": {
+      "@/components/*": ["components/*"],
+      "@/pages/*": ["pages/*"],
+      "@/server/*": ["server/*"],
+      "@/utils/*": ["utils/*"],
+      "@/validation/*": ["validation/*"],
+      "@/hooks/*": ["hooks/*"]
+    }
+  },
   "include": [
     "next-env.d.ts",
     "node_modules/@acme/auth/next-auth.d.ts",
@@ -8,5 +19,5 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.mjs"
-  ],
+  ]
 }

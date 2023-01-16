@@ -11,7 +11,6 @@ export const workspaceRouter = router({
 
   })).mutation(async ({ ctx, input }) => {
     const randomId = uuidv4()
-    console.log(ctx.clerkuser.id);
 
     return await ctx.prisma.workspace.create({
       data: {

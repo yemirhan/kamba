@@ -246,7 +246,7 @@ export function SplashHeader() {
                             ) :
                                 (
                                     <Group className={classes.hiddenMobile}>
-                                        <Button component={Link} href="/auth/signin" variant="default">Log in</Button>
+                                        <Button component={Link} href="/sign-in" variant="default">Log in</Button>
                                         <Button>Sign up</Button>
                                     </Group>
                                 )

@@ -1,8 +1,8 @@
 import { api } from '@acme/api/src/client';
+import { UserButton } from '@clerk/nextjs';
 import { createStyles, Header, Autocomplete, Group, Burger, UnstyledButton, Text, Menu, Avatar, Tooltip } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { IconChevronDown, IconHeart, IconHome, IconLayoutKanban, IconLogout, IconSearch, IconSettings, IconStar, IconSwitchHorizontal } from '@tabler/icons';
 
+import { dark } from "@clerk/themes";
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -129,40 +129,10 @@ export function DashboardHeader({ links, isMenuCollapsed, setMenuCollapse }: Hea
                     <Group ml={50} spacing={5} className={classes.links}>
                         {items}
                     </Group>
-                    <Menu
-                        width={260}
-                        position="bottom-end"
-                        transition="pop-top-right"
-                        onClose={() => setUserMenuOpened(false)}
-                        onOpen={() => setUserMenuOpened(true)}
-                    >
-                        <Menu.Target>
-                            <UnstyledButton
-                                className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
-                            >
-                                <Group spacing={7}>
-                                    <Avatar src={clerkuser?.profileImageUrl} alt={clerkuser?.firstName || ""} radius="xl" size={20} />
-                                    <Text weight={500} size="sm" sx={{ lineHeight: 1, color: theme.white }} mr={3}>
-                                        {clerkuser?.firstName}
-                                    </Text>
-                                    <IconChevronDown size={12} stroke={1.5} />
-                                </Group>
-                            </UnstyledButton>
-                        </Menu.Target>
-                        <Menu.Dropdown>
-                            <Menu.Label>Settings</Menu.Label>
-                            <Menu.Item icon={<IconSettings size={14} stroke={1.5} />}>Account settings</Menu.Item>
-                            <Menu.Item icon={<IconSwitchHorizontal size={14} stroke={1.5} />}>
-                                Change account
-                            </Menu.Item>
-                            <Menu.Item component={Link} href='/' icon={<IconHome size={14} stroke={1.5} />}>
-                                Ana sayfaya git
-                            </Menu.Item>
-                            {/* <Menu.Item onClick={() => signOut({
-                                callbackUrl: `${window.location.origin}/`
-                            })} icon={<IconLogout size={14} stroke={1.5} />}>Logout</Menu.Item> */}
-                        </Menu.Dropdown>
-                    </Menu>
+                    <UserButton showName appearance={{
+                        baseTheme: dark,
+                    }} />
+
                 </Group>
             </div>
         </Header>

@@ -32,13 +32,16 @@ const publicPages = [
 ] as string[];
 
 const MyApp: AppType = ({ Component, pageProps }) => {
-  const { pathname } = useRouter();
+  const { pathname, push } = useRouter();
   const isPublicPage = publicPages.includes(pathname);
   const [colorScheme, setColorScheme] = useState<ColorScheme>('dark');
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
   return (
-    <ClerkProvider {...pageProps}>
+    <ClerkProvider
+      {...pageProps}
+      navigate={to => push(to)}
+    >
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
         <MantineProvider
           withGlobalStyles
