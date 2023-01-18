@@ -18,6 +18,7 @@ function upsert(externalId: string, attributes: Omit<EventData, "id">) {
       avatar: attributes.profile_image_url,
       email: attributes?.email_addresses?.[0]?.email_address || undefined,
       name: attributes.first_name + " " + attributes.last_name,
+      externalId: externalId,
     },
   });
 }
