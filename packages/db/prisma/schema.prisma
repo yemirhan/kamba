@@ -105,6 +105,9 @@ model Image {
   itemId    String?
   comment   Comment? @relation(fields: [commentId], references: [id])
   commentId String?
+
+  @@index([itemId])
+  @@index([commentId])
 }
 
 // Necessary for Next auth
@@ -124,14 +127,17 @@ model Account {
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
-  userId       String
   expires      DateTime
+  userId       String
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model User {
@@ -208,6 +214,9 @@ model Table {
   story          Story?           @relation(fields: [storyId], references: [id])
   storyId        String?
   PreviousOrders PreviousOrders[]
+
+  @@index([tableModuleId])
+  @@index([storyId])
 }
 
 model TableOrder {
@@ -219,6 +228,8 @@ model TableOrder {
   orders    MenuItem[]
   Table     Table?     @relation(fields: [tableId], references: [id])
   tableId   String?
+
+  @@index([tableId])
 }
 
 model MenuItem {
@@ -243,6 +254,12 @@ model MenuItem {
   tableModuleId    String?
   PreviousOrders   PreviousOrders? @relation(fields: [previousOrdersId], references: [id])
   previousOrdersId String?
+
+  @@index([menuCategoryId])
+  @@index([tableOrderId])
+  @@index([tableModuleId])
+  @@index([previousOrdersId])
+  @@index([workspaceId])
 }
 
 model MenuImage {
@@ -252,6 +269,8 @@ model MenuImage {
   image      String
   MenuItem   MenuItem @relation(fields: [menuItemId], references: [id])
   menuItemId String
+
+  @@index([menuItemId])
 }
 
 model MenuCategory {
@@ -266,6 +285,9 @@ model MenuCategory {
   menuItems     MenuItem[]
   TableModule   TableModule? @relation(fields: [tableModuleId], references: [id])
   tableModuleId String?
+
+  @@index([tableModuleId])
+  @@index([workspaceId])
 }
 
 model Story {
@@ -280,6 +302,9 @@ model Story {
   tables        Table[]
   workspace     Workspace?   @relation(fields: [workspaceId], references: [id])
   workspaceId   String?
+
+  @@index([tableModuleId])
+  @@index([workspaceId])
 }
 
 model PreviousOrders {
@@ -293,6 +318,9 @@ model PreviousOrders {
   tableId       String?
   TableModule   TableModule? @relation(fields: [tableModuleId], references: [id])
   tableModuleId String?
+
+  @@index([tableId])
+  @@index([tableModuleId])
 }
 
 model InventoryModule {
@@ -304,4 +332,6 @@ model InventoryModule {
   color       Colors    @default(OCEAN)
   workspace   Workspace @relation(fields: [workspaceId], references: [id])
   workspaceId String
+
+  @@index([workspaceId])
 }

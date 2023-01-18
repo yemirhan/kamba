@@ -53,7 +53,15 @@ export const menuRoutes = router({
         icon: "",
         name: input.name,
         slug: uuidv4(),
-        images: images,
+        menuImages: {
+          createMany: {
+            data: images.map((image) => {
+              return {
+                image: image,
+              }
+            })
+          }
+        },
         order: 0,
         workspace: {
           connect: {
