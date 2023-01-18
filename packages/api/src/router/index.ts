@@ -1,3 +1,4 @@
+import { menuRoutes } from './menu';
 import { router } from "../trpc";
 import { workspaceRouter } from './workspace';
 import { profileRouter } from './profile';
@@ -7,6 +8,7 @@ import { authRouter } from "./auth";
 import { statusRouter } from './status';
 import { tableRoutes } from './tables';
 import { storyRoutes } from './story';
+import { menuCategoriesRouter } from './menuCategories';
 
 export const appRouter = router({
   auth: authRouter,
@@ -16,7 +18,9 @@ export const appRouter = router({
   profile: profileRouter,
   workspace: workspaceRouter,
   tables: tableRoutes,
-  story: storyRoutes
+  story: storyRoutes,
+  menu: menuRoutes,
+  menuCategories: menuCategoriesRouter
 });
 
 // export type definition of API

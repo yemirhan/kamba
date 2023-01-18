@@ -1,4 +1,5 @@
 
+import { TablesLayout } from '@/components/Tables/TablesLayout'
 import { api } from '@acme/api/src/client'
 import { Button, Container, Flex, Grid, Group, Loader, Modal, Paper, Stack, Text, TextInput, Title } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
@@ -30,49 +31,45 @@ const Tables = () => {
 
 
     return (
-        <ShellLayout>
-            <Container>
-                <Stack>
-                    <Group position='apart'>
-                        <Title>
-                            Bölgeler
-                        </Title>
-                        <Button
-                            onClick={open}
-                        >
-                            Yeni Bölge Oluştur
-                        </Button>
-                    </Group>
-                    <AnimatePresence mode='wait'>
-                        {
-                            isLoading ? <Paper
-                                component={motion.div}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -20 }}
-                                withBorder bg={"gray"} p="lg">
-                                <Flex align={"center"} justify="center">
-                                    <Loader size="lg" />
-                                </Flex>
-                            </Paper> :
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: -20 }}
-                                >
-                                    <Grid >
-                                        {(stories?.stories || []).map(story => <Grid.Col key={story.id} span={4}>
-                                            <StoryCard name={story.name} slug={story.slug} tables={story._count.tables} />
-                                        </Grid.Col>)}
-                                    </Grid>
-                                </motion.div>
-                        }
-                    </AnimatePresence>
+        <TablesLayout>
 
-                </Stack>
-            </Container>
+            <Group position='apart'>
+                <Title>
+                    Bölgeler
+                </Title>
+                <Button
+                    onClick={open}
+                >
+                    Yeni Bölge Oluştur
+                </Button>
+            </Group>
+            <AnimatePresence mode='wait'>
+                {
+                    isLoading ? <Paper
+                        component={motion.div}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        withBorder bg={"gray"} p="lg">
+                        <Flex align={"center"} justify="center">
+                            <Loader size="lg" />
+                        </Flex>
+                    </Paper> :
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                        >
+                            <Grid >
+                                {(stories?.stories || []).map(story => <Grid.Col key={story.id} span={4}>
+                                    <StoryCard name={story.name} slug={story.slug} tables={story._count.tables} />
+                                </Grid.Col>)}
+                            </Grid>
+                        </motion.div>
+                }
+            </AnimatePresence>
             <AddStoryModal close={close} opened={opened} />
-        </ShellLayout>
+        </TablesLayout>
     )
 }
 

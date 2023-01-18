@@ -3,14 +3,18 @@ import { type inferAsyncReturnType } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { clerkClient, getAuth } from "@clerk/nextjs/server";
 import { User } from "@clerk/nextjs/dist/api";
-
+import { v2 as cloudinary } from "cloudinary";
 /**
  * Replace this with an object if you want to pass things to createContextInner
  */
 type CreateContextOptions = {
   clerkuser: User | null;
 };
-
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 /** Use this helper for:
  *  - testing, where we dont have to Mock Next.js' req/res
  *  - trpc's `createSSGHelpers` where we don't have req/res
@@ -20,6 +24,7 @@ export const createContextInner = async (opts: CreateContextOptions) => {
   return {
     clerkuser: opts.clerkuser,
     prisma,
+    cloudinary
   };
 };
 
@@ -29,8 +34,8 @@ export const createContextInner = async (opts: CreateContextOptions) => {
  **/
 export const createContext = async (opts: CreateNextContextOptions) => {
   async function getClerkUser() {
-    const { userId, claims } = getAuth(opts.req);
-    console.log(claims);
+    const { userId } = getAuth(opts.req);
+
     const user = userId ? await clerkClient.users.getUser(userId) : null;
     return user;
   }

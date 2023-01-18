@@ -131,7 +131,7 @@ model User {
   name          String?
   email         String?     @unique
   emailVerified DateTime?
-  externalId    String?    @unique
+  externalId    String?     @unique
   onboarded     Boolean     @default(false)
   image         String?     @default("https://media.istockphoto.com/id/1288129985/vector/missing-image-of-a-person-placeholder.jpg?s=612x612&w=0&k=20&c=9kE777krx5mrFHsxx02v60ideRWvIgI1RWzR1X4MG2Y=")
   bio           String?
@@ -222,6 +222,9 @@ model MenuItem {
   icon             String
   color            Colors          @default(OCEAN)
   order            Int
+  price            Float           @default(0)
+  description      String?
+  images           String[]
   workspace        Workspace       @relation(fields: [workspaceId], references: [id])
   workspaceId      String
   MenuCategory     MenuCategory?   @relation(fields: [menuCategoryId], references: [id])
