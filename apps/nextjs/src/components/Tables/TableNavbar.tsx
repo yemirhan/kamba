@@ -88,7 +88,6 @@ export function TableNavbar({ isMenuCollapsed }: { isMenuCollapsed: boolean }) {
     const data = [
         { link: `/${router.query.workspaceId}/tables`, label: 'Bölgeler', icon: IconHome },
         { link: `/${router.query.workspaceId}/tables/menu`, label: 'Menü', icon: IconPageBreak },
-        { link: `/${router.query.workspaceId}/tables/kategoriler`, label: 'Menü Kategorileri', icon: IconPageBreak },
         { link: `/${router.query.workspaceId}/tables/analiz`, label: 'Analizler', icon: IconLayoutKanban },
         { link: `/${router.query.workspaceId}/tables/takip`, label: 'Canlı Takip', icon: IconUsers },
     ];

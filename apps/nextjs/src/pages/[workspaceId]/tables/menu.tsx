@@ -27,6 +27,7 @@ const Menu = () => {
                 opened={opened}
                 close={close}
             />
+            <div className='mt-10 w-full bg-slate-500'>sads</div>
         </TablesLayout>
     )
 }
