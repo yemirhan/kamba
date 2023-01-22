@@ -48,11 +48,10 @@ const CreateMenuItem = ({
     })
     const form = useForm<CreateMenuItem>({
         initialValues: {
-            name: '',
-            workspaceId: query.workspaceId as string,
-            images: [],
-            description: '',
-            price: 0,
+            categoryName: "",
+            image: "",
+            items: [],
+            workspaceSlug: query.workspaceId as string
         }
     })
     console.log(query.workspaceId);
@@ -67,14 +66,11 @@ const CreateMenuItem = ({
                 mutate(values)
             })}>
                 <Grid>
-                    <Grid.Col span={12}>
-                        <TextInput {...form.getInputProps('name')} label="Ürün Adı" />
+                    <Grid.Col span={6}>
+                        <TextInput {...form.getInputProps('categoryName')} label="Ürün Adı" />
                     </Grid.Col>
-                    <Grid.Col span={12}>
-                        <NumberInput {...form.getInputProps('price')} label="Ürün Fiyatı" />
-                    </Grid.Col>
-                    <Grid.Col span={12}>
-                        <Textarea {...form.getInputProps("description")} label="Ürün Bilgisi" />
+                    <Grid.Col span={6}>
+                        <TextInput {...form.getInputProps('categoryName')} label="Ürün Adı" />
                     </Grid.Col>
                 </Grid>
                 <Group position='right'>

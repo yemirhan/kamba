@@ -233,26 +233,27 @@ model TableOrder {
 }
 
 model MenuItem {
-  id               String          @id @default(cuid())
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
+  id               String               @id @default(cuid())
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
   name             String
-  slug             String          @unique
+  slug             String               @unique
   icon             String
-  color            Colors          @default(OCEAN)
+  color            Colors               @default(OCEAN)
   order            Int
-  price            Float           @default(0)
+  price            Float                @default(0)
   description      String?
-  menuImages       MenuImage[]
-  workspace        Workspace       @relation(fields: [workspaceId], references: [id])
+  ingredients      MenuItemIngredient[]
+  images           MenuImage[]
+  workspace        Workspace            @relation(fields: [workspaceId], references: [id])
   workspaceId      String
-  MenuCategory     MenuCategory?   @relation(fields: [menuCategoryId], references: [id])
+  MenuCategory     MenuCategory?        @relation(fields: [menuCategoryId], references: [id])
   menuCategoryId   String?
-  TableOrder       TableOrder?     @relation(fields: [tableOrderId], references: [id])
+  TableOrder       TableOrder?          @relation(fields: [tableOrderId], references: [id])
   tableOrderId     String?
-  TableModule      TableModule?    @relation(fields: [tableModuleId], references: [id])
+  TableModule      TableModule?         @relation(fields: [tableModuleId], references: [id])
   tableModuleId    String?
-  PreviousOrders   PreviousOrders? @relation(fields: [previousOrdersId], references: [id])
+  PreviousOrders   PreviousOrders?      @relation(fields: [previousOrdersId], references: [id])
   previousOrdersId String?
 
   @@index([menuCategoryId])
@@ -260,6 +261,19 @@ model MenuItem {
   @@index([tableModuleId])
   @@index([previousOrdersId])
   @@index([workspaceId])
+}
+
+model MenuItemIngredient {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String
+  slug        String   @unique
+  description String?
+  MenuItem    MenuItem @relation(fields: [menuItemId], references: [id])
+  menuItemId  String
+
+  @@index([menuItemId])
 }
 
 model MenuImage {
@@ -278,8 +292,9 @@ model MenuCategory {
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
   name          String
+  image         String?      @default("")
   slug          String       @unique
-  order         Int
+  order         Int?         @default(0)
   workspace     Workspace    @relation(fields: [workspaceId], references: [id])
   workspaceId   String
   menuItems     MenuItem[]

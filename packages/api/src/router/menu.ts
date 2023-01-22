@@ -3,11 +3,16 @@ import { protectedProcedure, router } from "../trpc";
 import { v4 as uuidv4 } from "uuid";
 
 const createMenuItemSchema = z.object({
-  name: z.string(),
-  images: z.array(z.string()),
-  workspaceId: z.string(),
-  price: z.number(),
-  description: z.string().nullish()
+  categoryName: z.string(),
+  image: z.string(),
+  workspaceSlug: z.string(),
+  items: z.array(z.object({
+    name: z.string(),
+    price: z.number(),
+    description: z.string(),
+    images: z.array(z.string()).nullish(),
+    ingredients: z.array(z.string()).nullish()
+  }))
 })
 
 export type CreateMenuItem = z.infer<typeof createMenuItemSchema>
@@ -40,39 +45,31 @@ export const menuRoutes = router({
     })
   }),
   create: protectedProcedure.input(createMenuItemSchema).mutation(async ({ ctx, input }) => {
-    const images: string[] = []
-    input.images.forEach(async (image) => {
-      const upload = await ctx.cloudinary.uploader.upload(image, {
-        upload_preset: "menuItems"
-      })
-      images.push(upload.secure_url)
+    const categoryImage: any = await ctx.cloudinary.uploader.upload(input.image, {
+      upload_preset: "menuItems"
     })
 
-    return await ctx.prisma.menuItem.create({
+    return await ctx.prisma.menuCategory.create({
       data: {
-        icon: "",
-        name: input.name,
+        name: input.categoryName,
         slug: uuidv4(),
-        menuImages: {
+        workspaceId: input.workspaceSlug,
+        menuItems: {
           createMany: {
-            data: images.map((image) => {
-              return {
-                image: image,
-              }
-            })
+            data: input.items.map(item => ({
+              name: item.name,
+              price: item.price,
+              icon: "",
+              description: item.description,
+              slug: uuidv4(),
+              order: 0,
+              workspaceId: input.workspaceSlug,
+            }))
           }
-        },
-        order: 0,
-        workspace: {
-          connect: {
-            slug: input.workspaceId
-          }
-        },
-        price: input.price,
-        description: input.description
+        }
+
 
       }
     })
-  }
-  ),
+  }),
 })
