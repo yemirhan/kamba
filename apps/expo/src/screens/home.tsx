@@ -9,8 +9,7 @@ import type { AppRouter } from "@acme/api";
 
 import { api } from "@acme/api/src/client";
 import { useAuth } from "@clerk/clerk-expo";
-import { ProtectedPageLink } from "@acme/app";
-import { useLink } from "expo-router";
+import { useRouter } from "expo-router";
 
 
 
@@ -20,7 +19,7 @@ export const HomeScreen = () => {
 
   const { data: workspaces } = api.workspace.getAll.useQuery();
   console.log(workspaces);
-  const link = useLink();
+  const link = useRouter();
 
   //not used -  const sessionQuery = trpc.auth.getSession.useQuery();
   const [showPost, setShowPost] = React.useState<string | null>(null);

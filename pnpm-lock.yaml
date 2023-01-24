@@ -25,7 +25,6 @@ importers:
   apps/expo:
     specifiers:
       '@acme/api': '*'
-      '@acme/app': '*'
       '@acme/tailwind-config': '*'
       '@babel/core': ^7.19.3
       '@babel/preset-env': ^7.19.3
@@ -61,7 +60,6 @@ importers:
       typescript: ^4.9.3
     dependencies:
       '@acme/api': link:../../packages/api
-      '@acme/app': link:../../packages/app
       '@acme/tailwind-config': link:../../packages/config/tailwind
       '@clerk/clerk-expo': 0.10.18_3y43fihvdeejaykkjx3e5ynyfu
       '@shopify/flash-list': 1.4.0_bznrqlx657afr3ph3snqmu46li
@@ -100,7 +98,6 @@ importers:
   apps/nextjs:
     specifiers:
       '@acme/api': '*'
-      '@acme/app': '*'
       '@acme/auth': '*'
       '@acme/db': '*'
       '@acme/tailwind-config': '*'
@@ -154,7 +151,6 @@ importers:
       zod: ^3.18.0
     dependencies:
       '@acme/api': link:../../packages/api
-      '@acme/app': link:../../packages/app
       '@acme/auth': link:../../packages/auth
       '@acme/db': link:../../packages/db
       '@acme/tailwind-config': link:../../packages/config/tailwind
@@ -232,31 +228,6 @@ importers:
       zod: 3.19.1
     devDependencies:
       '@types/uuid': 9.0.0
-      eslint: 8.28.0
-      typescript: 4.9.3
-
-  packages/app:
-    specifiers:
-      '@acme/api': '*'
-      '@acme/auth': '*'
-      '@acme/db': '*'
-      dripsy: ^3.6.0
-      eslint: ^8.28.0
-      expo-linking: ^3.0.0
-      moti: latest
-      react-native-reanimated: ~2.12.0
-      solito: ^2.0.0
-      typescript: ^4.9.3
-    dependencies:
-      '@acme/api': link:../api
-      '@acme/auth': link:../auth
-      '@acme/db': link:../db
-      dripsy: 3.8.1
-      expo-linking: 3.2.3
-      moti: 0.21.0_dnp4axovpsdxjv2llabhudvfvi
-      react-native-reanimated: 2.12.0
-      solito: 2.0.8
-    devDependencies:
       eslint: 8.28.0
       typescript: 4.9.3
 
@@ -1885,15 +1856,6 @@ packages:
       '@babel/core': 7.19.3
       '@babel/helper-plugin-utils': 7.19.0
 
-  /@babel/plugin-transform-object-assign/7.18.6:
-    resolution: {integrity: sha512-mQisZ3JfqWh2gVXvfqYCAAyRs6+7oev+myBsTwW5RnPhYXOTuCEw2oe3YgxlXMViXUS53lG8koulI7mJ+8JE+A==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/helper-plugin-utils': 7.19.0
-    dev: false
-
   /@babel/plugin-transform-object-assign/7.18.6_@babel+core@7.19.3:
     resolution: {integrity: sha512-mQisZ3JfqWh2gVXvfqYCAAyRs6+7oev+myBsTwW5RnPhYXOTuCEw2oe3YgxlXMViXUS53lG8koulI7mJ+8JE+A==}
     engines: {node: '>=6.9.0'}
@@ -2482,19 +2444,6 @@ packages:
       '@babel/types': 7.19.3
       esutils: 2.0.3
 
-  /@babel/preset-typescript/7.18.6:
-    resolution: {integrity: sha512-s9ik86kXBAnD760aybBucdpnLsAt0jK1xqJn2juOn9lkOvSHV60os5hxoVJsPzMQxvnUJFAlkont2DvvaYEBtQ==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/helper-plugin-utils': 7.19.0
-      '@babel/helper-validator-option': 7.18.6
-      '@babel/plugin-transform-typescript': 7.19.3
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@babel/preset-typescript/7.18.6_@babel+core@7.19.3:
     resolution: {integrity: sha512-s9ik86kXBAnD760aybBucdpnLsAt0jK1xqJn2juOn9lkOvSHV60os5hxoVJsPzMQxvnUJFAlkont2DvvaYEBtQ==}
     engines: {node: '>=6.9.0'}
@@ -2843,19 +2792,6 @@ packages:
     dependencies:
       react: 18.2.0
       tslib: 2.4.1
-    dev: false
-
-  /@dripsy/core/3.8.1:
-    resolution: {integrity: sha512-Wiw4MuQndoGDoXeEObqOkfsU+J06HPaJ8qCb5At3juGe9A3OfR2sPB9XFazGaY4/5szfcF2O1EODsl9bYd8GhA==}
-    dependencies:
-      '@expo/html-elements': 0.2.2
-      '@react-native-community/hooks': 2.8.1
-      '@theme-ui/css': 0.4.0-rc.13
-      stable-hash: 0.0.2
-      ts-toolbelt: 9.6.0
-    transitivePeerDependencies:
-      - react
-      - react-native
     dev: false
 
   /@egjs/hammerjs/2.0.17:
@@ -3238,10 +3174,6 @@ packages:
       tslib: 1.14.1
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /@expo/html-elements/0.2.2:
-    resolution: {integrity: sha512-hMS/5UfBgusKo5K0kpXdrddkxBg9LaJ8Dnijxats+7Uj0Mrk+NaRx3jOUsHTzd7pAroeqx5WGwzJ7wppsksBVA==}
     dev: false
 
   /@expo/image-utils/0.3.22:
@@ -4534,13 +4466,6 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@react-native-community/hooks/2.8.1:
-    resolution: {integrity: sha512-DCmCIC0Gn9m6K0Mlg2MwNmTxMEpBu5lTLsI6b/XUAv/vLGa6o+X7RhCai4FWeqkjCU36+ZOwaLzDo4NBWMXaoQ==}
-    peerDependencies:
-      react: '>=16.8.0'
-      react-native: '>=0.59'
-    dev: false
-
   /@react-native/assets/1.0.0:
     resolution: {integrity: sha512-KrwSpS1tKI70wuKl68DwJZYEvXktDHdZMG0k2AXD/rJVSlB23/X2CB2cutVR0HwNMJIal9HOUOBB2rVfa6UGtQ==}
     dev: false
@@ -4769,12 +4694,6 @@ packages:
       react-dom: 18.2.0_react@18.2.0
       react-native: 0.71.0-rc.0_lqcevrx4tjhiunpymlqp2zoalm
       use-sync-external-store: 1.2.0_react@18.2.0
-    dev: false
-
-  /@theme-ui/css/0.4.0-rc.13:
-    resolution: {integrity: sha512-YEO462Ia26T+i/6p/B4EJt/p3qJanPsSYpRP7MK4GchF/LbuHi0MS+zc4TpctIuIqpXgQR3w75b6xJZG1Oqn1Q==}
-    dependencies:
-      csstype: 2.6.21
     dev: false
 
   /@tootallnate/once/1.1.2:
@@ -7399,10 +7318,6 @@ packages:
       css-tree: 1.1.3
     dev: false
 
-  /csstype/2.6.21:
-    resolution: {integrity: sha512-Z1PhmomIfypOpoMjRQB70jfvy/wxT50qW08YXO5lMIJkrdq4yOTR+AW7FqutScmB9NkLwxo+jU+kZLbofZZq/w==}
-    dev: false
-
   /csstype/3.0.9:
     resolution: {integrity: sha512-rpw6JPxK6Rfg1zLOYCSwle2GFOOsnjmDYDaBwEcwoOg4qlsIVCN789VkBZDJAGi4T07gI4YSutR43t9Zz4Lzuw==}
     dev: false
@@ -7864,15 +7779,6 @@ packages:
     resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
     engines: {node: '>=12'}
     dev: true
-
-  /dripsy/3.8.1:
-    resolution: {integrity: sha512-etxz67YoWxA+EQQpMkPZ5lztpdGn76BOBTrPVRhGTbmms6H0Z30DJ1XL3ouIVIPg4/JL/8bkMO3Vua0ElmSAqg==}
-    dependencies:
-      '@dripsy/core': 3.8.1
-    transitivePeerDependencies:
-      - react
-      - react-native
-    dev: false
 
   /duplexer/0.1.2:
     resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}
@@ -8529,17 +8435,6 @@ packages:
       - supports-color
     dev: false
 
-  /expo-constants/14.0.2:
-    resolution: {integrity: sha512-wzV3nrzTXTI8yG0tfas3fnqCfKV6YE+1GphEREyVDAShEB6mBInX1b6HgtpHFy2wOtnml+lPVmTCeGtjjLnZhA==}
-    peerDependencies:
-      expo: '*'
-    dependencies:
-      '@expo/config': 7.0.3
-      uuid: 3.4.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /expo-constants/14.0.2_expo@47.0.6:
     resolution: {integrity: sha512-wzV3nrzTXTI8yG0tfas3fnqCfKV6YE+1GphEREyVDAShEB6mBInX1b6HgtpHFy2wOtnml+lPVmTCeGtjjLnZhA==}
     peerDependencies:
@@ -8586,19 +8481,6 @@ packages:
       expo: '*'
     dependencies:
       expo: 47.0.6_@babel+core@7.19.3
-    dev: false
-
-  /expo-linking/3.2.3:
-    resolution: {integrity: sha512-PgiWCao9TecLOPdtWyiNSY+UQGAwdjFx4KbHd1YsF0KnM1CJ2idcaHpDRlQPWSNmDebUZYN461/dVtJi9b2krg==}
-    dependencies:
-      '@types/qs': 6.9.7
-      expo-constants: 14.0.2
-      invariant: 2.2.4
-      qs: 6.11.0
-      url-parse: 1.5.10
-    transitivePeerDependencies:
-      - expo
-      - supports-color
     dev: false
 
   /expo-linking/3.2.3_expo@47.0.6:
@@ -9187,22 +9069,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       map-cache: 0.2.2
-    dev: false
-
-  /framer-motion/6.5.1:
-    resolution: {integrity: sha512-o1BGqqposwi7cgDrtg0dNONhkmPsUFDaLcKXigzuTFC5x58mE8iyTazxSudFzmT6MEyJKfjjU8ItoMe3W+3fiw==}
-    peerDependencies:
-      react: '>=16.8 || ^17.0.0 || ^18.0.0'
-      react-dom: '>=16.8 || ^17.0.0 || ^18.0.0'
-    dependencies:
-      '@motionone/dom': 10.12.0
-      framesync: 6.0.1
-      hey-listen: 1.0.8
-      popmotion: 11.0.3
-      style-value-types: 5.0.0
-      tslib: 2.4.1
-    optionalDependencies:
-      '@emotion/is-prop-valid': 0.8.8
     dev: false
 
   /framer-motion/6.5.1_biqbaboplfbrettd7655fr4n2y:
@@ -11873,18 +11739,6 @@ packages:
     hasBin: true
     dev: false
 
-  /moti/0.21.0_dnp4axovpsdxjv2llabhudvfvi:
-    resolution: {integrity: sha512-b4UJux4sbHeTDWLU7IfJ1ct3p2N/v6fabQTjeXTXrBcna/Ha3QFJ5TKq3F7hOGeHzt5b8vLanfLdPbJRC/v3jg==}
-    peerDependencies:
-      react-native-reanimated: '*'
-    dependencies:
-      framer-motion: 6.5.1
-      react-native-reanimated: 2.12.0
-    transitivePeerDependencies:
-      - react
-      - react-dom
-    dev: false
-
   /moti/0.21.0_w2hr5ntwcfvun5s2iumuz7tqce:
     resolution: {integrity: sha512-b4UJux4sbHeTDWLU7IfJ1ct3p2N/v6fabQTjeXTXrBcna/Ha3QFJ5TKq3F7hOGeHzt5b8vLanfLdPbJRC/v3jg==}
     peerDependencies:
@@ -13832,24 +13686,6 @@ packages:
     resolution: {integrity: sha512-Br9+rbCXgzJ+brPekUV9h1ETFJMbn/VZCJAUYksKHuI3thtwtGN17QUITUMOioAM5tCTSbhbkhCti2TalOsf5g==}
     dev: false
 
-  /react-native-reanimated/2.12.0:
-    resolution: {integrity: sha512-nrlPyw+Hx9u4iJhZk9PoTvDo/QmVAd+bo7OK9Tv3hveNEF9++5oig/g3Uv9V93shy9avTYGsUprUvAEt/xdzeQ==}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-      react: '*'
-      react-native: '*'
-    dependencies:
-      '@babel/plugin-transform-object-assign': 7.18.6
-      '@babel/preset-typescript': 7.18.6
-      '@types/invariant': 2.2.35
-      invariant: 2.2.4
-      lodash.isequal: 4.5.0
-      setimmediate: 1.0.5
-      string-hash-64: 1.0.3
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /react-native-reanimated/2.12.0_akzgkoa4sqvm4czvcom3kon2ru:
     resolution: {integrity: sha512-nrlPyw+Hx9u4iJhZk9PoTvDo/QmVAd+bo7OK9Tv3hveNEF9++5oig/g3Uv9V93shy9avTYGsUprUvAEt/xdzeQ==}
     peerDependencies:
@@ -14930,10 +14766,6 @@ packages:
     dev: false
     optional: true
 
-  /solito/2.0.8:
-    resolution: {integrity: sha512-Q4RLuGGnNhOe+I8NtYMnprnAV7mbZF5QebI5GAUxhOSwQKiwEK0ohMf+EtpgUNiYo2ojnSaGh2re4An3icu80g==}
-    dev: false
-
   /source-list-map/2.0.1:
     resolution: {integrity: sha512-qnQ7gVMxGNxsiL4lEuJwe/To8UnK7fAnmbGEEH8RpLouuKbeEm0lhbQVFIrNSuB+G7tVrAlVsZgETT5nljf+Iw==}
     dev: false
@@ -15046,10 +14878,6 @@ packages:
     engines: {node: '>= 8'}
     dependencies:
       minipass: 3.1.6
-    dev: false
-
-  /stable-hash/0.0.2:
-    resolution: {integrity: sha512-tPwQ3c1rLIwbJpq59duoznegEbmgfV630C2n4R4G96LKBFljgK8j+O9AxjqB6cAzu4gE7s4pByrLWtZel8E+Mg==}
     dev: false
 
   /stable/0.1.8:
@@ -15776,10 +15604,6 @@ packages:
         optional: true
     dependencies:
       typescript: 4.9.3
-    dev: false
-
-  /ts-toolbelt/9.6.0:
-    resolution: {integrity: sha512-nsZd8ZeNUzukXPlJmTBwUAuABDe/9qtVDelJeT/qW0ow3ZS3BsQJtNkan1802aM9Uf68/Y8ljw86Hu0h5IUW3w==}
     dev: false
 
   /tsconfig-paths/3.14.1:
