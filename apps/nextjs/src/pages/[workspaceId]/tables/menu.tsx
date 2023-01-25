@@ -6,28 +6,29 @@ import { useForm } from '@mantine/form'
 import { useDisclosure } from '@mantine/hooks'
 import { useRouter } from 'next/router'
 import React from 'react'
+import { Loader } from '@mantine/core'
+import { MenuAdder } from './tablesComponents/MenuAdder'
 
 const Menu = () => {
     const { query, isReady } = useRouter()
-    const { data: menu } = api.menu.all.useQuery({ workspaceSlug: query.workspaceId as string }, { enabled: isReady })
+    const { data: menu, isLoading: menuLoading } = api.menu.all.useQuery({ workspaceSlug: query.workspaceId as string }, { enabled: isReady })
     const [opened, { open, close }] = useDisclosure(false)
+    
     return (
         <TablesLayout>
             <Group position='apart'>
                 <Title>
                     Menü
                 </Title>
-                <Button
-                    onClick={open}
-                >
-                    Yeni Menü Seçeneği Oluştur
-                </Button>
+                <div className='flex flex-row gap-5 justify-center items-center'>
+                <p>Menü Kategori Sayısı: {menu ? menu.length :  <Loader color="teal" size="sm" variant="dots" />}</p>
+                {menu?.length !== 0 ? <MenuAdder /> : <></>}
+                </div>
             </Group>
-            <CreateMenuItem
-                opened={opened}
-                close={close}
-            />
-            <div className='mt-10 w-full bg-slate-500'>sads</div>
+
+            {menuLoading ? (<Loader color="green" size="xl" variant="bars" />) : (
+                menu?.length === 0 ? <MenuAdder className='w-full h-[300px] mt-20 bg-teal-600 opacity-50 text-8xl font-light rounded-3xl' message='Yeni Kategori' /> : <div>sa</div>
+            )}
         </TablesLayout>
     )
 }
