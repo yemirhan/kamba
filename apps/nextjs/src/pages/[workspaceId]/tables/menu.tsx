@@ -21,13 +21,13 @@ const Menu = () => {
                     Menü
                 </Title>
                 <div className='flex flex-row gap-5 justify-center items-center'>
-                <p>Menü Kategori Sayısı: {menu ? menu.length :  <Loader color="teal" size="sm" variant="dots" />}</p>
-                {menu?.length !== 0 ? <MenuAdder /> : <></>}
+                <p>Menü Kategori Sayısı: {menu ? menu?.length :  <Loader color="teal" size="sm" variant="dots" />}</p>
+                {menu?.length !== 0 ? <MenuAdder menu={menu}/> : <></>}
                 </div>
             </Group>
 
             {menuLoading ? (<Loader color="green" size="xl" variant="bars" />) : (
-                menu?.length === 0 ? <MenuAdder className='w-full h-[300px] mt-20 bg-teal-600 opacity-50 text-8xl font-light rounded-3xl' message='Yeni Kategori' /> : <div>sa</div>
+                menu?.length === 0 ? <MenuAdder menu={menu} className='w-full h-[300px] mt-20 bg-teal-600 opacity-50 text-8xl font-light rounded-3xl' message='Yeni Kategori' /> : <div>sa</div>
             )}
         </TablesLayout>
     )
