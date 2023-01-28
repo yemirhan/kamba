@@ -1,7 +1,11 @@
 import React from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { useSignIn } from "@clerk/clerk-expo";
 import { styles } from "./Styles";
+import { Button } from "./components/Button"
+import { TextInput } from "./components/Input";
+import { IconLogin } from "tabler-icons-react-native"
+import { SignInWithOauth } from "./components/SignInOAuth";
 
 export default function SignInScreen() {
   const { signIn, setSession, isLoaded } = useSignIn();
@@ -33,32 +37,24 @@ export default function SignInScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.inputView}>
-        <TextInput
-          autoCapitalize="none"
-          value={emailAddress}
-          style={styles.textInput}
-          placeholder="Email..."
-          placeholderTextColor="#000"
-          onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
-        />
-      </View>
+    <View className="flex flex-col items-center justify-center w-full h-full bg-gray-9 space-y-4">
+      <TextInput
+        autoCapitalize="none"
+        value={emailAddress}
+        placeholder="Email..."
 
-      <View style={styles.inputView}>
-        <TextInput
-          value={password}
-          style={styles.textInput}
-          placeholder="Password..."
-          placeholderTextColor="#000"
-          secureTextEntry={true}
-          onChangeText={(password) => setPassword(password)}
-        />
-      </View>
+        onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
+      />
 
-      <TouchableOpacity style={styles.primaryButton} onPress={onSignInPress}>
-        <Text style={styles.primaryButtonText}>Sign in</Text>
-      </TouchableOpacity>
+      <TextInput
+        value={password}
+        placeholder="Password..."
+        secureTextEntry={true}
+        onChangeText={(password) => setPassword(password)}
+      />
+
+      <Button style={{ width: "100%" }} text={"Sign In"} icon={<IconLogin size={16} />} onPress={() => { }} disabled={emailAddress.length === 0 || !emailAddress.includes("@") || password.length > 6} ></Button>
+      <SignInWithOauth />
     </View>
   );
 }

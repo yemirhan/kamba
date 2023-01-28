@@ -2,10 +2,6 @@
 module.exports = {
   presets: [require("@acme/tailwind-config")],
   theme: {
-    extend: {
-      colors: {
-        background: "#212529"
-      }
-    }
+    colors: require('tailwindcss-open-color')
   }
 };

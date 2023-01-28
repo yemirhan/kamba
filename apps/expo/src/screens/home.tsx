@@ -3,12 +3,8 @@ import React from "react";
 import { Button, Pressable, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FlashList } from "@shopify/flash-list";
-import type { inferProcedureOutput } from "@trpc/server";
-import type { AppRouter } from "@acme/api";
 
 import { api } from "@acme/api/src/client";
-import { useAuth } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
 
 
@@ -18,12 +14,8 @@ import { useRouter } from "expo-router";
 export const HomeScreen = () => {
 
   const { data: workspaces } = api.workspace.getAll.useQuery();
-  console.log(workspaces);
   const link = useRouter();
 
-  //not used -  const sessionQuery = trpc.auth.getSession.useQuery();
-  const [showPost, setShowPost] = React.useState<string | null>(null);
-  const { signOut } = useAuth();
 
   return (
     <SafeAreaView className="bg-background h-full">

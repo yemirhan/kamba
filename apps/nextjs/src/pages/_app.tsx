@@ -10,7 +10,7 @@ import Redirector from "../utils/redirector";
 import { useState } from "react";
 import { ColorScheme, ColorSchemeProvider, MantineProvider } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
-import { RouterTransition } from "../components/RouterTransition";
+import { RouterTransition } from "@/components/RouterTransition";
 
 
 const publicPages = [

@@ -10,13 +10,8 @@ export const styles = StyleSheet.create({
   },
 
   inputView: {
-    borderRadius: 5,
     width: "90%",
-    height: 45,
-    marginBottom: 20,
-    borderColor: "#000",
-    borderStyle: "solid",
-    borderWidth: 1,
+
   },
 
   textInput: {
