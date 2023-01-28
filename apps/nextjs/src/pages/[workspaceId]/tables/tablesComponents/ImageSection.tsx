@@ -5,8 +5,8 @@ const handleFilePicker = () => {
     document.getElementById('file-input')?.click()
 }
 
-const ImageSection = () => {
-  const [imageBase64, setImageBase64] = useState('')
+const ImageSection = ({imageBase64, setImageBase64}:{imageBase64:string, setImageBase64:React.Dispatch<React.SetStateAction<string>>}) => {
+  
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
