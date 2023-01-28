@@ -42,8 +42,9 @@ export const menuRoutes = router({
     .input(createMenuItemSchema)
     .mutation(async ({ ctx, input }) => {
       const categoryImage = await ctx.cloudinary.uploader.upload(input.image, {
-        upload_preset: "menuItems"
+        upload_preset: "influshop_comments"
       })
+
 
       return await ctx.prisma.menuCategory.create({
         data: {
@@ -84,7 +85,7 @@ export const menuRoutes = router({
     }))
     .mutation(async ({ ctx, input }) => {
       const categoryImage = await ctx.cloudinary.uploader.upload(input.image, {
-        upload_preset: "menuItems"
+        upload_preset: "influshop_comments"
       })
 
       return await ctx.prisma.menuCategory.update({
