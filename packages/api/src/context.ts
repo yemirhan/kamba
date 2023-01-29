@@ -10,13 +10,10 @@ import { v2 as cloudinary } from "cloudinary";
 type CreateContextOptions = {
   clerkuser: User | null;
 };
-const CLOUDINARY_CLOUD_NAME = "dzwfrozor"
-const CLOUDINARY_API_KEY = "289348551665956"
-const CLOUDINARY_API_SECRET = "9eda3cj1khr_2YR0ZSyQUia-8Uk"
 cloudinary.config({
-  cloud_name: CLOUDINARY_CLOUD_NAME,
-  api_key: CLOUDINARY_API_KEY,
-  api_secret: CLOUDINARY_API_SECRET,
+  cloud_name: "yemirhan-bucket",
+  api_key: "289348551665956",
+  api_secret: "9eda3cj1khr_2YR0ZSyQUia-8Uk"
 });
 /** Use this helper for:
  *  - testing, where we dont have to Mock Next.js' req/res

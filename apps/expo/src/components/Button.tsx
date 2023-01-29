@@ -10,7 +10,7 @@ export const Button = ({ color = "primary", disabled = false, icon = null, text,
         // onPress={onPress}
         style={{
             borderRadius: 12, display: "flex", flexDirection: "row",
-            alignItems: "center", marginTop: 16, rowGap: 8,
+            alignItems: "center", marginTop: 16,
             justifyContent: "center",
             paddingHorizontal: 16, paddingVertical: 12, width: "100%", ...style
         }}
