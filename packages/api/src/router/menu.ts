@@ -35,6 +35,7 @@ export const menuRoutes = router({
           name: true,
           menuItems: true,
           image: true,
+          id: true,
         },
       });
     }),
@@ -42,9 +43,8 @@ export const menuRoutes = router({
     .input(createMenuItemSchema)
     .mutation(async ({ ctx, input }) => {
       const categoryImage = await ctx.cloudinary.uploader.upload(input.image, {
-        upload_preset: "influshop_comments"
-      })
-
+        upload_preset: "influshop_comments",
+      });
 
       return await ctx.prisma.menuCategory.create({
         data: {
@@ -68,29 +68,35 @@ export const menuRoutes = router({
         },
       });
     }),
-  delete: protectedProcedure.input(z.object({
-    workspaceSlug: z.string(),
-    menuCategoryId: z.string()
-  })).mutation(async ({ ctx, input }) => {
-    return await ctx.prisma.menuCategory.deleteMany({
-      where: {
-        workspaceId: input.workspaceSlug,
-        id: input.menuCategoryId
-      },
-    });
-  }),
+  delete: protectedProcedure
+    .input(
+      z.object({
+        workspaceSlug: z.string(),
+        menuCategoryId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.prisma.menuCategory.deleteMany({
+        where: {
+          workspaceId: input.workspaceSlug,
+          id: input.menuCategoryId,
+        },
+      });
+    }),
   update: protectedProcedure
-    .input(createMenuItemSchema.extend({
-      id: z.string()
-    }))
+    .input(
+      createMenuItemSchema.extend({
+        id: z.string(),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       const categoryImage = await ctx.cloudinary.uploader.upload(input.image, {
-        upload_preset: "influshop_comments"
-      })
+        upload_preset: "influshop_comments",
+      });
 
       return await ctx.prisma.menuCategory.update({
         where: {
-          id: input.id
+          id: input.id,
         },
         data: {
           name: input.categoryName,

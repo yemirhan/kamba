@@ -8,12 +8,18 @@ import { Modal } from "@mantine/core";
 import { useState } from "react";
 import { IconCheck } from "@tabler/icons";
 import { IconBan } from "@tabler/icons";
+import { api } from "@acme/api/src/client";
+import { showNotification } from "@mantine/notifications";
+import { useRouter } from "next/router";
+import { EditCard } from "./EditCard";
 export const CategoryCard = ({
   image,
   menuItems,
   name,
+  id,
 }: RouterOutputs["menu"]["all"][0]) => {
   const [opened, setopened] = useState(false);
+  const [edit, setedit] = useState(false);
   return (
     <>
       <Card shadow="sm" p="lg" radius="md" className="w-[300px]" withBorder>
@@ -46,12 +52,20 @@ export const CategoryCard = ({
           >
             <IconTrash size={18} />
           </ActionIcon>
-          <ActionIcon>
+          <ActionIcon onClick={() => setedit(true)}>
             <IconPencil size={18} />
           </ActionIcon>
         </Group>
       </Card>
-      <TrashModal opened={opened} setopened={setopened} />
+      <TrashModal opened={opened} setopened={setopened} id={id} />
+      <EditCard
+        id={id}
+        image={image}
+        menuItems={menuItems}
+        name={name}
+        edit={edit}
+        setedit={setedit}
+      />
     </>
   );
 };
@@ -59,16 +73,43 @@ export const CategoryCard = ({
 const TrashModal = ({
   opened,
   setopened,
+  id,
 }: {
   opened: boolean;
   setopened: React.Dispatch<React.SetStateAction<boolean>>;
+  id: string;
 }) => {
+  const queryContext = api.useContext();
+  const { query } = useRouter();
+  const { mutate: mutateCategoryDelete, isLoading } =
+    api.menu.delete.useMutation({
+      onSuccess: () => {
+        showNotification({
+          title: "İşlem Başarılı",
+          message: "",
+          autoClose: 2000,
+        });
+        setopened(false);
+        queryContext.menu.all.invalidate();
+      },
+    });
   return (
     <Modal opened={opened} onClose={() => setopened(false)}>
       <Stack align="center">
         <p>Kategoriyi silmek istediğinize emin misiniz?</p>
         <Group position="apart">
-          <ActionIcon color="green" size="lg" radius="xl" variant="filled">
+          <ActionIcon
+            onClick={() =>
+              mutateCategoryDelete({
+                workspaceSlug: query.workspaceId as string,
+                menuCategoryId: id,
+              })
+            }
+            color="green"
+            size="lg"
+            radius="xl"
+            variant="filled"
+          >
             <IconCheck size={26} />
           </ActionIcon>
           <ActionIcon color="red" size="lg" radius="xl" variant="filled">

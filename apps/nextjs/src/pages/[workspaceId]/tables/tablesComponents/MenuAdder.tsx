@@ -13,6 +13,7 @@ import { Items } from "./Items";
 import { useRouter } from "next/router";
 import { api } from "@acme/api/src/client";
 import { showNotification } from "@mantine/notifications";
+import { SearchBar } from "./SearchBar";
 
 type menuprops = {
   message?: string;
@@ -23,7 +24,7 @@ type menuprops = {
 export type categoryPusherTypes = {
   price: number;
   itemName: string;
-  description: string;
+  description?: string;
 };
 
 export const MenuAdder = ({ message, className, menu }: menuprops) => {
@@ -33,6 +34,7 @@ export const MenuAdder = ({ message, className, menu }: menuprops) => {
   const [imageBase64, setImageBase64] = useState("");
   const { query } = useRouter();
   const queryContext = api.useContext();
+  const [searchInput, setsearchInput] = useState("");
   const { mutate, isLoading } = api.menu.create.useMutation({
     onSuccess: () => {
       showNotification({
@@ -90,21 +92,24 @@ export const MenuAdder = ({ message, className, menu }: menuprops) => {
             </div>
             <Group position="apart">
               <p className="text-xl">Kategori içerikleri</p>
-              <TextInput
-                placeholder="Köri Soslu Tavuk..."
-                icon={<IconSearch size={14} />}
+              <SearchBar
+                itemName={itemList[0]?.itemName}
+                searchInput={searchInput}
+                setsearchInput={setsearchInput}
               />
             </Group>
 
             <Grid>
               {menu ? (
-                itemList.map((value, index) => (
-                  <>
-                    <Grid.Col key={index} span={6}>
-                      <Items itemList={value} />
-                    </Grid.Col>
-                  </>
-                ))
+                itemList
+                  .filter((item) => item.itemName.includes(searchInput))
+                  .map((value, index) => (
+                    <>
+                      <Grid.Col key={index} span={6}>
+                        <Items itemList={value} />
+                      </Grid.Col>
+                    </>
+                  ))
               ) : (
                 <></>
               )}
@@ -121,7 +126,7 @@ export const MenuAdder = ({ message, className, menu }: menuprops) => {
                 onClick={() =>
                   mutate({
                     items: itemList.map((item) => ({
-                      description: item.description,
+                      description: item.description || "",
                       name: item.itemName,
                       price: item.price,
                       images: [],
