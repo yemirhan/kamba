@@ -12,6 +12,7 @@ import { api } from "@acme/api/src/client";
 import { showNotification } from "@mantine/notifications";
 import { useRouter } from "next/router";
 import { EditCard } from "./EditCard";
+import { SeeContent } from "./SeeContent";
 export const CategoryCard = ({
   image,
   menuItems,
@@ -20,6 +21,7 @@ export const CategoryCard = ({
 }: RouterOutputs["menu"]["all"][0]) => {
   const [opened, setopened] = useState(false);
   const [edit, setedit] = useState(false);
+  const [seeContent, setSeeContent] = useState(false)
   return (
     <>
       <Card shadow="sm" p="lg" radius="md" className="w-[300px]" withBorder>
@@ -42,7 +44,7 @@ export const CategoryCard = ({
         </Group>
 
         <Group mt="xl">
-          <Button variant="light" color="blue" style={{ flex: 1 }} radius="md">
+          <Button onClick={()=>setSeeContent(true)} variant="light" color="blue" style={{ flex: 1 }} radius="md">
             Tüm içeriği gör
           </Button>
           <ActionIcon
@@ -66,6 +68,7 @@ export const CategoryCard = ({
         edit={edit}
         setedit={setedit}
       />
+      <SeeContent menuItems = {menuItems} seeContent={seeContent} setSeeContent={setSeeContent} name={name} image={image}/>
     </>
   );
 };

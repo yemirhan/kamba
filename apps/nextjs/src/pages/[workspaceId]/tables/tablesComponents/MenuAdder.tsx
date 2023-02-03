@@ -106,7 +106,7 @@ export const MenuAdder = ({ message, className, menu }: menuprops) => {
                   .map((value, index) => (
                     <>
                       <Grid.Col key={index} span={6}>
-                        <Items itemList={value} />
+                        <Items itemList={value} index={index} setItemList={setItemList} />
                       </Grid.Col>
                     </>
                   ))

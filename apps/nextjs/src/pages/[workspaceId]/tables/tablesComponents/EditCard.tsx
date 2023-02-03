@@ -43,6 +43,7 @@ export const EditCard = ({
       description: item.description || "",
     })),
   );
+
   const [imageBase64, setImageBase64] = useState(image || "");
   const { query } = useRouter();
   const queryContext = api.useContext();
@@ -115,7 +116,7 @@ export const EditCard = ({
               .map((value, index) => (
                 <>
                   <Grid.Col key={index} span={6}>
-                    <Items itemList={value} />
+                    <Items itemList={value} index={itemList.indexOf(value)} setItemList = {setItemList} />
                   </Grid.Col>
                 </>
               ))}
