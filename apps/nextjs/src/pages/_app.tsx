@@ -7,23 +7,11 @@ import { ClerkProvider, SignedIn, SignedOut } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 import Redirector from "../utils/redirector";
 
-import "raf/polyfill";
 import { useState } from "react";
 import { ColorScheme, ColorSchemeProvider, MantineProvider } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
-import { RouterTransition } from "../components/RouterTransition";
+import { RouterTransition } from "@/components/RouterTransition";
 
-const fixReanimatedIssue = () => {
-  // FIXME remove this once this reanimated fix gets released
-  // https://github.com/software-mansion/react-native-reanimated/issues/3355
-  if (process.browser) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    window._frameTimestamp = null;
-  }
-};
-
-fixReanimatedIssue();
 
 const publicPages = [
   "/sign-in/[[...index]]",

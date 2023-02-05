@@ -11,9 +11,9 @@ type CreateContextOptions = {
   clerkuser: User | null;
 };
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: "yemirhan-bucket",
+  api_key: "289348551665956",
+  api_secret: "9eda3cj1khr_2YR0ZSyQUia-8Uk"
 });
 /** Use this helper for:
  *  - testing, where we dont have to Mock Next.js' req/res

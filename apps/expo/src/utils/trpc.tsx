@@ -1,4 +1,5 @@
-import { api } from "@acme/api/src/client/index.native";
+import { createTRPCReact } from "@trpc/react-query";
+import type { AppRouter } from "@acme/api";
 /**
  * Extend this function when going to production by
  * setting the baseUrl to your production API URL.
@@ -8,17 +9,17 @@ import Constants from "expo-constants";
  * A wrapper for your app that provides the TRPC context.
  * Use only in _app.tsx
  */
-import React, { useEffect } from "react";
+import React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import { transformer } from "@acme/api/transformer";
 import { useAuth } from "@clerk/clerk-expo";
-import { Text } from "react-native";
 
 /**
  * A set of typesafe hooks for consuming your API.
  */
-
+const trpc = createTRPCReact<AppRouter>();
+export const api = trpc;
 const getBaseUrl = () => {
   /**
    * Gets the IP address of your host-machine. If it cannot automatically find it,
@@ -33,17 +34,18 @@ const getBaseUrl = () => {
 
 export const TRPCProvider: React.FC<{
   children: React.ReactNode;
-  authToken: string | null;
-}> = ({ children, authToken }) => {
+}> = ({ children }) => {
+  const { getToken } = useAuth();
   const [queryClient] = React.useState(() => new QueryClient());
   const [trpcClient] = React.useState(() =>
-    api.createClient({
+    trpc.createClient({
       transformer,
       links: [
         httpBatchLink({
-          headers() {
+          async headers() {
+            const authToken = await getToken();
             return {
-              Authorization: authToken || "",
+              Authorization: authToken || undefined,
             };
           },
           url: `${getBaseUrl()}/api/trpc`,
@@ -53,26 +55,8 @@ export const TRPCProvider: React.FC<{
   );
 
   return (
-    <api.Provider client={trpcClient} queryClient={queryClient}>
+    <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </api.Provider>
+    </trpc.Provider>
   );
-};
-
-export const TRPCAuthContext: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  // get JWT from clerk
-  const { getToken } = useAuth();
-  // minimal example on how to set the token in the provider
-  const [authToken, setAuthToken] = React.useState<string | null>(null);
-  useEffect(() => {
-    getToken().then((token) => {
-      setAuthToken(token);
-    });
-  }, []);
-
-  if (!authToken) return <Text>Loading</Text>;
-
-  return <TRPCProvider authToken={authToken}>{children}</TRPCProvider>;
 };
