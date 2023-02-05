@@ -1,14 +1,15 @@
-import { menuRoutes } from './menu';
+import { menuRoutes } from "./menu";
 import { router } from "../trpc";
-import { workspaceRouter } from './workspace';
-import { profileRouter } from './profile';
-import { itemRouter } from './item';
-import { boardRouter } from './boards';
+import { workspaceRouter } from "./workspace";
+import { profileRouter } from "./profile";
+import { itemRouter } from "./item";
+import { boardRouter } from "./boards";
 import { authRouter } from "./auth";
-import { statusRouter } from './status';
-import { tableRoutes } from './tables';
-import { storyRoutes } from './story';
-import { menuCategoriesRouter } from './menuCategories';
+import { statusRouter } from "./status";
+import { tableRoutes } from "./tables";
+import { storyRoutes } from "./story";
+import { menuCategoriesRouter } from "./menuCategories";
+import { inventoryRouter } from "./inventory";
 
 export const appRouter = router({
   auth: authRouter,
@@ -20,7 +21,8 @@ export const appRouter = router({
   tables: tableRoutes,
   story: storyRoutes,
   menu: menuRoutes,
-  menuCategories: menuCategoriesRouter
+  menuCategories: menuCategoriesRouter,
+  inventory: inventoryRouter,
 });
 
 // export type definition of API
