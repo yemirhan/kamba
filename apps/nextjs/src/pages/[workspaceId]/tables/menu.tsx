@@ -1,6 +1,5 @@
 import { TablesLayout } from "@/components/Tables/TablesLayout";
 import { api } from "@acme/api/src/client";
-import { CreateMenuItem } from "@acme/api/src/router/menu";
 import {
   Button,
   Grid,
@@ -14,58 +13,94 @@ import {
   Image,
   Text,
   Badge,
+  Stack,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { useRouter } from "next/router";
 import React from "react";
 import { Loader } from "@mantine/core";
-import { MenuAdder } from "./tablesComponents/MenuAdder";
-import { CategoryCard } from "./tablesComponents/CategoryCard";
+import { CategoryCards } from "@/components/MenuComponents/CategoryCards";
+import { useMenu } from "Providers/useMenu";
+import { RouterOutputs } from "@acme/api";
+import { useEffect } from "react";
 
 const Menu = () => {
   const { query, isReady } = useRouter();
-  const { data: menu, isLoading: menuLoading } = api.menu.all.useQuery(
+  const menuState = useMenu((state) => state.menu);
+  const menuSetter = useMenu((state) => state.menuSet);
+
+  const {
+    data: menu,
+    isLoading: menuLoading,
+    isFetched: menuFetched,
+  } = api.menu.all.useQuery(
     { workspaceSlug: query.workspaceId as string },
-    { enabled: isReady },
+    {
+      enabled: isReady,
+    },
   );
+
+  useEffect(() => {
+    console.log("success");
+    if (menu?.length !== menuState.length) {
+      menuSetter(menu || []);
+      console.log(menu);
+    } else {
+      for (let i = 0; i < menu.length; i++) {
+        if (menu[i] !== menuState[i]) {
+          {
+            menuSetter(menu || []);
+            console.log(menuState);
+          }
+        }
+      }
+    }
+  }, [menuFetched]);
 
   return (
     <TablesLayout>
       <Group position="apart">
         <Title>Menü</Title>
-        <div className="flex flex-row items-center justify-center gap-5">
-          <p>
-            Menü Kategori Sayısı:{" "}
-            {menu ? (
-              menu?.length
-            ) : (
-              <Loader color="teal" size="sm" variant="dots" />
-            )}
-          </p>
-          {menu?.length !== 0 ? <MenuAdder menu={menu} /> : <></>}
+        <div className="flex flex-row items-center">
+          {menuLoading ? (
+            <Loader color="green" size="lg" variant="dots" />
+          ) : menu?.length === 0 ? (
+            <Button color="green" radius="lg" size="md">
+              Yeni Kategori Oluştur
+            </Button>
+          ) : (
+            <div className="flex flex-row gap-4">
+              <Text>Kategori Sayısı:</Text>
+              <Text color="teal">{menu?.length}</Text>
+              <Button></Button>
+            </div>
+          )}
         </div>
       </Group>
-
-      {menuLoading ? (
-        <Loader color="green" size="xl" variant="bars" />
-      ) : menu?.length === 0 ? (
-        <MenuAdder
-          menu={menu}
-          className="mt-20 h-[300px] w-full rounded-3xl bg-teal-600 text-8xl font-light opacity-50"
-          message="Yeni Kategori"
-        />
-      ) : (
-        <Grid>
-          {(menu || []).map((value, index) => {
-            return (
-              <Grid.Col key={index} span={4}>
-                <CategoryCard {...value} />
-              </Grid.Col>
-            );
-          })}
-        </Grid>
-      )}
+      <div className="mt-4 h-auto w-full">
+        {menu?.length === 0 ? (
+          <Button
+            fullWidth
+            variant="light"
+            color="cyan"
+            radius="lg"
+            className="h-[200px] text-5xl font-light"
+          >
+            Kategori Eklemek için Tıkla
+          </Button>
+        ) : (
+          <Grid>
+            {menu?.map((category, index) => {
+              return (
+                <Grid.Col key={index} span={4}>
+                  <CategoryCards index={index} />
+                </Grid.Col>
+              );
+            })}
+          </Grid>
+        )}
+      </div>
     </TablesLayout>
   );
 };
