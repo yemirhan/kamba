@@ -339,31 +339,14 @@ model PreviousOrders {
 }
 
 model InventoryModule {
-  id            String          @id @default(cuid())
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  name          String
-  slug          String          @unique
-  color         Colors          @default(OCEAN)
-  workspace     Workspace       @relation(fields: [workspaceId], references: [id])
-  workspaceId   String          @unique
-  InventoryItem InventoryItem[]
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  name        String
+  slug        String    @unique
+  color       Colors    @default(OCEAN)
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  workspaceId String
 
   @@index([workspaceId])
-}
-
-model InventoryItem {
-  id                String          @id @default(cuid())
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
-  name              String
-  slug              String          @unique
-  description       String?
-  price             Float           @default(0)
-  amount            Int             @default(0)
-  image             String?
-  InventoryModule   InventoryModule @relation(fields: [inventoryModuleId], references: [id])
-  inventoryModuleId String
-
-  @@index([inventoryModuleId])
 }

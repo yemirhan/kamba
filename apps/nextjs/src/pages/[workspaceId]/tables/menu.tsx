@@ -1,106 +1,72 @@
 import { TablesLayout } from "@/components/Tables/TablesLayout";
 import { api } from "@acme/api/src/client";
-import {
-  Button,
-  Grid,
-  Group,
-  Modal,
-  NumberInput,
-  Textarea,
-  TextInput,
-  Title,
-  Card,
-  Image,
-  Text,
-  Badge,
-  Stack,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { useDisclosure } from "@mantine/hooks";
+import { CreateMenuItem } from "@acme/api/src/router/menu";
+import { Button, Grid, Loader, Title } from "@mantine/core";
+import { Group } from "@mantine/core";
+import { Text } from "@mantine/core";
+import { CategoryCard } from "@/components/TablesComponents/CategoryCard";
 import { useRouter } from "next/router";
 import React from "react";
-import { Loader } from "@mantine/core";
-import { CategoryCards } from "@/components/MenuComponents/CategoryCards";
-import { useMenu } from "Providers/useMenu";
-import { RouterOutputs } from "@acme/api";
-import { useEffect } from "react";
 
 const Menu = () => {
   const { query, isReady } = useRouter();
-  const menuState = useMenu((state) => state.menu);
-  const menuSetter = useMenu((state) => state.menuSet);
-
   const {
     data: menu,
     isLoading: menuLoading,
-    isFetched: menuFetched,
+    isFetched,
   } = api.menu.all.useQuery(
     { workspaceSlug: query.workspaceId as string },
-    {
-      enabled: isReady,
-    },
+    { enabled: isReady },
   );
-
-  useEffect(() => {
-    console.log("success");
-    if (menu?.length !== menuState.length) {
-      menuSetter(menu || []);
-      console.log(menu);
-    } else {
-      for (let i = 0; i < menu.length; i++) {
-        if (menu[i] !== menuState[i]) {
-          {
-            menuSetter(menu || []);
-            console.log(menuState);
-          }
-        }
-      }
-    }
-  }, [menuFetched]);
 
   return (
     <TablesLayout>
       <Group position="apart">
         <Title>Menü</Title>
-        <div className="flex flex-row items-center">
-          {menuLoading ? (
-            <Loader color="green" size="lg" variant="dots" />
-          ) : menu?.length === 0 ? (
-            <Button color="green" radius="lg" size="md">
-              Yeni Kategori Oluştur
-            </Button>
+        <div className="flex flex-row items-center justify-center gap-4">
+          {isFetched ? (
+            menu ? (
+              <>
+                <Text>{`Toplam Kategori Sayısı: ${menu?.length}`}</Text>
+                <Button color="green" radius="xl" size="md">
+                  Yeni Kategori
+                </Button>
+              </>
+            ) : (
+              <Title>Hiç Kategori Yok</Title>
+            )
           ) : (
-            <div className="flex flex-row gap-4">
-              <Text>Kategori Sayısı:</Text>
-              <Text color="teal">{menu?.length}</Text>
-              <Button></Button>
-            </div>
+            <Loader color="green" variant="dots" size="xl" />
           )}
         </div>
       </Group>
-      <div className="mt-4 h-auto w-full">
-        {menu?.length === 0 ? (
-          <Button
-            fullWidth
-            variant="light"
-            color="cyan"
-            radius="lg"
-            className="h-[200px] text-5xl font-light"
-          >
-            Kategori Eklemek için Tıkla
-          </Button>
-        ) : (
-          <Grid>
-            {menu?.map((category, index) => {
+
+      <Grid mt="md">
+        {isFetched ? (
+          menu ? (
+            menu.map((categoryValues, index) => {
               return (
                 <Grid.Col key={index} span={4}>
-                  <CategoryCards index={index} />
+                  <CategoryCard categoryValues={categoryValues} />
                 </Grid.Col>
               );
-            })}
-          </Grid>
+            })
+          ) : (
+            <Grid.Col span={12}>
+              <Button
+                fullWidth
+                className="font-semilight h-[300px] text-3xl"
+                radius="xl"
+                variant="light"
+              >
+                Kategori Oluşturmak için Tıkla
+              </Button>
+            </Grid.Col>
+          )
+        ) : (
+          <Loader color="green" variant="bars" size="xl" />
         )}
-      </div>
+      </Grid>
     </TablesLayout>
   );
 };

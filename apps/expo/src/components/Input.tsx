@@ -2,7 +2,7 @@ import { motify, useAnimationState } from 'moti';
 import React, { useEffect, useState } from 'react'
 
 import { TextInput as RNTextInput, TextInputProps as RNTextInputProps } from 'react-native'
-import { colors } from '../utils/colors';
+import { colors } from '../config/colors';
 
 
 const MotiTextInput = motify(RNTextInput)();
@@ -13,19 +13,19 @@ export const TextInput: React.FunctionComponent<TextInputProps> = ({ value, ...r
     const [focused, setFocused] = useState(false)
     const animationState = useAnimationState({
         initial: {
-            borderColor: colors["background-secondary"],
+            borderColor: colors.gray[8],
             borderWidth: 2
         },
         focused: {
-            borderColor: colors.primary,
+            borderColor: colors.teal[6],
             borderWidth: 2,
         },
         success: {
-            borderColor: colors.success,
+            borderColor: colors.green[6],
             borderWidth: 2,
         },
         fail: {
-            borderColor: colors.danger,
+            borderColor: colors.red[6],
             borderWidth: 2,
         },
     });
@@ -63,8 +63,8 @@ export const TextInput: React.FunctionComponent<TextInputProps> = ({ value, ...r
                 animationState.transitionTo('focused')
             }}
             {...rest}
-
+            placeholderTextColor={colors.gray[2]}
             transition={{ type: 'timing', duration: 300 }}
-            state={animationState} className="rounded-xl bg-background-secondary w-full p-4 text-white placeholder:text-white" />
+            state={animationState} className="rounded-xl bg-background-secondary shadow-md bg-gray-9 w-10/12 p-4 text-white placeholder:text-white" />
     )
 }

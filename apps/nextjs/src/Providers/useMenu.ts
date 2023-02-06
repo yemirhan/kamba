@@ -1,40 +1,42 @@
 import { create } from "zustand";
-import { RouterOutputs } from "@acme/api";
 
-type useMenuProp = {
-  menu: RouterOutputs["menu"]["all"];
-  menuSet: (value: RouterOutputs["menu"]["all"]) => void;
-  imageSet: ({
-    value,
-    indexvalue,
-  }: {
-    value: string;
-    indexvalue: number;
-  }) => void;
-  isEdit: boolean;
-  setIsEdit: () => void;
-  isDelete: boolean;
-  setIsDelete: () => void;
-  itemIsEdit: boolean;
-  setItemIsEdit: () => void;
+type UseMenuProp = {
+  editCard: boolean;
+  SetEditCard: () => void;
+  hoverImage: boolean;
+  SetHoverImage: () => void;
+  editCategoryImage: boolean;
+  SetEditCategoryImage: () => void;
+  deleteItem: boolean;
+  SetDeleteItem: () => void;
+  editItem: boolean;
+  setEditItem: () => void;
+  hoverItemImage: boolean;
+  SetHoverItemImage: () => void;
+  editItemImage: boolean;
+  SetEditItemImage: () => void;
+  editIndex: number;
+  SetEditIndex: (value: number) => void;
 };
 
-export const useMenu = create<useMenuProp>((set) => ({
-  menu: [],
-  menuSet: (value) => set(() => ({ menu: [...value] })),
-  imageSet: ({ value, indexvalue }) =>
-    set((state) => {
-      //@ts-ignore
-      const effectedObject = [...state.menu].splice(indexvalue, 1, {
-        ...state.menu[indexvalue],
-        image: value,
-      });
-      return { menu: effectedObject };
-    }),
-  isEdit: false,
-  setIsEdit: () => set((state) => ({ isEdit: !state.isEdit })),
-  isDelete: false,
-  setIsDelete: () => set((state) => ({ isDelete: !state.isDelete })),
-  itemIsEdit: false,
-  setItemIsEdit: () => set((state) => ({ itemIsEdit: !state.itemIsEdit })),
+export const useMenu = create<UseMenuProp>((set) => ({
+  editCard: false,
+  SetEditCard: () => set((state) => ({ editCard: !state.editCard })),
+  hoverImage: false,
+  SetHoverImage: () => set((state) => ({ hoverImage: !state.hoverImage })),
+  editCategoryImage: false,
+  SetEditCategoryImage: () =>
+    set((state) => ({ editCategoryImage: !state.editCategoryImage })),
+  deleteItem: false,
+  SetDeleteItem: () => set((state) => ({ deleteItem: !state.deleteItem })),
+  editItem: false,
+  setEditItem: () => set((state) => ({ editItem: !state.editItem })),
+  hoverItemImage: false,
+  SetHoverItemImage: () =>
+    set((state) => ({ hoverItemImage: !state.hoverItemImage })),
+  editItemImage: false,
+  SetEditItemImage: () =>
+    set((state) => ({ editItemImage: !state.editItemImage })),
+  editIndex: 0,
+  SetEditIndex: (value) => set(() => ({ editIndex: value })),
 }));
