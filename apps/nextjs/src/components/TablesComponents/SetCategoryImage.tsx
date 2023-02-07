@@ -1,5 +1,4 @@
 import React from "react";
-import { UseFormType } from "./EditCard";
 import { UseFormReturnType } from "@mantine/form";
 import { MenuItem } from "@acme/db";
 import { useMenu } from "providers/useMenu";
@@ -10,7 +9,29 @@ const handleFilePicker = () => {
   document.getElementById("file-input")?.click();
 };
 
-export const SetCategoryImage = ({ form }: { form: UseFormType }) => {
+export const SetCategoryImage = ({
+  form,
+}: {
+  form: UseFormReturnType<
+    {
+      name: string;
+      id: string;
+      image: string;
+      menuItems: MenuItem[];
+    },
+    (values: {
+      name: string;
+      id: string;
+      image: string;
+      menuItems: MenuItem[];
+    }) => {
+      name: string;
+      id: string;
+      image: string;
+      menuItems: MenuItem[];
+    }
+  >;
+}) => {
   const editCategoryImage = useMenu((state) => state.editCategoryImage);
   const SetEditCategoryImage = useMenu((state) => state.SetEditCategoryImage);
 

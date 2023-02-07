@@ -1,7 +1,4 @@
 import React from "react";
-import { UseFormType } from "./EditCard";
-import { UseFormReturnType } from "@mantine/form";
-import { MenuItem } from "@acme/db";
 import { useEffect } from "react";
 import { useMenu } from "providers/useMenu";
 
@@ -10,11 +7,9 @@ const handleFilePicker = () => {
 };
 
 export const SetItemImage = ({
-  form,
-  index,
+  setItemImage
 }: {
-  form: UseFormType;
-  index: number;
+  setItemImage:  React.Dispatch<React.SetStateAction<string>>
 }) => {
   const ItemImageState = {
     editItemImage: useMenu((state) => state.editItemImage),
@@ -29,11 +24,7 @@ export const SetItemImage = ({
 
     const reader = new FileReader();
     reader.onloadend = () => {
-      form.insertListItem(
-        "menuItems",
-        { ...form.values.menuItems[index], icon: reader.result },
-        index,
-      );
+      setItemImage(reader.result as string)
       ItemImageState.SetEditItemImage();
     };
     reader.readAsDataURL(file);

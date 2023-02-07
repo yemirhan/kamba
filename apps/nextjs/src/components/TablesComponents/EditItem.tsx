@@ -1,5 +1,4 @@
 import React from "react";
-import { UseFormType } from "./EditCard";
 import { UseFormReturnType } from "@mantine/form";
 import { MenuItem } from "@acme/db";
 import {
@@ -17,12 +16,32 @@ import {
 import { useMenu } from "providers/useMenu";
 import { SetItemImage } from "./SetItemImage";
 import { IconCurrencyLira } from "@tabler/icons";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export const EditItem = ({
   form,
   index,
 }: {
-  form: UseFormType;
+  form: UseFormReturnType<
+    {
+      name: string;
+      id: string;
+      image: string;
+      menuItems: MenuItem[];
+    },
+    (values: {
+      name: string;
+      id: string;
+      image: string;
+      menuItems: MenuItem[];
+    }) => {
+      name: string;
+      id: string;
+      image: string;
+      menuItems: MenuItem[];
+    }
+  >;
   index: number;
 }) => {
   const editItemState = {
@@ -33,7 +52,29 @@ export const EditItem = ({
     editItemImage: useMenu((state) => state.editItemImage),
     SetEditItemImage: useMenu((state) => state.SetEditItemImage),
   };
-  console.log(index);
+  const [itemName, setItemName] = useState(
+    form.values.menuItems[index]?.name || "",
+  );
+  const [itemImage, setItemImage] = useState(
+    form.values.menuItems[index]?.icon || "",
+  );
+  const [itemPrice, setItemPrice] = useState(
+    form.values.menuItems[index]?.price || 0,
+  );
+  const [itemDescription, setItemDescription] = useState(
+    form.values.menuItems[index]?.description || "",
+  );
+
+  useEffect(() => {
+    setItemImage(form.values.menuItems[index]?.icon || "");
+    setItemName(form.values.menuItems[index]?.name || "");
+    setItemPrice(form.values.menuItems[index]?.price || 0);
+    setItemDescription(form.values.menuItems[index]?.description || "");
+  }, [index, form.values.menuItems]);
+
+  console.log(form.values.menuItems);
+  console.log(form.values.menuItems[index]);
+  console.log(itemName);
   return (
     <>
       <Modal
@@ -46,9 +87,9 @@ export const EditItem = ({
             {!editItemState.hoverItemImage ? (
               <Image
                 src={
-                  form.values.menuItems[index]?.icon === ""
+                  itemImage === ""
                     ? "https://static.thenounproject.com/png/1211233-200.png"
-                    : form.values.menuItems[index]?.icon
+                    : itemImage
                 }
                 alt="içerik resmi"
                 width="400px"
@@ -60,9 +101,9 @@ export const EditItem = ({
               <div className="relative flex flex-col">
                 <Image
                   src={
-                    form.values.menuItems[index]?.icon === ""
+                    itemImage === ""
                       ? "https://static.thenounproject.com/png/1211233-200.png"
-                      : form.values.menuItems[index]?.icon
+                      : itemImage
                   }
                   alt="içerik resmi"
                   width="400px"
@@ -85,51 +126,24 @@ export const EditItem = ({
                 radius="lg"
                 withAsterisk
                 w={450}
-                value={form.values.menuItems[index]?.name}
-                onChange={(e) =>
-                  form.insertListItem(
-                    "menuItems",
-                    {
-                      ...form.values.menuItems[index],
-                      name: e.currentTarget.value,
-                    },
-                    index,
-                  )
-                }
+                value={itemName}
+                onChange={(e) => setItemName(e.currentTarget.value)}
               />
               <Grid>
                 <Grid.Col span={6}>
                   <Textarea
                     label="Ürün Açıklaması"
                     radius="lg"
-                    value={form.values.menuItems[index]?.description || ""}
-                    onChange={(e) =>
-                      form.insertListItem(
-                        "menuItems",
-                        {
-                          ...form.values.menuItems[index],
-                          description: e.currentTarget.value,
-                        },
-                        index,
-                      )
-                    }
+                    value={itemDescription}
+                    onChange={(e) => setItemDescription(e.currentTarget.value)}
                   />
                 </Grid.Col>
                 <Grid.Col span={6}>
                   <NumberInput
                     label="Ürünün Fiyatı"
                     icon={<IconCurrencyLira size={18} />}
-                    value={form.values.menuItems[index]?.price}
-                    onChange={(val) =>
-                      form.insertListItem(
-                        "menuItems",
-                        {
-                          ...form.values.menuItems[index],
-                          price: val,
-                        },
-                        index,
-                      )
-                    }
+                    value={itemPrice}
+                    onChange={(val) => setItemPrice(val!)}
                   />
                 </Grid.Col>
               </Grid>
@@ -139,14 +153,28 @@ export const EditItem = ({
             <Button
               color="teal"
               radius="lg"
-              onClick={() => editItemState.SetEditItem()}
+              onClick={() => {
+                form.insertListItem(
+                  "menuItems",
+                  {
+                    ...form.values.menuItems[index],
+                    icon: itemImage,
+                    name: itemName,
+                    price: itemPrice,
+                    description: itemDescription,
+                  },
+                  index,
+                );
+                form.removeListItem("menuItems", index + 1);
+                editItemState.SetEditItem();
+              }}
             >
               Kaydet
             </Button>
           </Group>
         </Paper>
       </Modal>
-      <SetItemImage form={form} index={index} />
+      <SetItemImage setItemImage={setItemImage} />
     </>
   );
 };
