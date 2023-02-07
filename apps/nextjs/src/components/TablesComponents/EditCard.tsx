@@ -97,199 +97,200 @@ export const EditCard = ({
     },
   });
 
-  console.log(updateLoading);
   return (
     <>
-      <Modal opened={editCard} onClose={() => SetEditCard()} size="75%">
-        <div className="flex flex-col">
-          <div className="relative flex flex-col">
-            <div className="flex h-auto flex-col items-center">
-              <Stack className="w-3/4 items-center justify-center">
-                {!hoverImage ? (
-                  <img
-                    src={
-                      form.values.image ||
-                      "https://static.thenounproject.com/png/1211233-200.png"
-                    }
-                    alt="kategori resmi"
-                    className="aspect-[7/6] w-[500px]"
-                    onMouseEnter={() => SetHoverImage()}
-                  />
-                ) : (
-                  <div className="relative flex flex-col">
-                    <img
-                      src={
-                        form.values.image ||
-                        "https://static.thenounproject.com/png/1211233-200.png"
-                      }
-                      alt="kategori resmi"
-                      className="relative aspect-[7/6] w-[500px]"
-                    />
-                    <Button
-                      onMouseLeave={() => SetHoverImage()}
-                      onClick={() => SetEditCategoryImage()}
-                      className="absolute top-0 right-0 left-0 z-30 flex h-full flex-col items-center justify-center text-6xl font-light opacity-60 transition-all duration-100"
-                    >
-                      +
-                    </Button>
-                  </div>
-                )}
-                <TextInput
-                  w={500}
-                  label="Kategori Adı"
-                  radius="md"
-                  size="md"
-                  value={form.values.name}
-                />
-                <div className="justfiy-between flex w-full flex-row">
-                  <Text size="xl" className="relative text-2xl font-semibold">
-                    Menü İçeriği
-                  </Text>
-                  <TextInput
-                    className=""
-                    label="Filtrele"
-                    icon={<IconSearch size={14} />}
-                    value={search}
-                    onChange={(e) => setsearch(e.currentTarget.value)}
-                  />
-                </div>
-                <Grid>
-                  {categoryValues ? (
-                    categoryValues.menuItems
-                      .filter((item) => {
-                        indexByIdArray = [];
-                        return item.name.includes(search);
-                      })
-                      .map((item, index) => {
-                        for (
-                          let i = 0;
-                          i < categoryValues.menuItems.length;
-                          i++
-                        ) {
-                          if (categoryValues.menuItems[i]?.id === item.id) {
-                            indexById = i;
-                            indexByIdArray[index] = i;
-                          }
+      {!updateLoading ? (
+        <>
+          <Modal opened={editCard} onClose={() => SetEditCard()} size="75%">
+            <div className="flex flex-col">
+              <div className="relative flex flex-col">
+                <div className="flex h-auto flex-col items-center">
+                  <Stack className="w-3/4 items-center justify-center">
+                    {!hoverImage ? (
+                      <img
+                        src={
+                          form.values.image ||
+                          "https://static.thenounproject.com/png/1211233-200.png"
                         }
-                        return (
-                          <>
-                            <Grid.Col
-                              key={index}
-                              span={4}
-                              className="flex h-full w-full"
-                            >
-                              <Paper
-                                className="relative mt-14"
-                                shadow="sm"
-                                radius="lg"
-                                p="md"
-                                bg="cyan"
-                              >
-                                <div className="flex flex-row gap-4">
-                                  <img
-                                    src={
-                                      form.values.menuItems[
-                                        indexByIdArray[index]
-                                      ]?.icon ||
-                                      "https://static.thenounproject.com/png/1211233-200.png"
-                                    }
-                                    alt="içerik resmi"
-                                    className="h-full w-[40%]"
-                                  />
-                                  <div className="flex h-full w-full flex-col gap-y-1">
-                                    <div className="flex flex-row justify-between">
-                                      <Text fz="md">
-                                        {
-                                          form.values.menuItems[
-                                            indexByIdArray[index] || 0
-                                          ]?.name
-                                        }
-                                      </Text>
-                                      <Text fz="md">{`${
-                                        form.values.menuItems[
-                                          indexByIdArray[index] || 0
-                                        ]?.price
-                                      } ₺`}</Text>
-                                    </div>
-                                    <Text fz="sm">
-                                      {
-                                        form.values.menuItems[
-                                          indexByIdArray[index] || 0
-                                        ]?.description
-                                      }
-                                    </Text>
-                                  </div>
-                                </div>
-                                <Group position="right">
-                                  <ActionIcon
-                                    onClick={() => {
-                                      SetEditIndex(index);
-                                      SetEditItem();
-                                    }}
+                        alt="kategori resmi"
+                        className="aspect-[7/6] w-[500px]"
+                        onMouseEnter={() => SetHoverImage()}
+                      />
+                    ) : (
+                      <div className="relative flex flex-col">
+                        <img
+                          src={
+                            form.values.image ||
+                            "https://static.thenounproject.com/png/1211233-200.png"
+                          }
+                          alt="kategori resmi"
+                          className="relative aspect-[7/6] w-[500px]"
+                        />
+                        <Button
+                          onMouseLeave={() => SetHoverImage()}
+                          onClick={() => SetEditCategoryImage()}
+                          className="absolute top-0 right-0 left-0 z-30 flex h-full flex-col items-center justify-center text-6xl font-light opacity-60 transition-all duration-100"
+                        >
+                          +
+                        </Button>
+                      </div>
+                    )}
+                    <TextInput
+                      w={500}
+                      label="Kategori Adı"
+                      radius="md"
+                      size="md"
+                      value={form.values.name}
+                    />
+                    <div className="justfiy-between flex w-full flex-row">
+                      <Text
+                        size="xl"
+                        className="relative text-2xl font-semibold"
+                      >
+                        Menü İçeriği
+                      </Text>
+                      <TextInput
+                        className=""
+                        label="Filtrele"
+                        icon={<IconSearch size={14} />}
+                        value={search}
+                        onChange={(e) => setsearch(e.currentTarget.value)}
+                      />
+                    </div>
+                    <Grid>
+                      {categoryValues ? (
+                        categoryValues.menuItems
+                          .filter((item) => {
+                            indexByIdArray = [];
+                            return item.name.includes(search);
+                          })
+                          .map((item, index) => {
+                            for (
+                              let i = 0;
+                              i < categoryValues.menuItems.length;
+                              i++
+                            ) {
+                              if (categoryValues.menuItems[i]?.id === item.id) {
+                                indexById = i;
+                                indexByIdArray[index] = i;
+                              }
+                            }
+                            return (
+                              <>
+                                <Grid.Col
+                                  key={index}
+                                  span={4}
+                                  className="flex h-full w-full"
+                                >
+                                  <Paper
+                                    className="relative mt-14"
+                                    shadow="sm"
+                                    radius="lg"
+                                    p="md"
+                                    bg="cyan"
                                   >
-                                    <IconPencil size={18} />
-                                  </ActionIcon>
-                                  <ActionIcon>
-                                    <IconTrash size={18} />
-                                  </ActionIcon>
-                                </Group>
-                              </Paper>
-                            </Grid.Col>
-                          </>
-                        );
-                      })
-                  ) : (
-                    <></>
-                  )}
-                </Grid>
-              </Stack>
+                                    <div className="flex flex-row gap-4">
+                                      <img
+                                        src={
+                                          form.values.menuItems[
+                                            indexByIdArray[index]
+                                          ]?.icon ||
+                                          "https://static.thenounproject.com/png/1211233-200.png"
+                                        }
+                                        alt="içerik resmi"
+                                        className="h-full w-[40%]"
+                                      />
+                                      <div className="flex h-full w-full flex-col gap-y-1">
+                                        <div className="flex flex-row justify-between">
+                                          <Text fz="md">
+                                            {
+                                              form.values.menuItems[
+                                                indexByIdArray[index] || 0
+                                              ]?.name
+                                            }
+                                          </Text>
+                                          <Text fz="md">{`${
+                                            form.values.menuItems[
+                                              indexByIdArray[index] || 0
+                                            ]?.price
+                                          } ₺`}</Text>
+                                        </div>
+                                        <Text fz="sm">
+                                          {
+                                            form.values.menuItems[
+                                              indexByIdArray[index] || 0
+                                            ]?.description
+                                          }
+                                        </Text>
+                                      </div>
+                                    </div>
+                                    <Group position="right">
+                                      <ActionIcon
+                                        onClick={() => {
+                                          SetEditIndex(index);
+                                          SetEditItem();
+                                        }}
+                                      >
+                                        <IconPencil size={18} />
+                                      </ActionIcon>
+                                      <ActionIcon>
+                                        <IconTrash size={18} />
+                                      </ActionIcon>
+                                    </Group>
+                                  </Paper>
+                                </Grid.Col>
+                              </>
+                            );
+                          })
+                      ) : (
+                        <></>
+                      )}
+                    </Grid>
+                  </Stack>
+                </div>
+                <Group position="right">
+                  <Stack>
+                    <Button
+                      onClick={() => {
+                        update({
+                          categoryName: form.values.name,
+                          id: form.values.id,
+                          image: form.values.image,
+                          items: form.values.menuItems.map((item) => ({
+                            description: item.description || "",
+                            name: item.name,
+                            price: item.price,
+                            images: [item.icon] || [
+                              "https://static.thenounproject.com/png/1211233-200.png",
+                            ],
+                            ingredients: [] || [],
+                          })),
+                          workspaceSlug: query.workspaceId as string,
+                        });
+                      }}
+                      color="teal"
+                      radius="lg"
+                      size="md"
+                    >
+                      Kaydet
+                    </Button>
+                    <Button color="cyan" radius="lg" size="md">
+                      Yeni İçerik
+                    </Button>
+                  </Stack>
+                </Group>
+              </div>
             </div>
-            <Group position="right">
-              <Stack>
-                <Button
-                  onClick={() => {
-                    update({
-                      categoryName: form.values.name,
-                      id: form.values.id,
-                      image: form.values.image,
-                      items: form.values.menuItems.map((item) => ({
-                        description: item.description || "",
-                        name: item.name,
-                        price: item.price,
-                        images: [item.icon] || [
-                          "https://static.thenounproject.com/png/1211233-200.png",
-                        ],
-                        ingredients: [] || [],
-                      })),
-                      workspaceSlug: query.workspaceId as string,
-                    });
-                  }}
-                  color="teal"
-                  radius="lg"
-                  size="md"
-                >
-                  Kaydet
-                </Button>
-                <Button color="cyan" radius="lg" size="md">
-                  Yeni İçerik
-                </Button>
-              </Stack>
-            </Group>
-          </div>
-          <div
-            className={` ${
-              updateLoading
-                ? "fixed top-0 right-0 left-0 z-30 flex h-[100vh] flex-col items-center justify-center"
-                : "hidden"
-            }`}
-          >
-            <Loader color="teal" size="xl" variant="dots" className="z-30" />
-          </div>
+          </Modal>
+          <SetCategoryImage form={form} />
+          {console.log(indexByIdArray[editIndex])}
+          <EditItem form={form} index={indexByIdArray[editIndex] || 0} />
+        </>
+      ) : (
+        <div className="fixed top-0 right-0 left-0 z-30 flex h-[100vh] flex-col items-center justify-center bg-slate-500 bg-opacity-20">
+          <Loader color="teal" size="xl" variant="dots" />
         </div>
-      </Modal>
-      <SetCategoryImage form={form} />
-      {console.log(indexByIdArray[editIndex])}
-      <EditItem form={form} index={indexByIdArray[editIndex] || 0} />
+      )}
     </>
   );
 };
