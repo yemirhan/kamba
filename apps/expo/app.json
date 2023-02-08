@@ -1,23 +1,27 @@
 {
   "expo": {
-    "name": "kamba",
-    "slug": "kamba",
+    "name": "gidelim",
+    "slug": "gidelim",
     "version": "1.0.0",
-    "scheme": "kamba",
+    "scheme": "gidelim",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "dark",
+    "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#212529"
+      "backgroundColor": "#ffffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "userInterfaceStyle": "automatic",
+      "bundleIdentifier": "com.gidelim.app"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,6 +31,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4ac06c72-3ffe-4a5f-a726-2df9f39f3f1b"
+      }
     }
   }
 }
