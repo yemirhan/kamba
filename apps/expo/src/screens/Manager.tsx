@@ -188,7 +188,7 @@ const SwitchWorkspaceBottomSheet = ({
         {(data || []).map((workspace) => (
           <Pressable
             onPress={() => {
-              setWorkspaceId(workspace.id);
+              setWorkspaceId(workspace.slug);
               bottomSheet.current?.close();
             }}
             key={workspace.id}

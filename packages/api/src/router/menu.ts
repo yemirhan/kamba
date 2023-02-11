@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { protectedProcedure, router } from "../trpc";
-import { v4 as uuidv4 } from "uuid";
+
+import { slug } from "../idGenerate";
 
 const createMenuItemSchema = z.object({
   categoryName: z.string(),
@@ -49,7 +50,7 @@ export const menuRoutes = router({
       return await ctx.prisma.menuCategory.create({
         data: {
           name: input.categoryName,
-          slug: uuidv4(),
+          slug: slug(),
           image: categoryImage.url,
           workspaceId: input.workspaceSlug,
           menuItems: {
@@ -59,7 +60,7 @@ export const menuRoutes = router({
                 price: item.price,
                 icon: "",
                 description: item.description,
-                slug: uuidv4(),
+                slug: slug(),
                 order: 0,
                 workspaceId: input.workspaceSlug,
               })),
@@ -100,7 +101,7 @@ export const menuRoutes = router({
         },
         data: {
           name: input.categoryName,
-          slug: uuidv4(),
+          slug: slug(),
           image: categoryImage.url,
           workspaceId: input.workspaceSlug,
           menuItems: {
@@ -110,7 +111,7 @@ export const menuRoutes = router({
                 price: item.price,
                 icon: "",
                 description: item.description,
-                slug: uuidv4(),
+                slug: slug(),
                 order: 0,
                 workspaceId: input.workspaceSlug,
               })),

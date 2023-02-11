@@ -247,7 +247,7 @@ model MenuItem {
   images           MenuImage[]
   workspace        Workspace            @relation(fields: [workspaceId], references: [id])
   workspaceId      String
-  MenuCategory     MenuCategory?        @relation(fields: [menuCategoryId], references: [id])
+  MenuCategory     MenuCategory?        @relation(fields: [menuCategoryId], references: [id], onDelete: Cascade)
   menuCategoryId   String?
   TableOrder       TableOrder?          @relation(fields: [tableOrderId], references: [id])
   tableOrderId     String?
