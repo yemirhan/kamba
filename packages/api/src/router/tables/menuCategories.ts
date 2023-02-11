@@ -39,7 +39,7 @@ export const menuCategoryRoutes = router({
       return await ctx.prisma.menuCategory.findMany({
         where: {
           workspace: {
-            slug: input.workspaceId,
+            id: input.workspaceId,
           },
         },
         select: {

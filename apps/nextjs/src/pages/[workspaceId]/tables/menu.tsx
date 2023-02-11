@@ -1,12 +1,14 @@
 import { TablesLayout } from "@/components/Tables/TablesLayout";
 import { api } from "@acme/api/src/client";
 import { CreateMenuItem } from "@acme/api/src/router/menu";
-import { Button, Grid, Loader, Title } from "@mantine/core";
+import { Button, Grid, Loader, Title, Badge, Card, Image } from "@mantine/core";
 import { Group } from "@mantine/core";
 import { Text } from "@mantine/core";
 import { CategoryCard } from "@/components/TablesComponents/CategoryCard";
 import { useRouter } from "next/router";
 import React from "react";
+import { useMenu } from "providers/useMenu";
+import { CategoryCard1 } from "@/components/TablesComponents/CategoryCard1";
 
 const Menu = () => {
   const { query, isReady } = useRouter();
@@ -14,59 +16,42 @@ const Menu = () => {
     data: menu,
     isLoading: menuLoading,
     isFetched,
-  } = api.menu.all.useQuery(
-    { workspaceSlug: query.workspaceId as string },
+  } = api.newMenuCategories.all.useQuery(
+    { workspaceId: query.workspaceId as string },
     { enabled: isReady },
   );
 
+  const SetIsNewMenu = useMenu((state) => state.SetIsNewMenu);
+
+  console.log(menu);
+  console.log(menuLoading);
   return (
     <TablesLayout>
-      <Group position="apart">
-        <Title>Menü</Title>
-        <div className="flex flex-row items-center justify-center gap-4">
-          {isFetched ? (
-            menu ? (
-              <>
-                <Text>{`Toplam Kategori Sayısı: ${menu?.length}`}</Text>
-                <Button color="green" radius="xl" size="md">
-                  Yeni Kategori
-                </Button>
-              </>
+      {isFetched ? (
+        <>
+          <Group position="apart">
+            <Title>Menü</Title>
+            <Button onClick={() => SetIsNewMenu()} color="teal" radius="lg">
+              Yeni Kategori Ekle
+            </Button>
+          </Group>
+          <Grid>
+            {menu?.length !== 0 ? (
+              <Grid.Col span={6} lg={4}>
+                {menu?.map((category, index) => {
+                  return <CategoryCard1 key={index} categoryInfo={category} />;
+                })}
+              </Grid.Col>
             ) : (
-              <Title>Hiç Kategori Yok</Title>
-            )
-          ) : (
-            <Loader color="green" variant="dots" size="xl" />
-          )}
-        </div>
-      </Group>
-
-      <Grid mt="md">
-        {isFetched ? (
-          menu ? (
-            menu.map((categoryValues, index) => {
-              return (
-                <Grid.Col key={index} span={4}>
-                  <CategoryCard categoryValues={categoryValues} />
-                </Grid.Col>
-              );
-            })
-          ) : (
-            <Grid.Col span={12}>
-              <Button
-                fullWidth
-                className="font-semilight h-[300px] text-3xl"
-                radius="xl"
-                variant="light"
-              >
-                Kategori Oluşturmak için Tıkla
-              </Button>
-            </Grid.Col>
-          )
-        ) : (
-          <Loader color="green" variant="bars" size="xl" />
-        )}
-      </Grid>
+              <div className="flex h-[70vh] w-full flex-col items-center justify-center text-center">
+                <Title>Hiç Kategori Yok</Title>
+              </div>
+            )}
+          </Grid>
+        </>
+      ) : (
+        <></>
+      )}
     </TablesLayout>
   );
 };
