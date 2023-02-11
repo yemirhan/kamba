@@ -149,7 +149,10 @@ export const menuCategoryRoutes = router({
       return await ctx.prisma.menuCategory.create({
         data: {
           name: input.name,
-          image: input.image,
+          image:
+            input.image.length > 0
+              ? input.image
+              : "https://res.cloudinary.com/yemirhan-bucket/image/upload/v1676136679/influshop_comments/Group_10placeholder_yldivb.png",
           slug: slug(),
           workspace: {
             connect: {
