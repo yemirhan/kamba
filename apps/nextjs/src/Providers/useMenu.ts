@@ -5,6 +5,8 @@ type UseMenuProp = {
   SetIsNewMenu: () => void;
   isEditMenu: boolean;
   SetIsEditMenu: () => void;
+  isEditCategoryImage: boolean;
+  SetIsEditCategoryImage: () => void;
 };
 
 export const useMenu = create<UseMenuProp>((set) => ({
@@ -12,4 +14,7 @@ export const useMenu = create<UseMenuProp>((set) => ({
   SetIsNewMenu: () => set((state) => ({ isNewMenu: !state.isNewMenu })),
   isEditMenu: false,
   SetIsEditMenu: () => set((state) => ({ isEditMenu: !state.isEditMenu })),
+  isEditCategoryImage: false,
+  SetIsEditCategoryImage: () =>
+    set((state) => ({ isEditCategoryImage: !state.isEditCategoryImage })),
 }));

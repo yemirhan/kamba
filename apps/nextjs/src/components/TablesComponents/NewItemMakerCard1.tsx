@@ -8,12 +8,18 @@ export const NewItemMakerCard1 = () => {
   return (
     <Card
       shadow="lg"
-      p="lg"
+      p="none"
       radius="md"
       withBorder
       h={mediaQuery ? "200px" : "130px"}
     >
-      <Button>+</Button>
+      <Button
+        fullWidth
+        h={mediaQuery ? "200px" : "130px"}
+        className="text-5xl font-bold hover:opacity-60"
+      >
+        +
+      </Button>
     </Card>
   );
 };
