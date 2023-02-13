@@ -32,6 +32,28 @@ enum Colors {
   ORANGE     @map("#fd7e14")
 }
 
+enum Icon {
+  APPLE
+  BEER
+  BONE
+  BOTTLE
+  BOWL
+  BREAD
+  CARROT
+  CHEESE
+  COOKIE
+  CUP
+  EGG
+  GLASS
+  GRILLFORK
+  GRILL
+  PIZZA
+  MUG
+  SALAD
+  SOUP
+  FISH
+}
+
 model Status {
   id        String    @id @default(cuid())
   name      String
@@ -295,6 +317,8 @@ model MenuCategory {
   image         String?      @default("https://res.cloudinary.com/yemirhan-bucket/image/upload/v1676136679/influshop_comments/Group_10placeholder_yldivb.png")
   slug          String       @unique
   order         Int?         @default(0)
+  color         Colors       @default(GREEN)
+  icon          Icon         @default(APPLE)
   workspace     Workspace    @relation(fields: [workspaceId], references: [id])
   workspaceId   String
   menuItems     MenuItem[]

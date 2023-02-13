@@ -14,6 +14,7 @@ import { useMenu } from "providers/useMenu";
 import { api } from "@acme/api/src/client";
 import { showNotification } from "@mantine/notifications";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export const CategoryCard1 = ({
   categoryInfo,
@@ -21,6 +22,7 @@ export const CategoryCard1 = ({
   categoryInfo: RouterOutputs["newMenuCategories"]["all"][0];
 }) => {
   const apiContext = api.useContext();
+
   const SetIsEditMenu = useMenu((state) => state.SetIsEditMenu);
   const { mutate: deleteMenu, isLoading: deleteLoading } =
     api.menu.delete.useMutation({
@@ -49,7 +51,17 @@ export const CategoryCard1 = ({
       </Group>
 
       <Group position="apart">
-        <Button variant="light" color="blue" fullWidth mt="md" radius="md">
+        <Button
+          variant="light"
+          color="blue"
+          component={Link}
+          href={`/${query.workspaceId as string}/tables/menu/${
+            categoryInfo.slug
+          }`}
+          fullWidth
+          mt="md"
+          radius="md"
+        >
           İçeriği Gör
         </Button>
         <div className="flex flex-row justify-center">

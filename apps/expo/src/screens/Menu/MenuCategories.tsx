@@ -5,6 +5,7 @@ import {
   BottomSheetScrollView,
   BottomSheetTextInput,
 } from "@gorhom/bottom-sheet";
+import * as MediaLibrary from "expo-media-library";
 import { createStackNavigator } from "@react-navigation/stack";
 import { FlashList } from "@shopify/flash-list";
 import React, { useRef } from "react";
@@ -137,7 +138,11 @@ export const AddCategoryBottomSheet = ({
           flexDirection: "column",
         }}
       >
-        <TextInput value={name} onChangeText={(text) => setName(text)} />
+        <TextInput
+          value={name}
+          onChangeText={(text) => setName(text)}
+          placeholder="Kategori Adı"
+        />
       </BottomSheetScrollView>
     </BottomSheetModal>
   );

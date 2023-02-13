@@ -1,7 +1,19 @@
+import { colors } from "./../../../../../apps/expo/src/utils/colors";
+import { Colors, Icon } from "@acme/db";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { slug } from "../../idGenerate";
 import { protectedProcedure, router } from "../../trpc";
+
+const createMenuCategory = z.object({
+  workspaceId: z.string(),
+  name: z.string(),
+  image: z.string(),
+  icon: z.nativeEnum(Icon).optional(),
+  color: z.nativeEnum(Colors).optional(),
+});
+
+export type CreateMenuCategory = z.infer<typeof createMenuCategory>;
 
 export const menuCategoryRoutes = router({
   all: protectedProcedure
@@ -44,8 +56,11 @@ export const menuCategoryRoutes = router({
         },
         select: {
           name: true,
+          color: true,
+          icon: true,
           image: true,
           id: true,
+          slug: true,
           _count: {
             select: {
               menuItems: true,
@@ -89,11 +104,13 @@ export const menuCategoryRoutes = router({
         });
       return await ctx.prisma.menuCategory.findUnique({
         where: {
-          id: input.categoryId,
+          slug: input.categoryId,
         },
         select: {
           name: true,
           image: true,
+          color: true,
+          icon: true,
           id: true,
           menuItems: {
             select: {
@@ -113,13 +130,7 @@ export const menuCategoryRoutes = router({
       });
     }),
   create: protectedProcedure
-    .input(
-      z.object({
-        workspaceId: z.string(),
-        name: z.string(),
-        image: z.string(),
-      }),
-    )
+    .input(createMenuCategory)
     .mutation(async ({ ctx, input }) => {
       const workspace = await ctx.prisma.workspace.findUnique({
         where: {
@@ -146,14 +157,24 @@ export const menuCategoryRoutes = router({
           code: "UNAUTHORIZED",
           message: "You are not authorized to access this workspace",
         });
+      let image: undefined | string = undefined;
+      try {
+        if (input.image.length > 0) {
+          const a = await ctx.cloudinary.uploader.upload(input.image, {
+            upload_preset: "influshop_comments",
+          });
+          image = a.url;
+        }
+      } catch (error) {}
       return await ctx.prisma.menuCategory.create({
         data: {
           name: input.name,
-          image:
-            input.image.length > 0
-              ? input.image
-              : "https://res.cloudinary.com/yemirhan-bucket/image/upload/v1676136679/influshop_comments/Group_10placeholder_yldivb.png",
+          image: image
+            ? image
+            : "https://res.cloudinary.com/yemirhan-bucket/image/upload/v1676136679/influshop_comments/Group_10placeholder_yldivb.png",
           slug: slug(),
+          icon: input.icon || "APPLE",
+          color: input.color || "GREEN",
           workspace: {
             connect: {
               slug: input.workspaceId,

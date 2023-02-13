@@ -1,5 +1,13 @@
 import React from "react";
-import { Modal, Button, Group, Stack, TextInput, Grid } from "@mantine/core";
+import {
+  Modal,
+  Button,
+  Group,
+  Stack,
+  TextInput,
+  Grid,
+  Stepper,
+} from "@mantine/core";
 import { useMenu } from "providers/useMenu";
 import { useMediaQuery } from "@mantine/hooks";
 import { useForm } from "@mantine/form";
@@ -32,7 +40,7 @@ export const NewItemModal1 = () => {
   const isNewMenu = useMenu((state) => state.isNewMenu);
   const SetIsNewMenu = useMenu((state) => state.SetIsNewMenu);
   const ModalMediaQuery = useMediaQuery("(min-width: 1000px)");
-  const { query } = useRouter();
+  const { query, push } = useRouter();
   const form = useForm({
     initialValues: {
       image:
@@ -50,9 +58,10 @@ export const NewItemModal1 = () => {
   const SetIsEditCategoryImage = useMenu(
     (state) => state.SetIsEditCategoryImage,
   );
+  const [page, setPage] = useState(1);
   const queryContext = api.useContext();
   const { mutate, isLoading } = api.newMenuCategories.create.useMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
       showNotification({
         message: "İşlem Başarılı",
         color: "green",
@@ -67,13 +76,13 @@ export const NewItemModal1 = () => {
         color: "red",
         autoClose: 1000,
       });
-      console.log(form.values);
     },
   });
   return (
     <div className="flex h-[600] flex-col items-center lg:h-[1000px]">
       <Modal
         opened={isNewMenu}
+        title="Yeni Kategori Ekle"
         onClose={() => SetIsNewMenu()}
         size={ModalMediaQuery ? 1200 : 700}
       >
