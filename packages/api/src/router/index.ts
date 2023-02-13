@@ -11,12 +11,14 @@ import { storyRoutes } from "./story";
 import { menuCategoriesRouter } from "./menuCategories";
 import { menuCategoryRoutes } from "./tables/menuCategories";
 import { menuItemsRoutes } from "./tables/menuItems";
+import { inventoryRoutes } from "./inventory/inventory";
 
 export const appRouter = router({
   auth: authRouter,
   boards: boardRouter,
   item: itemRouter,
   status: statusRouter,
+  inventory: inventoryRoutes,
   profile: profileRouter,
   workspace: workspaceRouter,
   tables: tableRoutes,

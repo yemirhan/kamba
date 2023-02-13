@@ -203,6 +203,7 @@ model Workspace {
   TableModule     TableModule[]
   Story           Story[]
   InventoryModule InventoryModule[]
+  InventoryItem   InventoryItem[]
 }
 
 model TableModule {
@@ -372,5 +373,27 @@ model InventoryModule {
   workspace   Workspace @relation(fields: [workspaceId], references: [id])
   workspaceId String
 
+  inventoryItems InventoryItem[]
+
+  @@index([workspaceId])
+}
+
+model InventoryItem {
+  id                String          @id @default(cuid())
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  name              String
+  slug              String          @unique
+  description       String?
+  price             Float           @default(0)
+  amount            Int             @default(0)
+  image             String?         @default("https://res.cloudinary.com/yemirhan-bucket/image/upload/v1676136679/influshop_comments/Group_10placeholder_yldivb.png")
+  InventoryModule   InventoryModule @relation(fields: [inventoryModuleId], references: [id])
+  inventoryModuleId String
+
+  workspace   Workspace? @relation(fields: [workspaceId], references: [id])
+  workspaceId String?
+
+  @@index([inventoryModuleId])
   @@index([workspaceId])
 }
