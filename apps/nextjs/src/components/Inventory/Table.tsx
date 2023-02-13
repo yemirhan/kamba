@@ -7,7 +7,14 @@ import {
   Group,
   Avatar,
   Text,
+  Modal,
+  Button,
+  NumberInput,
+  TextInput,
+  Grid,
+  FileButton,
 } from "@mantine/core";
+import { useForm } from "@mantine/form";
 
 const useStyles = createStyles((theme) => ({
   rowSelected: {
@@ -66,9 +73,63 @@ export function InventoryTable({ data }: TableSelectionProps) {
       </tr>
     );
   });
-
+  const form = useForm({
+    initialValues: {
+      name: "",
+      amount: 0,
+      price: 0,
+    },
+  });
+  const [opened, setOpened] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
   return (
     <ScrollArea>
+      <Button onClick={() => setOpened(true)}>Ürün Ekle</Button>
+      <Modal
+        size={"xl"}
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title="Ürün ekleme"
+      >
+        {
+          <Grid>
+            <Grid.Col span={8}>
+              <TextInput
+                {...form.getInputProps("name")}
+                label="Ürün adı"
+                placeholder="Ürün ismi"
+              />
+            </Grid.Col>
+            <Grid.Col span={8}>
+              <NumberInput
+                {...form.getInputProps("price")}
+                label="Fiyatı"
+                placeholder="Fiyat"
+              />
+            </Grid.Col>
+            <Grid.Col span={8}>
+              <NumberInput
+                {...form.getInputProps("amount")}
+                label="Adeti"
+                placeholder="Adet"
+              />
+            </Grid.Col>
+            <Grid.Col span={8}>
+              <FileButton onChange={setFile} accept="image/png,image/jpeg">
+                {(props) => <Button {...props}>Upload image</Button>}
+              </FileButton>
+              {file && (
+                <Text size="sm" align="left" mt="sm">
+                  Picked file: {file.name}
+                </Text>
+              )}
+            </Grid.Col>
+            <Grid.Col span={8}>
+              <button>Tamam</button>
+            </Grid.Col>
+          </Grid>
+        }
+      </Modal>
       <Table sx={{ minWidth: 800 }} verticalSpacing="sm">
         <thead>
           <tr>
@@ -82,9 +143,9 @@ export function InventoryTable({ data }: TableSelectionProps) {
                 transitionDuration={0}
               />
             </th>
-            <th>User</th>
-            <th>Email</th>
-            <th>Job</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Amount</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>
