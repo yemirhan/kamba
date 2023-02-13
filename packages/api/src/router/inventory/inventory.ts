@@ -10,7 +10,7 @@ export const inventoryRoutes = router({
       }),
     )
     .query(async ({ ctx, input }) => {
-      return await ctx.prisma.inventoryModule.findMany({
+      return await ctx.prisma.inventoryItem.findMany({
         where: {
           workspace: {
             slug: input.workspaceId,
@@ -40,7 +40,7 @@ export const inventoryRoutes = router({
         name: z.string(),
         amount: z.number(),
         price: z.number(),
-        image: z.string(),
+        image: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {

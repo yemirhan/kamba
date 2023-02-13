@@ -15,6 +15,9 @@ import {
   FileButton,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { api } from "@acme/api/src/client";
+import { showNotification } from "@mantine/notifications";
+import { useRouter } from "next/router";
 
 const useStyles = createStyles((theme) => ({
   rowSelected: {
@@ -35,8 +38,9 @@ interface TableSelectionProps {
   }[];
 }
 
-export function InventoryTable({ data }: TableSelectionProps) {
+export function InventoryTable({ data: data2 }: TableSelectionProps) {
   const { classes, cx } = useStyles();
+  const { query } = useRouter();
   const [selection, setSelection] = useState(["1"]);
   const toggleRow = (id: string) =>
     setSelection((current) =>
@@ -44,12 +48,22 @@ export function InventoryTable({ data }: TableSelectionProps) {
         ? current.filter((item) => item !== id)
         : [...current, id],
     );
+  const { data } = api.inventory.all.useQuery(
+    {
+      workspaceId: query.workspaceId as string,
+    },
+    {
+      initialData: [],
+    },
+  );
   const toggleAll = () =>
     setSelection((current) =>
-      current.length === data.length ? [] : data.map((item) => item.id),
+      current.length === (data || []).length
+        ? []
+        : (data || []).map((item) => item.id),
     );
 
-  const rows = data.map((item) => {
+  const rows = (data || []).map((item) => {
     const selected = selection.includes(item.id);
     return (
       <tr key={item.id} className={cx({ [classes.rowSelected]: selected })}>
@@ -62,16 +76,25 @@ export function InventoryTable({ data }: TableSelectionProps) {
         </td>
         <td>
           <Group spacing="sm">
-            <Avatar size={26} src={item.avatar} radius={26} />
+            {/* <Avatar size={26} src={item.} radius={26} /> */}
             <Text size="sm" weight={500}>
               {item.name}
             </Text>
           </Group>
         </td>
-        <td>{item.email}</td>
-        <td>{item.job}</td>
+        <td>{item.price}</td>
+        <td>{item.amount}</td>
       </tr>
     );
+  });
+  const { mutate, isLoading } = api.inventory.create.useMutation({
+    onSuccess: (data) => {
+      showNotification({
+        title: "İşlem Başarılı",
+        message: "Kategori sayfasına yönlendiriliyorsunuz",
+        autoClose: 2000,
+      });
+    },
   });
   const form = useForm({
     initialValues: {
@@ -92,42 +115,54 @@ export function InventoryTable({ data }: TableSelectionProps) {
         title="Ürün ekleme"
       >
         {
-          <Grid>
-            <Grid.Col span={8}>
-              <TextInput
-                {...form.getInputProps("name")}
-                label="Ürün adı"
-                placeholder="Ürün ismi"
-              />
-            </Grid.Col>
-            <Grid.Col span={8}>
-              <NumberInput
-                {...form.getInputProps("price")}
-                label="Fiyatı"
-                placeholder="Fiyat"
-              />
-            </Grid.Col>
-            <Grid.Col span={8}>
-              <NumberInput
-                {...form.getInputProps("amount")}
-                label="Adeti"
-                placeholder="Adet"
-              />
-            </Grid.Col>
-            <Grid.Col span={8}>
-              <FileButton onChange={setFile} accept="image/png,image/jpeg">
-                {(props) => <Button {...props}>Upload image</Button>}
-              </FileButton>
-              {file && (
-                <Text size="sm" align="left" mt="sm">
-                  Picked file: {file.name}
-                </Text>
-              )}
-            </Grid.Col>
-            <Grid.Col span={8}>
-              <button>Tamam</button>
-            </Grid.Col>
-          </Grid>
+          <form
+            onSubmit={form.onSubmit((values) => {
+              mutate({
+                amount: values.amount,
+                name: values.name,
+                price: values.price,
+                image: undefined,
+                workspaceId: query.workspaceId as string,
+              });
+            })}
+          >
+            <Grid>
+              <Grid.Col span={8}>
+                <TextInput
+                  {...form.getInputProps("name")}
+                  label="Ürün adı"
+                  placeholder="Ürün ismi"
+                />
+              </Grid.Col>
+              <Grid.Col span={8}>
+                <NumberInput
+                  {...form.getInputProps("price")}
+                  label="Fiyatı"
+                  placeholder="Fiyat"
+                />
+              </Grid.Col>
+              <Grid.Col span={8}>
+                <NumberInput
+                  {...form.getInputProps("amount")}
+                  label="Adeti"
+                  placeholder="Adet"
+                />
+              </Grid.Col>
+              <Grid.Col span={8}>
+                <FileButton onChange={setFile} accept="image/png,image/jpeg">
+                  {(props) => <Button {...props}>Upload image</Button>}
+                </FileButton>
+                {file && (
+                  <Text size="sm" align="left" mt="sm">
+                    Picked file: {file.name}
+                  </Text>
+                )}
+              </Grid.Col>
+              <Grid.Col span={8}>
+                <button type="submit">Tamam</button>
+              </Grid.Col>
+            </Grid>
+          </form>
         }
       </Modal>
       <Table sx={{ minWidth: 800 }} verticalSpacing="sm">
@@ -136,9 +171,10 @@ export function InventoryTable({ data }: TableSelectionProps) {
             <th style={{ width: 40 }}>
               <Checkbox
                 onChange={toggleAll}
-                checked={selection.length === data.length}
+                checked={selection.length === (data || []).length}
                 indeterminate={
-                  selection.length > 0 && selection.length !== data.length
+                  selection.length > 0 &&
+                  selection.length !== (data || []).length
                 }
                 transitionDuration={0}
               />
