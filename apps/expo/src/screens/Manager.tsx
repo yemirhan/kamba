@@ -10,7 +10,11 @@ import { api } from "../utils/trpc";
 import { Menu } from "./Menu/Menu";
 import { useUser } from "@clerk/clerk-expo";
 import { useWorkspace } from "../providers/useWorkspace";
-import { IconArrowsExchange } from "tabler-icons-react-native";
+import {
+  IconArrowsExchange,
+  IconHome,
+  IconToolsKitchen2,
+} from "tabler-icons-react-native";
 import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
@@ -65,7 +69,10 @@ function NotificationsScreen({ navigation }: any) {
 }
 
 const Drawer = createDrawerNavigator();
-
+const icons = [
+  <IconHome size={24} color={"white"} />,
+  <IconToolsKitchen2 size={24} color={"white"} />,
+];
 export const Manager = () => {
   const { user } = useUser();
   const bottomSheet = React.useRef<BottomSheetModal>(null);
@@ -77,15 +84,20 @@ export const Manager = () => {
           return (
             <SafeAreaView className="bg-background-secondary flex flex-1 flex-col justify-between p-2">
               <View className="flex flex-col space-y-3">
-                {Object.values(descriptors).map((descriptor) => {
+                {Object.values(descriptors).map((descriptor, index) => {
                   return (
                     <Pressable
                       onPress={() => {
                         navigation.navigate(descriptor.route.name);
                       }}
                       key={descriptor.route.name}
-                      className="bg-background rounded-lg p-3 shadow-md"
+                      className={`${
+                        state.index === index
+                          ? "bg-emerald-700"
+                          : "bg-background"
+                      } flex flex-row items-center space-x-2 rounded-lg p-3 shadow-md`}
                     >
+                      {icons[index]}
                       <Text className="text-base font-semibold text-white ">
                         {descriptor.route.name}
                       </Text>
@@ -188,12 +200,12 @@ const SwitchWorkspaceBottomSheet = ({
         {(data || []).map((workspace) => (
           <Pressable
             onPress={() => {
-              setWorkspaceId(workspace.id);
+              setWorkspaceId(workspace.slug);
               bottomSheet.current?.close();
             }}
             key={workspace.id}
             className={`mb-2 rounded-lg bg-gray-700 p-2 shadow-md ${
-              workspaceId === workspace.id ? "bg-emerald-700" : "bg-gray-700"
+              workspaceId === workspace.slug ? "bg-emerald-700" : "bg-gray-700"
             } `}
           >
             <Text className="text-lg font-semibold text-white">

@@ -9,20 +9,24 @@ import { statusRouter } from "./status";
 import { tableRoutes } from "./tables";
 import { storyRoutes } from "./story";
 import { menuCategoriesRouter } from "./menuCategories";
-import { inventoryRouter } from "./inventory";
+import { menuCategoryRoutes } from "./tables/menuCategories";
+import { menuItemsRoutes } from "./tables/menuItems";
+import { inventoryRoutes } from "./inventory/inventory";
 
 export const appRouter = router({
   auth: authRouter,
   boards: boardRouter,
   item: itemRouter,
   status: statusRouter,
+  inventory: inventoryRoutes,
   profile: profileRouter,
   workspace: workspaceRouter,
   tables: tableRoutes,
   story: storyRoutes,
   menu: menuRoutes,
   menuCategories: menuCategoriesRouter,
-  inventory: inventoryRouter,
+  newMenuCategories: menuCategoryRoutes,
+  newMenuItems: menuItemsRoutes,
 });
 
 // export type definition of API

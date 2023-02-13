@@ -32,6 +32,28 @@ enum Colors {
   ORANGE     @map("#fd7e14")
 }
 
+enum Icon {
+  APPLE
+  BEER
+  BONE
+  BOTTLE
+  BOWL
+  BREAD
+  CARROT
+  CHEESE
+  COOKIE
+  CUP
+  EGG
+  GLASS
+  GRILLFORK
+  GRILL
+  PIZZA
+  MUG
+  SALAD
+  SOUP
+  FISH
+}
+
 model Status {
   id        String    @id @default(cuid())
   name      String
@@ -181,6 +203,7 @@ model Workspace {
   TableModule     TableModule[]
   Story           Story[]
   InventoryModule InventoryModule[]
+  InventoryItem   InventoryItem[]
 }
 
 model TableModule {
@@ -247,7 +270,7 @@ model MenuItem {
   images           MenuImage[]
   workspace        Workspace            @relation(fields: [workspaceId], references: [id])
   workspaceId      String
-  MenuCategory     MenuCategory?        @relation(fields: [menuCategoryId], references: [id])
+  MenuCategory     MenuCategory?        @relation(fields: [menuCategoryId], references: [id], onDelete: Cascade)
   menuCategoryId   String?
   TableOrder       TableOrder?          @relation(fields: [tableOrderId], references: [id])
   tableOrderId     String?
@@ -292,9 +315,11 @@ model MenuCategory {
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
   name          String
-  image         String?      @default("")
+  image         String?      @default("https://res.cloudinary.com/yemirhan-bucket/image/upload/v1676136679/influshop_comments/Group_10placeholder_yldivb.png")
   slug          String       @unique
   order         Int?         @default(0)
+  color         Colors       @default(GREEN)
+  icon          Icon         @default(APPLE)
   workspace     Workspace    @relation(fields: [workspaceId], references: [id])
   workspaceId   String
   menuItems     MenuItem[]
@@ -339,15 +364,16 @@ model PreviousOrders {
 }
 
 model InventoryModule {
-  id            String          @id @default(cuid())
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  name          String
-  slug          String          @unique
-  color         Colors          @default(OCEAN)
-  workspace     Workspace       @relation(fields: [workspaceId], references: [id])
-  workspaceId   String          @unique
-  InventoryItem InventoryItem[]
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  name        String
+  slug        String    @unique
+  color       Colors    @default(OCEAN)
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  workspaceId String
+
+  inventoryItems InventoryItem[]
 
   @@index([workspaceId])
 }
@@ -361,9 +387,13 @@ model InventoryItem {
   description       String?
   price             Float           @default(0)
   amount            Int             @default(0)
-  image             String?
+  image             String?         @default("https://res.cloudinary.com/yemirhan-bucket/image/upload/v1676136679/influshop_comments/Group_10placeholder_yldivb.png")
   InventoryModule   InventoryModule @relation(fields: [inventoryModuleId], references: [id])
   inventoryModuleId String
 
+  workspace   Workspace? @relation(fields: [workspaceId], references: [id])
+  workspaceId String?
+
   @@index([inventoryModuleId])
+  @@index([workspaceId])
 }

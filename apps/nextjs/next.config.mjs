@@ -14,7 +14,7 @@ const config = {
     transpilePackages: ["@acme/api", "@acme/db"],
   },
   images: {
-    domains: ["tailwindui.com", "images.unsplash.com"],
+    domains: ["tailwindui.com", "images.unsplash.com", "res.cloudinary.com"],
   },
   // We already do linting on GH actions
   eslint: {
