@@ -32,6 +32,28 @@ enum Colors {
   ORANGE     @map("#fd7e14")
 }
 
+enum Icon {
+  APPLE
+  BEER
+  BONE
+  BOTTLE
+  BOWL
+  BREAD
+  CARROT
+  CHEESE
+  COOKIE
+  CUP
+  EGG
+  GLASS
+  GRILLFORK
+  GRILL
+  PIZZA
+  MUG
+  SALAD
+  SOUP
+  FISH
+}
+
 model Status {
   id        String    @id @default(cuid())
   name      String
@@ -181,6 +203,7 @@ model Workspace {
   TableModule     TableModule[]
   Story           Story[]
   InventoryModule InventoryModule[]
+  InventoryItem   InventoryItem[]
 }
 
 model TableModule {
@@ -233,26 +256,27 @@ model TableOrder {
 }
 
 model MenuItem {
-  id               String          @id @default(cuid())
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
+  id               String               @id @default(cuid())
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
   name             String
-  slug             String          @unique
+  slug             String               @unique
   icon             String
-  color            Colors          @default(OCEAN)
+  color            Colors               @default(OCEAN)
   order            Int
-  price            Float           @default(0)
+  price            Float                @default(0)
   description      String?
-  menuImages       MenuImage[]
-  workspace        Workspace       @relation(fields: [workspaceId], references: [id])
+  ingredients      MenuItemIngredient[]
+  images           MenuImage[]
+  workspace        Workspace            @relation(fields: [workspaceId], references: [id])
   workspaceId      String
-  MenuCategory     MenuCategory?   @relation(fields: [menuCategoryId], references: [id])
+  MenuCategory     MenuCategory?        @relation(fields: [menuCategoryId], references: [id], onDelete: Cascade)
   menuCategoryId   String?
-  TableOrder       TableOrder?     @relation(fields: [tableOrderId], references: [id])
+  TableOrder       TableOrder?          @relation(fields: [tableOrderId], references: [id])
   tableOrderId     String?
-  TableModule      TableModule?    @relation(fields: [tableModuleId], references: [id])
+  TableModule      TableModule?         @relation(fields: [tableModuleId], references: [id])
   tableModuleId    String?
-  PreviousOrders   PreviousOrders? @relation(fields: [previousOrdersId], references: [id])
+  PreviousOrders   PreviousOrders?      @relation(fields: [previousOrdersId], references: [id])
   previousOrdersId String?
 
   @@index([menuCategoryId])
@@ -260,6 +284,19 @@ model MenuItem {
   @@index([tableModuleId])
   @@index([previousOrdersId])
   @@index([workspaceId])
+}
+
+model MenuItemIngredient {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String
+  slug        String   @unique
+  description String?
+  MenuItem    MenuItem @relation(fields: [menuItemId], references: [id])
+  menuItemId  String
+
+  @@index([menuItemId])
 }
 
 model MenuImage {
@@ -278,8 +315,11 @@ model MenuCategory {
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
   name          String
+  image         String?      @default("https://res.cloudinary.com/yemirhan-bucket/image/upload/v1676136679/influshop_comments/Group_10placeholder_yldivb.png")
   slug          String       @unique
-  order         Int
+  order         Int?         @default(0)
+  color         Colors       @default(GREEN)
+  icon          Icon         @default(APPLE)
   workspace     Workspace    @relation(fields: [workspaceId], references: [id])
   workspaceId   String
   menuItems     MenuItem[]
@@ -333,5 +373,27 @@ model InventoryModule {
   workspace   Workspace @relation(fields: [workspaceId], references: [id])
   workspaceId String
 
+  inventoryItems InventoryItem[]
+
+  @@index([workspaceId])
+}
+
+model InventoryItem {
+  id                String          @id @default(cuid())
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  name              String
+  slug              String          @unique
+  description       String?
+  price             Float           @default(0)
+  amount            Int             @default(0)
+  image             String?         @default("https://res.cloudinary.com/yemirhan-bucket/image/upload/v1676136679/influshop_comments/Group_10placeholder_yldivb.png")
+  InventoryModule   InventoryModule @relation(fields: [inventoryModuleId], references: [id])
+  inventoryModuleId String
+
+  workspace   Workspace? @relation(fields: [workspaceId], references: [id])
+  workspaceId String?
+
+  @@index([inventoryModuleId])
   @@index([workspaceId])
 }
