@@ -1,34 +1,16 @@
 import { TablesLayout } from "@/components/Tables/TablesLayout";
 import { api } from "@acme/api/src/client";
-import { CreateMenuItem } from "@acme/api/src/router/menu";
-import {
-  Button,
-  Grid,
-  Loader,
-  Title,
-  Badge,
-  Card,
-  Image,
-  Paper,
-  Flex,
-} from "@mantine/core";
+import { Button, Grid, Loader, Title, Paper, Flex } from "@mantine/core";
 import { Group } from "@mantine/core";
-import { Text } from "@mantine/core";
 import { useRouter } from "next/router";
 import React from "react";
-import { useMenu } from "providers/useMenu";
-import { CategoryCard1 } from "@/components/TablesComponents/CategoryCard1";
-import { NewItemModal1 } from "@/components/TablesComponents/NewItemModal1";
 import { AnimatePresence, motion } from "framer-motion";
 import { CreateCategoryModal } from "@/components/TablesComponents/CreateCategoryModal";
 import { useDisclosure } from "@mantine/hooks";
+import { CategoryCard } from "@/components/TablesComponents/CategoryCard";
 const Menu = () => {
   const { query, isReady } = useRouter();
-  const {
-    data: menu,
-    isLoading: menuLoading,
-    isFetched,
-  } = api.newMenuCategories.all.useQuery(
+  const { data: menu, isFetched } = api.newMenuCategories.all.useQuery(
     { workspaceId: query.workspaceId as string },
     { enabled: isReady },
   );
@@ -53,13 +35,13 @@ const Menu = () => {
             >
               <Grid>
                 {menu?.length !== 0 ? (
-                  <Grid.Col span={6} lg={4}>
-                    {menu?.map((category, index) => {
-                      return (
-                        <CategoryCard1 key={index} categoryInfo={category} />
-                      );
-                    })}
-                  </Grid.Col>
+                  menu?.map((category, index) => {
+                    return (
+                      <Grid.Col key={category.id} span={6} lg={4}>
+                        <CategoryCard {...category} />
+                      </Grid.Col>
+                    );
+                  })
                 ) : (
                   <div className="flex h-[70vh] w-full flex-col items-center justify-center text-center">
                     <Title>Hiç Kategori Yok</Title>

@@ -1,7 +1,9 @@
 import { TablesLayout } from "@/components/Tables/TablesLayout";
 import { MenuIcon } from "@/utils/menuIcons";
 import { placeholder } from "@/utils/placeholder";
+import { RouterOutputs } from "@acme/api";
 import { api } from "@acme/api/src/client";
+import { CreateMenuItem } from "@acme/api/src/router/tables/menuItems";
 import {
   ActionIcon,
   Button,
@@ -9,44 +11,29 @@ import {
   Flex,
   Grid,
   Group,
+  Loader,
   Modal,
   Paper,
   Text,
+  TextInput,
   Title,
+  UnstyledButton,
 } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
-import { IconChevronLeft, IconPlus } from "@tabler/icons";
+import { showNotification } from "@mantine/notifications";
+import {
+  IconChevronLeft,
+  IconPencil,
+  IconPlus,
+  IconTrash,
+  IconX,
+} from "@tabler/icons";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 const useStyles = createStyles((theme, _params, getRef) => {
-  const image = getRef("image");
-
   return {
-    card: {
-      position: "relative",
-      height: 280,
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
-
-      [`&:hover .${image}`]: {
-        transform: "scale(1.03)",
-      },
-    },
-
-    image: {
-      ref: image,
-      position: "absolute",
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundSize: "cover",
-      transition: "transform 500ms ease",
-    },
-
     overlay: {
       position: "absolute",
       top: "20%",
@@ -76,6 +63,16 @@ const useStyles = createStyles((theme, _params, getRef) => {
       zIndex: 20,
     },
 
+    addNew: {
+      backgroundColor: theme.colors.gray,
+      color: theme.white,
+      cursor: "pointer",
+      transition: "background-color 200ms ease",
+      "&:hover": {
+        backgroundColor: theme.colors.teal[8],
+      },
+    },
+
     bodyText: {
       color: theme.colors.dark[2],
       marginLeft: 7,
@@ -88,7 +85,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
 });
 const Category = () => {
   const { query, isReady, back } = useRouter();
-  const { classes, theme } = useStyles();
+
   const [opened, { open, close }] = useDisclosure(false);
   const { data: menuCategory, isLoading } = api.newMenuCategories.byId.useQuery(
     {
@@ -114,7 +111,109 @@ const Category = () => {
           </ActionIcon>
           <Title>Menü İçerikleri</Title>
         </Group>
+        <Button leftIcon={<IconPencil />} disabled={isLoading}>
+          Kategoriyi Düzenle
+        </Button>
       </Group>
+      {isLoading ? (
+        <Paper withBorder p={"lg"}>
+          <Flex direction={"column"} align="center" justify={"center"}>
+            <Loader />
+            <Text>Yükleniyor...</Text>
+          </Flex>
+        </Paper>
+      ) : (
+        <MenuDetails menuCategory={menuCategory} openModal={open} />
+      )}
+      <AddNewMenuItemModal opened={opened} close={close} />
+    </TablesLayout>
+  );
+};
+
+export default Category;
+
+const AddNewMenuItemModal = ({
+  opened,
+  close,
+}: {
+  opened: boolean;
+  close: () => void;
+}) => {
+  const { query } = useRouter();
+  const { mutate, isLoading } = api.newMenuItems.create.useMutation({
+    onSuccess: () => {
+      showNotification({
+        title: "İşlem Başarılı",
+        message: "Yeni seçenek eklendi",
+        autoClose: 3000,
+        onClose: () => {
+          close();
+        },
+      });
+    },
+  });
+  const form = useForm<CreateMenuItem>({
+    initialValues: {
+      name: "",
+      categoryId: query.categoryId as string,
+      workspaceId: query.workspaceId as string,
+      description: "",
+      price: 0,
+      images: [],
+      ingredients: [],
+    },
+  });
+  return (
+    <Modal
+      opened={opened}
+      onClose={close}
+      title="Yeni Seçenek Ekle"
+      size={"xl"}
+    >
+      <form
+        onSubmit={form.onSubmit((values) => {
+          mutate(values);
+        })}
+      >
+        <Grid>
+          <Grid.Col span={6}>
+            <TextInput
+              placeholder="Seçenek Adı"
+              label="Seçenek Adı"
+              {...form.getInputProps("name")}
+            />
+          </Grid.Col>
+        </Grid>
+        <Group mt={"lg"} position="right">
+          <Button
+            type="button"
+            onClick={() => {
+              form.reset();
+              close();
+            }}
+            leftIcon={<IconX />}
+            loading={isLoading}
+          >
+            İptal Et
+          </Button>
+          <Button type="submit" leftIcon={<IconPlus />} loading={isLoading}>
+            Ekle
+          </Button>
+        </Group>
+      </form>
+    </Modal>
+  );
+};
+const MenuDetails = ({
+  menuCategory,
+  openModal,
+}: {
+  menuCategory: RouterOutputs["newMenuCategories"]["byId"] | undefined;
+  openModal: () => void;
+}) => {
+  const { classes, theme } = useStyles();
+  return (
+    <>
       <Paper
         w="100%"
         h={300}
@@ -135,7 +234,14 @@ const Category = () => {
       </Paper>
       <Grid>
         <Grid.Col span={12} md={6} lg={4}>
-          <Paper onClick={open} withBorder p={"lg"} radius="lg">
+          <Paper
+            className={classes.addNew}
+            onClick={openModal}
+            w="full"
+            withBorder
+            p={"lg"}
+            radius="lg"
+          >
             <Flex
               direction={"column"}
               w="full"
@@ -148,29 +254,49 @@ const Category = () => {
             </Flex>
           </Paper>
         </Grid.Col>
+        {(menuCategory?.menuItems || []).map((item) => (
+          <Grid.Col span={12} md={6} lg={4} key={item.id}>
+            <MenuItem {...item} />
+          </Grid.Col>
+        ))}
       </Grid>
-      <AddNewMenuItemModal opened={opened} close={close} />
-    </TablesLayout>
+    </>
   );
 };
 
-export default Category;
-
-const AddNewMenuItemModal = ({
-  opened,
-  close,
-}: {
-  opened: boolean;
-  close: () => void;
-}) => {
+const MenuItem = ({
+  _count,
+  description,
+  id,
+  images,
+  name,
+  price,
+}: NonNullable<
+  RouterOutputs["newMenuCategories"]["byId"]
+>["menuItems"][number]) => {
+  const { classes, theme } = useStyles();
   return (
-    <Modal
-      opened={opened}
-      onClose={close}
-      title="Yeni Seçenek Ekle"
-      size={"xl"}
+    <Paper
+      pos={"relative"}
+      withBorder
+      w={"full"}
+      radius="lg"
+      className="overflow-hidden"
+      h={240}
     >
-      <div>SEÇENEK</div>
-    </Modal>
+      <div className={classes.overlay}></div>
+      <div className="absolute top-3 right-3 z-20 flex flex-row gap-2">
+        <ActionIcon variant="filled" size={"lg"}>
+          <IconPencil size={20} stroke={3} />
+        </ActionIcon>
+        <ActionIcon variant="filled" size={"lg"}>
+          <IconTrash size={20} stroke={3} />
+        </ActionIcon>
+      </div>
+      <Image src={images?.[0]?.image || placeholder} fill={true} alt={name} />
+      <Text className="absolute bottom-3 left-4 z-40 " size={"xl"} fw={500}>
+        {name}
+      </Text>
+    </Paper>
   );
 };

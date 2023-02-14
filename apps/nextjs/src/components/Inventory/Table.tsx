@@ -40,7 +40,7 @@ interface TableSelectionProps {
 
 export function InventoryTable({ data: data2 }: TableSelectionProps) {
   const { classes, cx } = useStyles();
-  const { query } = useRouter();
+  const { query, isReady } = useRouter();
   const [selection, setSelection] = useState(["1"]);
   const toggleRow = (id: string) =>
     setSelection((current) =>
@@ -54,6 +54,7 @@ export function InventoryTable({ data: data2 }: TableSelectionProps) {
     },
     {
       initialData: [],
+      enabled: isReady,
     },
   );
   const toggleAll = () =>

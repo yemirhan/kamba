@@ -3,6 +3,18 @@ import { z } from "zod";
 import { slug } from "../../idGenerate";
 import { protectedProcedure, router } from "../../trpc";
 
+const createMenuItem = z.object({
+  workspaceId: z.string(),
+  categoryId: z.string(),
+  name: z.string(),
+  price: z.number(),
+  description: z.string(),
+  images: z.array(z.string()).nullish(),
+  ingredients: z.array(z.string().min(3).max(20)).nullish(),
+});
+
+export type CreateMenuItem = z.infer<typeof createMenuItem>;
+
 export const menuItemsRoutes = router({
   all: protectedProcedure
     .input(
@@ -111,17 +123,7 @@ export const menuItemsRoutes = router({
       });
     }),
   create: protectedProcedure
-    .input(
-      z.object({
-        workspaceId: z.string(),
-        categoryId: z.string(),
-        name: z.string(),
-        price: z.number(),
-        description: z.string(),
-        images: z.array(z.string()).nullish(),
-        ingredients: z.array(z.string().min(3).max(20)).nullish(),
-      }),
-    )
+    .input(createMenuItem)
     .mutation(async ({ ctx, input }) => {
       const workspace = await ctx.prisma.workspace.findUnique({
         where: {
@@ -182,7 +184,7 @@ export const menuItemsRoutes = router({
           order: 0,
           MenuCategory: {
             connect: {
-              id: input.categoryId,
+              slug: input.categoryId,
             },
           },
           workspace: {
