@@ -13,6 +13,7 @@ const publicPaths = [
 ];
 
 const isPublic = (path: string) => {
+  if (path.includes("/api/trpc/qrMenu")) return true;
   return publicPaths.find((x) =>
     path.match(new RegExp(`^${x}$`.replace("*$", "($|/)"))),
   );
