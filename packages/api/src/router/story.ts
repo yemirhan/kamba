@@ -78,6 +78,45 @@ export const storyRoutes = router({
         },
       });
     }),
+  getStoriesWithTables: protectedProcedure
+    .input(
+      z.object({
+        slug: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.tableModule.findUnique({
+        where: {
+          slug: input.slug,
+        },
+        select: {
+          stories: {
+            select: {
+              name: true,
+              id: true,
+              slug: true,
+              tables: {
+                select: {
+                  name: true,
+                  id: true,
+                  slug: true,
+                },
+              },
+              _count: {
+                select: {
+                  tables: true,
+                },
+              },
+            },
+          },
+          _count: {
+            select: {
+              tables: true,
+            },
+          },
+        },
+      });
+    }),
   createStory: protectedProcedure
     .input(
       z.object({

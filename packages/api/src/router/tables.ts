@@ -20,7 +20,7 @@ export const tableRoutes = router({
     .query(async ({ ctx, input }) => {
       return await ctx.prisma.tableModule.findUnique({
         where: {
-          workspaceId: input.workspaceId,
+          slug: input.workspaceId,
         },
         select: {
           tables: {
