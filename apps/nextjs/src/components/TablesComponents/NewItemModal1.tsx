@@ -22,7 +22,7 @@ import { UseFormReturnType } from "@mantine/form";
 import { api } from "@acme/api/src/client";
 import { showNotification } from "@mantine/notifications";
 import { useEffect } from "react";
-import { useMenu } from "../../providers/useMenu";
+import { useMenu } from "../../hooks/useMenu";
 
 export type formType = UseFormReturnType<
   {

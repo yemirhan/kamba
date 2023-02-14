@@ -1,4 +1,4 @@
-import { useMenu } from "../../providers/useMenu";
+import { useMenu } from "../../hooks/useMenu";
 import React from "react";
 import { useEffect } from "react";
 
