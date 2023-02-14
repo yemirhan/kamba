@@ -10,7 +10,6 @@ import {
   ActionIcon,
 } from "@mantine/core";
 import { IconPencil, IconTrash } from "@tabler/icons";
-import { useMenu } from "providers/useMenu";
 import Link from "next/link";
 import { useRouter } from "next/router";
 

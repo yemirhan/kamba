@@ -43,7 +43,27 @@ export const icons = {
   SOUP: IconSoup,
   FISH: IconFish,
 } as const;
-
+export const iconTranslations = {
+  APPLE: "Elma",
+  BEER: "Bira",
+  BONE: "Kemik",
+  BOTTLE: "Şişe",
+  BOWL: "Kase",
+  BREAD: "Ekmek",
+  CARROT: "Havuç",
+  CHEESE: "Peynir",
+  COOKIE: "Çikolata",
+  CUP: "Kupa",
+  EGG: "Yumurta",
+  GLASS: "Bardak",
+  GRILLFORK: "Kızartma Çubuğu",
+  GRILL: "Kızartma",
+  PIZZA: "Pizza",
+  MUG: "Kupa",
+  SALAD: "Salata",
+  SOUP: "Çorba",
+  FISH: "Balık",
+} as const;
 export const MenuIcon = ({
   icon = "APPLE",
   size = 20,

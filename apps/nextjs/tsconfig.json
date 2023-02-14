@@ -9,7 +9,8 @@
       "@/server/*": ["server/*"],
       "@/utils/*": ["utils/*"],
       "@/validation/*": ["validation/*"],
-      "@/hooks/*": ["hooks/*"]
+      "@/hooks/*": ["hooks/*"],
+      "@/providers/*": ["providers/*"]
     }
   },
   "include": [

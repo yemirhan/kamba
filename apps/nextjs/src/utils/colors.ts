@@ -13,4 +13,20 @@ export const colors = {
   LIGHTGREEN: "#82c91e",
   YELLOW: "#fab005",
   ORANGE: "#fd7e14",
-};
+} as const;
+export const colorTranslations = {
+  SLATE: "Koyu Gri",
+  GRAY: "Gri",
+  RED: "Kırmızı",
+  PINK: "Pembe",
+  PURPLE: "Mor",
+  VIOLET: "Menekşe",
+  DARKBLUE: "Koyu Mavi",
+  BLUE: "Mavi",
+  TURQUOISE: "Turkuaz",
+  OCEAN: "Deniz Mavisi",
+  GREEN: "Yeşil",
+  LIGHTGREEN: "Açık Yeşil",
+  YELLOW: "Sarı",
+  ORANGE: "Turuncu",
+} as const;

@@ -1,5 +1,5 @@
-import { colors } from "@/utils/colors";
-import { icons } from "@/utils/menuIcons";
+import { colors, colorTranslations } from "@/utils/colors";
+import { icons, iconTranslations, MenuIcon } from "@/utils/menuIcons";
 import { placeholder } from "@/utils/placeholder";
 import { api } from "@acme/api/src/client";
 import { CreateMenuCategory } from "@acme/api/src/router/tables/menuCategories";
@@ -19,7 +19,7 @@ import {
 import { useForm } from "@mantine/form";
 import { useHover } from "@mantine/hooks";
 import { showNotification } from "@mantine/notifications";
-import { IconPlus } from "@tabler/icons";
+import { IconPencil, IconPlus } from "@tabler/icons";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { forwardRef, useState } from "react";
@@ -102,25 +102,32 @@ export const CreateCategoryModal = ({
             <Flex direction={"column"} gap="md">
               <TextInput
                 label="Kategori Adı"
+                icon={<IconPencil />}
                 placeholder="Kategori Adı"
                 {...form.getInputProps("name")}
               />
               <Select
                 data={Object.entries(colors).map(([key, value]) => ({
                   value: key,
-                  label: key,
+                  label: colorTranslations[key as keyof typeof colors],
                   color: value,
                 }))}
                 label="Renk"
-                itemComponent={SelectItem}
+                icon={
+                  <ColorSwatch color={colors[form.values.color || "GREEN"]} />
+                }
+                itemComponent={ColorItem}
                 {...form.getInputProps("color")}
               />
               <Select
                 label="İkon"
                 data={Object.entries(icons).map(([key, value]) => ({
                   value: key,
-                  label: key,
+                  label: iconTranslations[key as keyof typeof icons],
+                  icon: key,
                 }))}
+                itemComponent={IconItem}
+                icon={<MenuIcon icon={form.values.icon} />}
                 {...form.getInputProps("icon")}
               />
             </Flex>
@@ -140,13 +147,13 @@ export const CreateCategoryModal = ({
     </Modal>
   );
 };
-interface ItemProps extends React.ComponentPropsWithoutRef<"div"> {
+interface ColorProps extends React.ComponentPropsWithoutRef<"div"> {
   label: string;
   color: string;
 }
 
-const SelectItem = forwardRef<HTMLDivElement, ItemProps>(
-  ({ label, color, ...others }: ItemProps, ref) => (
+const ColorItem = forwardRef<HTMLDivElement, ColorProps>(
+  ({ label, color, ...others }: ColorProps, ref) => (
     <div ref={ref} {...others}>
       <Group noWrap>
         <ColorSwatch key={color} color={color} />
@@ -158,7 +165,7 @@ const SelectItem = forwardRef<HTMLDivElement, ItemProps>(
     </div>
   ),
 );
-SelectItem.displayName = "IconSelector";
+ColorItem.displayName = "ColorSelectorItem";
 
 const getBase64 = (file: File, cb: (v: string) => void) => {
   const reader = new FileReader();
@@ -170,3 +177,23 @@ const getBase64 = (file: File, cb: (v: string) => void) => {
     console.log("Error: ", error);
   };
 };
+
+interface IconProps extends React.ComponentPropsWithoutRef<"div"> {
+  label: string;
+  icon: keyof typeof icons;
+}
+
+const IconItem = forwardRef<HTMLDivElement, IconProps>(
+  ({ label, icon, ...others }: IconProps, ref) => (
+    <div ref={ref} {...others}>
+      <Group noWrap>
+        <MenuIcon icon={icon} />
+
+        <div>
+          <Text size="sm">{label}</Text>
+        </div>
+      </Group>
+    </div>
+  ),
+);
+IconItem.displayName = "IconSelectorItem";
