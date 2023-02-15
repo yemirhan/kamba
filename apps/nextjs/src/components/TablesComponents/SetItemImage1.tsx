@@ -1,19 +1,21 @@
-import { useMenu } from "../../hooks/useMenu";
 import React from "react";
 import { useEffect } from "react";
 
-import { formType } from "./NewItemModal1";
+import { formType } from "./EditCategory";
 
 const handleFilePicker = () => {
   document.getElementById("file-inputt")?.click();
 };
 
-export const SetItemImage1 = ({ form }: { form: formType }) => {
-  const itemImageState = {
-    SetIsEditCategoryImage: useMenu((state) => state.SetIsEditCategoryImage),
-    isEditCategoryImage: useMenu((state) => state.isEditCategoryImage),
-  };
-
+export const SetItemImage1 = ({
+  form,
+  editImage,
+  setEditImage,
+}: {
+  form: formType;
+  editImage: boolean;
+  setEditImage: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) {
@@ -23,16 +25,16 @@ export const SetItemImage1 = ({ form }: { form: formType }) => {
     const reader = new FileReader();
     reader.onloadend = () => {
       form.setFieldValue("image", reader.result as string);
-      itemImageState.SetIsEditCategoryImage();
+      setEditImage(false);
     };
     reader.readAsDataURL(file);
   };
 
   useEffect(() => {
-    if (itemImageState.isEditCategoryImage) {
+    if (editImage) {
       handleFilePicker();
     }
-  }, [itemImageState.isEditCategoryImage]);
+  }, [editImage]);
 
   return (
     <input

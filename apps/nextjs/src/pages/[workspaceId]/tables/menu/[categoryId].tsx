@@ -5,6 +5,8 @@ import { placeholder } from "@/utils/placeholder";
 import { RouterOutputs } from "@acme/api";
 import { api } from "@acme/api/src/client";
 import { CreateMenuItem } from "@acme/api/src/router/tables/menuItems";
+import { EditCategory } from "@/components/TablesComponents/EditCategory";
+import { useState } from "react";
 import {
   ActionIcon,
   Button,
@@ -33,7 +35,7 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
-const useStyles = createStyles((theme, _params, getRef) => {
+export const useStyles = createStyles((theme, _params, getRef) => {
   return {
     overlay: {
       position: "absolute",
@@ -86,9 +88,13 @@ const useStyles = createStyles((theme, _params, getRef) => {
 });
 const Category = () => {
   const { query, isReady, back } = useRouter();
-
+  const [edit, setEdit] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
-  const { data: menuCategory, isLoading } = api.newMenuCategories.byId.useQuery(
+  const {
+    data: menuCategory,
+    isLoading,
+    isFetched,
+  } = api.newMenuCategories.byId.useQuery(
     {
       categoryId: query.categoryId as string,
       workspaceId: query.workspaceId as string,
@@ -112,7 +118,11 @@ const Category = () => {
           </ActionIcon>
           <Title>Menü İçerikleri</Title>
         </Group>
-        <Button leftIcon={<IconPencil />} disabled={isLoading}>
+        <Button
+          leftIcon={<IconPencil />}
+          onClick={() => setEdit(true)}
+          disabled={!isFetched}
+        >
           Kategoriyi Düzenle
         </Button>
       </Group>
@@ -127,6 +137,7 @@ const Category = () => {
         <MenuDetails menuCategory={menuCategory} openModal={open} />
       )}
       <AddNewMenuItemModal opened={opened} close={close} />
+      <EditCategory menuCategory={menuCategory} edit={edit} setEdit={setEdit} />
     </TablesLayout>
   );
 };
