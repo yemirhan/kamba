@@ -145,7 +145,7 @@ export const EditCategory = ({
                   src={form.values?.image || placeholder}
                 ></Image>
                 <div
-                  className="absolute top-0 right-0 left-0 z-30 h-[200px] opacity-40"
+                  className="absolute top-0 right-0 left-0 z-10 h-[200px] opacity-40"
                   onMouseEnter={() => setHoverImage(true)}
                 ></div>
               </>
@@ -162,7 +162,7 @@ export const EditCategory = ({
                   color="teal"
                   onMouseLeave={() => setHoverImage(false)}
                   onClick={() => setEditImage(true)}
-                  className="absolute top-0 right-0 left-0 z-30 h-[300px] opacity-40"
+                  className="absolute top-0 right-0 left-0 z-10 h-[300px] bg-white opacity-40"
                 >
                   {<IconPencil size={64} />}
                 </Button>
