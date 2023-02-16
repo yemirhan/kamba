@@ -183,7 +183,7 @@ interface IconProps extends React.ComponentPropsWithoutRef<"div"> {
   icon: keyof typeof icons;
 }
 
-const IconItem = forwardRef<HTMLDivElement, IconProps>(
+export const IconItem = forwardRef<HTMLDivElement, IconProps>(
   ({ label, icon, ...others }: IconProps, ref) => (
     <div ref={ref} {...others}>
       <Group noWrap>
