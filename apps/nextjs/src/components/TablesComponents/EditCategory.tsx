@@ -14,6 +14,8 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { icons, MenuIcon } from "@/utils/menuIcons";
+import { ColorSwatch } from "@mantine/core";
+import { ColorItem } from "./CreateCategoryModal";
 import Image from "next/image";
 import { placeholder } from "@/utils/placeholder";
 import { useStyles } from "@/pages/[workspaceId]/tables/menu/[categoryId]";
@@ -25,6 +27,7 @@ import { useState } from "react";
 import { MenuImage, Colors, Icon } from "@acme/db";
 import { SetItemImage1 } from "./SetItemImage1";
 import { UseFormReturnType } from "@mantine/form";
+import { colors, colorTranslations } from "@/utils/colors";
 export type formType = UseFormReturnType<
   {
     image: string | null;
@@ -94,6 +97,7 @@ export const EditCategory = ({
   });
   const [hoverImage, setHoverImage] = useState(false);
   const [editImage, setEditImage] = useState(false);
+
   useEffect(() => {
     form.setValues(menuCategory!);
   }, [menuCategory]);
@@ -132,6 +136,21 @@ export const EditCategory = ({
                     label="Kategori Adı"
                     {...form.getInputProps("name")}
                   />
+                  <Select
+                    label="Renk"
+                    data={Object.entries(colors).map(([key, value]) => ({
+                      value: key,
+                      label: colorTranslations[key as keyof typeof colors],
+                      color: key,
+                    }))}
+                    itemComponent={ColorItem}
+                    icon={
+                      <ColorSwatch
+                        color={colors[form.values?.color || "GREEN"]}
+                      />
+                    }
+                    {...form.getInputProps("color")}
+                  />
                 </div>
               </Group>
             </Group>
@@ -169,7 +188,9 @@ export const EditCategory = ({
               </>
             )}
           </Paper>
-          <Title>İçerikler</Title>
+          <div className="mt-5 flex w-full flex-col">
+            <Title>İçerikler</Title>
+          </div>
         </div>
       </Modal>
       <SetItemImage1

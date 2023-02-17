@@ -152,7 +152,7 @@ interface ColorProps extends React.ComponentPropsWithoutRef<"div"> {
   color: string;
 }
 
-const ColorItem = forwardRef<HTMLDivElement, ColorProps>(
+export const ColorItem = forwardRef<HTMLDivElement, ColorProps>(
   ({ label, color, ...others }: ColorProps, ref) => (
     <div ref={ref} {...others}>
       <Group noWrap>

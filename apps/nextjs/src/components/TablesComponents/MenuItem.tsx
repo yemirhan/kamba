@@ -3,6 +3,7 @@ import { RouterOutputs } from "@acme/api";
 import { ActionIcon, createStyles, Paper, Text } from "@mantine/core";
 import { IconPencil, IconTrash } from "@tabler/icons";
 import Image from "next/image";
+import { useState } from "react";
 
 const useStyles = createStyles((theme, _params, getRef) => {
   return {
@@ -66,6 +67,8 @@ export const MenuItem = ({
 }: Partial<
   NonNullable<RouterOutputs["newMenuCategories"]["byId"]>["menuItems"][number]
 >) => {
+  const [editCategoryItem, setEditCategoryItem] = useState(false);
+  const [deleteCategoryItem, setDeleteCategoryItem] = useState(false);
   const { classes, theme } = useStyles();
   return (
     <Paper
@@ -78,10 +81,18 @@ export const MenuItem = ({
     >
       <div className={classes.overlay}></div>
       <div className="absolute top-3 right-3 z-20 flex flex-row gap-2">
-        <ActionIcon variant="filled" size={"lg"}>
+        <ActionIcon
+          onClick={() => setEditCategoryItem(true)}
+          variant="filled"
+          size={"lg"}
+        >
           <IconPencil size={20} stroke={3} />
         </ActionIcon>
-        <ActionIcon variant="filled" size={"lg"}>
+        <ActionIcon
+          onClick={() => setDeleteCategoryItem(true)}
+          variant="filled"
+          size={"lg"}
+        >
           <IconTrash size={20} stroke={3} />
         </ActionIcon>
       </div>
