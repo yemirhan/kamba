@@ -10,16 +10,14 @@
       "cache": false
     },
     "dev": {
-      "dependsOn": ["^db-generate"],
+      "persistent": true,
       "cache": false
     },
     "build": {
       "dependsOn": ["^build", "^db-generate"],
       "outputs": [".next/**", ".expo/**"]
     },
-    "lint": {
-      "outputs": []
-    },
+    "lint": {},
     "clean": {
       "cache": false
     },

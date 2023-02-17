@@ -1,16 +1,20 @@
 import { initTRPC, TRPCError } from "@trpc/server";
 import { type Context } from "./context";
 import superjson from "superjson";
+import { OpenApiMeta } from "trpc-openapi";
 
-const t = initTRPC.context<Context>().create({
-  transformer: superjson,
-  errorFormatter({ shape }) {
-    return shape;
-  },
-});
+const t = initTRPC
+  .meta<OpenApiMeta>()
+  .context<Context>()
+  .create({
+    transformer: superjson,
+    errorFormatter({ shape }) {
+      return shape;
+    },
+  });
 
 const isAuthed = t.middleware(({ ctx, next }) => {
-  if ( !ctx.clerkuser) {
+  if (!ctx.clerkuser) {
     throw new TRPCError({
       code: "UNAUTHORIZED",
       message: "Not authenticated",

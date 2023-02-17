@@ -6,14 +6,14 @@ export const inventoryRoutes = router({
   all: protectedProcedure
     .input(
       z.object({
-        workspaceId: z.string(),
+        workspaceSlug: z.string(),
       }),
     )
     .query(async ({ ctx, input }) => {
       return await ctx.prisma.inventoryItem.findMany({
         where: {
           workspace: {
-            slug: input.workspaceId,
+            slug: input.workspaceSlug,
           },
         },
       });
@@ -21,7 +21,7 @@ export const inventoryRoutes = router({
   byId: protectedProcedure
     .input(
       z.object({
-        workspaceId: z.string(),
+        workspaceSlug: z.string(),
         inventoryId: z.string(),
       }),
     )
@@ -35,7 +35,7 @@ export const inventoryRoutes = router({
   create: protectedProcedure
     .input(
       z.object({
-        workspaceId: z.string(),
+        workspaceSlug: z.string(),
 
         name: z.string(),
         amount: z.number(),
@@ -59,13 +59,13 @@ export const inventoryRoutes = router({
           image: image,
           InventoryModule: {
             connect: {
-              slug: input.workspaceId,
+              slug: input.workspaceSlug,
             },
           },
           slug: slug(),
           workspace: {
             connect: {
-              slug: input.workspaceId,
+              slug: input.workspaceSlug,
             },
           },
         },

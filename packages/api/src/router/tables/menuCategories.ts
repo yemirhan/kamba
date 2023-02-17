@@ -19,13 +19,13 @@ export const menuCategoryRoutes = router({
   all: protectedProcedure
     .input(
       z.object({
-        workspaceId: z.string(),
+        workspaceSlug: z.string(),
       }),
     )
     .query(async ({ ctx, input }) => {
       const workspace = await ctx.prisma.workspace.findUnique({
         where: {
-          slug: input.workspaceId,
+          slug: input.workspaceSlug,
         },
         select: {
           users: {
@@ -51,7 +51,7 @@ export const menuCategoryRoutes = router({
       return await ctx.prisma.menuCategory.findMany({
         where: {
           workspace: {
-            slug: input.workspaceId,
+            slug: input.workspaceSlug,
           },
         },
         select: {

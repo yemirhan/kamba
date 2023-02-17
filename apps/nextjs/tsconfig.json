@@ -1,6 +1,5 @@
 {
   "extends": "../../tsconfig.json",
-  "exclude": [],
   "compilerOptions": {
     "baseUrl": "src/",
     "paths": {
@@ -13,12 +12,6 @@
       "@/providers/*": ["providers/*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "node_modules/@acme/auth/next-auth.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.cjs",
-    "**/*.mjs"
-  ]
+  "exclude": [],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"]
 }

@@ -5,7 +5,9 @@ export type { AppRouter } from "./src/router";
 export { appRouter } from "./src/router";
 
 export { createContext } from "./src/context";
+export { openApiDocument } from "./src/openapi";
 export type { Context } from "./src/context";
+
 /**
  * Inference helpers for input types
  * @example type HelloInput = RouterInputs['example']['hello']

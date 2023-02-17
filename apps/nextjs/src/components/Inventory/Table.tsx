@@ -18,6 +18,8 @@ import { useForm } from "@mantine/form";
 import { api } from "@acme/api/src/client";
 import { showNotification } from "@mantine/notifications";
 import { useRouter } from "next/router";
+import { Route } from "next/dist/server/router";
+import { RouterOutputs } from "@acme/api";
 
 const useStyles = createStyles((theme) => ({
   rowSelected: {
@@ -29,16 +31,10 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface TableSelectionProps {
-  data: {
-    avatar: string;
-    name: string;
-    email: string;
-    job: string;
-    id: string;
-  }[];
+  data: RouterOutputs["inventory"]["all"] | undefined;
 }
 
-export function InventoryTable({ data: data2 }: TableSelectionProps) {
+export function InventoryTable({ data }: TableSelectionProps) {
   const { classes, cx } = useStyles();
   const { query, isReady } = useRouter();
   const [selection, setSelection] = useState(["1"]);
@@ -48,15 +44,8 @@ export function InventoryTable({ data: data2 }: TableSelectionProps) {
         ? current.filter((item) => item !== id)
         : [...current, id],
     );
-  const { data } = api.inventory.all.useQuery(
-    {
-      workspaceId: query.workspaceId as string,
-    },
-    {
-      initialData: [],
-      enabled: isReady,
-    },
-  );
+  const apiContext = api.useContext();
+
   const toggleAll = () =>
     setSelection((current) =>
       current.length === (data || []).length
@@ -90,6 +79,8 @@ export function InventoryTable({ data: data2 }: TableSelectionProps) {
   });
   const { mutate, isLoading } = api.inventory.create.useMutation({
     onSuccess: (data) => {
+      apiContext.inventory.all.invalidate();
+      setOpened(false);
       showNotification({
         title: "İşlem Başarılı",
         message: "Kategori sayfasına yönlendiriliyorsunuz",
@@ -123,7 +114,7 @@ export function InventoryTable({ data: data2 }: TableSelectionProps) {
                 name: values.name,
                 price: values.price,
                 image: undefined,
-                workspaceId: query.workspaceId as string,
+                workspaceSlug: query.workspaceId as string,
               });
             })}
           >
