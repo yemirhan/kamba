@@ -1,10 +1,11 @@
 import { placeholder } from "@/utils/placeholder";
 import { RouterOutputs } from "@acme/api";
+import { api } from "@acme/api/src/client";
 import { ActionIcon, createStyles, Paper, Text } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
 import { IconPencil, IconTrash } from "@tabler/icons";
 import Image from "next/image";
-import { useState } from "react";
-
+import { useRouter } from "next/router";
 const useStyles = createStyles((theme, _params, getRef) => {
   return {
     overlay: {
@@ -67,8 +68,19 @@ export const MenuItem = ({
 }: Partial<
   NonNullable<RouterOutputs["newMenuCategories"]["byId"]>["menuItems"][number]
 >) => {
-  const [editCategoryItem, setEditCategoryItem] = useState(false);
-  const [deleteCategoryItem, setDeleteCategoryItem] = useState(false);
+  const queryContext = api.useContext();
+  const { mutate: deleteMenuItem, isLoading } =
+    api.newMenuItems.delete.useMutation({
+      onSuccess: () => {
+        showNotification({
+          message: "İşlem Başarılı",
+          color: "red",
+          autoClose: 2000,
+        });
+        queryContext.newMenuItems.all.invalidate();
+      },
+    });
+  const { query } = useRouter();
   const { classes, theme } = useStyles();
   return (
     <Paper
@@ -81,15 +93,17 @@ export const MenuItem = ({
     >
       <div className={classes.overlay}></div>
       <div className="absolute top-3 right-3 z-20 flex flex-row gap-2">
-        <ActionIcon
-          onClick={() => setEditCategoryItem(true)}
-          variant="filled"
-          size={"lg"}
-        >
+        <ActionIcon variant="filled" size={"lg"}>
           <IconPencil size={20} stroke={3} />
         </ActionIcon>
         <ActionIcon
-          onClick={() => setDeleteCategoryItem(true)}
+          onClick={() =>
+            deleteMenuItem({
+              categoryId: query.categoryId as string,
+              itemId: id || "",
+              workspaceId: query.workspaceId as string,
+            })
+          }
           variant="filled"
           size={"lg"}
         >
