@@ -61,7 +61,7 @@ const useStyles = createStyles((theme) => ({
     textDecoration: "none",
     color:
       theme.colorScheme === "dark"
-        ? theme.colors.dark[0]
+        ? theme.colors.gray[1]
         : theme.colors.gray[7],
     fontSize: theme.fontSizes.sm,
     backgroundColor:
@@ -119,13 +119,12 @@ export function DashboardHeader({
   const { classes, theme, cx } = useStyles();
   const router = useRouter();
   const { data: clerkuser } = api.auth.getSession.useQuery();
-
   const items = links.map((link) => (
     <Link
       key={link.label}
       href={link.link}
       className={
-        router.route.includes(link.pageType)
+        (router.route.split("/")[2] || "").includes(link.pageType)
           ? classes.linkSelected
           : classes.link
       }

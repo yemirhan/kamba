@@ -114,7 +114,7 @@ export function InventoryTable({ data }: TableSelectionProps) {
                 name: values.name,
                 price: values.price,
                 image: undefined,
-                workspaceId: query.workspaceId as string,
+                workspaceSlug: query.workspaceId as string,
               });
             })}
           >

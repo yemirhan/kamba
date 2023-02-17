@@ -11,7 +11,7 @@ import { CategoryCard } from "@/components/TablesComponents/CategoryCard";
 const Menu = () => {
   const { query, isReady } = useRouter();
   const { data: menu, isFetched } = api.newMenuCategories.all.useQuery(
-    { workspaceId: query.workspaceId as string },
+    { workspaceSlug: query.workspaceId as string },
     { enabled: isReady },
   );
 

@@ -1,3 +1,5 @@
+import { InventoryLayout } from "@/components/Inventory/InventoryLayout";
+import { InventoryNavbar } from "@/components/Inventory/InventoryNavbar";
 import { InventoryTable } from "@/components/Inventory/Table";
 import TableP from "@/components/Inventory/TableP";
 import { api } from "@acme/api/src/client";
@@ -10,7 +12,7 @@ const Inventory = () => {
   const { query } = useRouter();
   const { data } = api.inventory.all.useQuery(
     {
-      workspaceId: query.workspaceId as string,
+      workspaceSlug: query.workspaceId as string,
     },
     {
       initialData: [],
@@ -18,7 +20,7 @@ const Inventory = () => {
   );
 
   return (
-    <ShellLayout>
+    <InventoryLayout>
       <Container size={"xl"}>
         <Grid>
           <Grid.Col span={9}>
@@ -44,7 +46,7 @@ const Inventory = () => {
           </Grid.Col>
         </Grid>
       </Container>
-    </ShellLayout>
+    </InventoryLayout>
   );
 };
 

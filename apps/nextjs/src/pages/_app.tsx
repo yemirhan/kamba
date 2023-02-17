@@ -4,7 +4,7 @@ import type { AppType } from "next/app";
 import { api } from "@acme/api/src/client";
 import { ClerkProvider } from "@clerk/nextjs";
 // import { Open_Sans, Fira_Mono } from "@next/font/google";
-
+import { ThemeProvider, useTheme } from "next-themes";
 import { useRouter } from "next/router";
 import { dark } from "@clerk/themes";
 import { useState } from "react";
@@ -30,36 +30,36 @@ import { RouterTransition } from "@/components/RouterTransition";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   const { push } = useRouter();
-
-  const [colorScheme, setColorScheme] = useState<ColorScheme>("dark");
-  const toggleColorScheme = (value?: ColorScheme) =>
-    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
+  const { theme, setTheme } = useTheme();
+  const toggleColorScheme = (value?: ColorScheme) => setTheme(value || "dark");
   return (
-    <ColorSchemeProvider
-      colorScheme={colorScheme}
-      toggleColorScheme={toggleColorScheme}
-    >
-      <MantineProvider
-        withGlobalStyles
-        withNormalizeCSS
-        theme={{
-          /** Put your mantine theme override here */
-          colorScheme: colorScheme,
-          primaryColor: "teal",
-        }}
+    <ThemeProvider defaultTheme="dark" themes={["dark", "light"]}>
+      <ColorSchemeProvider
+        colorScheme={(theme || "dark") as "dark" | "light"}
+        toggleColorScheme={toggleColorScheme}
       >
-        <NotificationsProvider>
-          <RouterTransition />
-          <ClerkProvider
-            {...pageProps}
-            appearance={{ baseTheme: dark }}
-            navigate={(to) => push(to)}
-          >
-            <Component {...pageProps} />
-          </ClerkProvider>
-        </NotificationsProvider>
-      </MantineProvider>
-    </ColorSchemeProvider>
+        <MantineProvider
+          withGlobalStyles
+          withNormalizeCSS
+          theme={{
+            /** Put your mantine theme override here */
+            colorScheme: (theme || "dark") as "dark" | "light",
+            primaryColor: "teal",
+          }}
+        >
+          <NotificationsProvider>
+            <RouterTransition />
+            <ClerkProvider
+              {...pageProps}
+              appearance={{ baseTheme: dark }}
+              navigate={(to) => push(to)}
+            >
+              <Component {...pageProps} />
+            </ClerkProvider>
+          </NotificationsProvider>
+        </MantineProvider>
+      </ColorSchemeProvider>
+    </ThemeProvider>
   );
 };
 
