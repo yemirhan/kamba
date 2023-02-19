@@ -33,6 +33,8 @@
     "@mantine/nprogress": "^5.8.2",
     "@mantine/spotlight": "^5.8.2",
     "@next/font": "^13.1.6",
+    "@nivo/core": "^0.80.0",
+    "@nivo/line": "^0.80.0",
     "@tabler/icons": "^1.112.0",
     "@tanstack/react-query": "^4.23.0",
     "@trpc/client": "^10.9.0",
