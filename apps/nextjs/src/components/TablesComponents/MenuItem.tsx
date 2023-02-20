@@ -1,3 +1,4 @@
+import { useMenuSort } from "@/hooks/useMenuSort";
 import { placeholder } from "@/utils/placeholder";
 import { RouterOutputs } from "@acme/api";
 import { api } from "@acme/api/src/client";
@@ -6,6 +7,7 @@ import { showNotification } from "@mantine/notifications";
 import { IconPencil, IconTrash } from "@tabler/icons";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import React from "react";
 const useStyles = createStyles((theme, _params, getRef) => {
   return {
     overlay: {
@@ -65,9 +67,10 @@ export const MenuItem = ({
   images = [],
   name = "",
   price,
+  sortableComponent,
 }: Partial<
   NonNullable<RouterOutputs["newMenuCategories"]["byId"]>["menuItems"][number]
->) => {
+> & { sortableComponent?: React.ReactNode }) => {
   const queryContext = api.useContext();
   const { mutate: deleteMenuItem, isLoading } =
     api.newMenuItems.delete.useMutation({
@@ -82,6 +85,7 @@ export const MenuItem = ({
     });
   const { query } = useRouter();
   const { classes, theme } = useStyles();
+  const { sortEnabled } = useMenuSort();
   return (
     <Paper
       pos={"relative"}
@@ -93,22 +97,28 @@ export const MenuItem = ({
     >
       <div className={classes.overlay}></div>
       <div className="absolute top-3 right-3 z-20 flex flex-row gap-2">
-        <ActionIcon variant="filled" size={"lg"}>
-          <IconPencil size={20} stroke={3} />
-        </ActionIcon>
-        <ActionIcon
-          onClick={() =>
-            deleteMenuItem({
-              categoryId: query.categoryId as string,
-              itemId: id || "",
-              workspaceId: query.workspaceId as string,
-            })
-          }
-          variant="filled"
-          size={"lg"}
-        >
-          <IconTrash size={20} stroke={3} />
-        </ActionIcon>
+        {sortEnabled ? (
+          sortableComponent
+        ) : (
+          <>
+            <ActionIcon variant="filled" size={"lg"}>
+              <IconPencil size={20} stroke={3} />
+            </ActionIcon>
+            <ActionIcon
+              onClick={() =>
+                deleteMenuItem({
+                  categoryId: query.categoryId as string,
+                  itemId: id || "",
+                  workspaceSlug: query.workspaceId as string,
+                })
+              }
+              variant="filled"
+              size={"lg"}
+            >
+              <IconTrash size={20} stroke={3} />
+            </ActionIcon>
+          </>
+        )}
       </div>
       <Image src={images?.[0]?.image || placeholder} fill={true} alt={name} />
       <Text className="absolute bottom-3 left-4 z-40 " size={"xl"} fw={500}>

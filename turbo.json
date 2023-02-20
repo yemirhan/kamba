@@ -13,6 +13,10 @@
       "persistent": true,
       "cache": false
     },
+    "next": {
+      "persistent": true,
+      "cache": false
+    },
     "build": {
       "dependsOn": ["^build", "^db-generate"],
       "outputs": [".next/**", ".expo/**"]

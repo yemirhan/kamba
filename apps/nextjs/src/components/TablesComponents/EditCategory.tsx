@@ -1,33 +1,81 @@
-import React from "react";
+import { icons, MenuIcon } from "@/utils/menuIcons";
+import { placeholder } from "@/utils/placeholder";
 import { RouterOutputs } from "@acme/api";
 import {
-  Modal,
-  Stack,
-  Paper,
-  Text,
+  Button,
+  ColorSwatch,
+  createStyles,
   Group,
-  Menu,
+  Modal,
+  Paper,
   Select,
   TextInput,
   Title,
-  Button,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { icons, MenuIcon } from "@/utils/menuIcons";
-import { ColorSwatch } from "@mantine/core";
-import { ColorItem } from "./CreateCategoryModal";
 import Image from "next/image";
-import { placeholder } from "@/utils/placeholder";
-import { useStyles } from "@/pages/[workspaceId]/tables/menu/[categoryId]";
-import { iconTranslations } from "@/utils/menuIcons";
-import { IconItem } from "./CreateCategoryModal";
-import { IconPencil } from "@tabler/icons";
-import { useEffect } from "react";
-import { useState } from "react";
-import { MenuImage, Colors, Icon } from "@acme/db";
-import { SetItemImage1 } from "./SetItemImage1";
-import { UseFormReturnType } from "@mantine/form";
+import React from "react";
+import { ColorItem } from "./CreateCategoryModal";
+
 import { colors, colorTranslations } from "@/utils/colors";
+import { iconTranslations } from "@/utils/menuIcons";
+import { Colors, Icon, MenuImage } from "@acme/db";
+import { UseFormReturnType } from "@mantine/form";
+import { IconPencil } from "@tabler/icons";
+import { useEffect, useState } from "react";
+import { IconItem } from "./CreateCategoryModal";
+import { SetItemImage1 } from "./SetItemImage1";
+const useStyles = createStyles((theme, _params, getRef) => {
+  return {
+    overlay: {
+      position: "absolute",
+      top: "20%",
+      left: 0,
+      zIndex: 10,
+      right: 0,
+      bottom: 0,
+      backgroundImage:
+        "linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .85) 90%)",
+    },
+
+    content: {
+      height: "100%",
+      position: "relative",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "flex-end",
+      zIndex: 1,
+    },
+
+    title: {
+      color: theme.white,
+      position: "absolute",
+      fontSize: 32,
+      bottom: 10,
+      left: 20,
+      zIndex: 20,
+    },
+
+    addNew: {
+      backgroundColor: theme.colors.gray,
+      color: theme.white,
+      cursor: "pointer",
+      transition: "background-color 200ms ease",
+      "&:hover": {
+        backgroundColor: theme.colors.teal[8],
+      },
+    },
+
+    bodyText: {
+      color: theme.colors.dark[2],
+      marginLeft: 7,
+    },
+
+    author: {
+      color: theme.colors.dark[2],
+    },
+  };
+});
 export type formType = UseFormReturnType<
   {
     image: string | null;
