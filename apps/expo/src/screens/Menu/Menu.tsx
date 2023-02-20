@@ -22,7 +22,7 @@ export const Menu = () => {
     >
       <Tabs.Screen
         name="Tables"
-        options={({ navigation }) => ({
+        options={({ navigation }: any) => ({
           headerStyle: {
             backgroundColor: "#202020",
             borderBottomWidth: 0,

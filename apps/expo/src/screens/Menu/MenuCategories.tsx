@@ -6,7 +6,10 @@ import {
   BottomSheetTextInput,
 } from "@gorhom/bottom-sheet";
 import * as MediaLibrary from "expo-media-library";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  StackScreenProps,
+} from "@react-navigation/stack";
 import { FlashList } from "@shopify/flash-list";
 import React, { useRef } from "react";
 import { Image, Pressable, RefreshControl, Text, View } from "react-native";
@@ -16,13 +19,25 @@ import { TextInput } from "../../components/TextInput";
 import { useWorkspace } from "../../providers/useWorkspace";
 import { colors } from "../../utils/colors";
 import { api } from "../../utils/trpc";
+import { Category } from "../../components/MenuCategories/Category";
+import { MenuCategory } from "./MenuCategory";
 
-const Stack = createStackNavigator();
+export type MenuCategoryRouterParamList = {
+  MenuCategories: undefined;
+  MenuCategory: { id: string };
+};
+
+export type MenuCategoryParams = StackScreenProps<
+  MenuCategoryRouterParamList,
+  "MenuCategory"
+>;
+
+const Stack = createStackNavigator<MenuCategoryRouterParamList>();
 
 export const MenuCategoryRouter = () => {
   const workspace = useWorkspace();
   const { data, isLoading, refetch } = api.newMenuCategories.all.useQuery({
-    workspaceId: workspace.workspaceId as string,
+    workspaceSlug: workspace.workspaceId as string,
   });
   const bottomSheet = useRef<BottomSheetModal>(null);
   return (
@@ -52,28 +67,7 @@ export const MenuCategoryRouter = () => {
           <View className="bg-background h-full w-full p-2">
             <FlashList
               data={data}
-              renderItem={({ item }) => (
-                <View className="bg-background-secondary mb-2 flex h-32 w-full flex-row overflow-hidden rounded-lg">
-                  <Image
-                    source={
-                      item?.image
-                        ? {
-                            uri: item.image || "",
-                          }
-                        : require("../../../assets/placeholder.png")
-                    }
-                    className="h-32 w-32"
-                  />
-                  <View className="flex flex-col space-y-2">
-                    <Text className="font-semibold text-white">
-                      {item.name}
-                    </Text>
-                    <Text className="text-xs font-semibold text-white">
-                      {item._count.menuItems || 0}
-                    </Text>
-                  </View>
-                </View>
-              )}
+              renderItem={({ item }) => <Category item={item} />}
               refreshControl={
                 <RefreshControl refreshing={isLoading} onRefresh={refetch} />
               }
@@ -84,6 +78,7 @@ export const MenuCategoryRouter = () => {
           </View>
         )}
       />
+      <Stack.Screen name="MenuCategory" component={MenuCategory} />
     </Stack.Navigator>
   );
 };

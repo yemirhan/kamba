@@ -1,15 +1,15 @@
+import { FlashList } from "@shopify/flash-list";
 import React from "react";
 import { RefreshControl, Text, View } from "react-native";
 import { useWorkspace } from "../../providers/useWorkspace";
-import { api } from "../../utils/trpc";
-import { FlashList } from "@shopify/flash-list";
 import { colors } from "../../utils/colors";
+import { api } from "../../utils/trpc";
 
 export const Tables = () => {
   const workspaceId = useWorkspace((w) => w.workspaceId);
   const { data, isLoading, refetch } = api.tables.getTables.useQuery(
     {
-      workspaceId: workspaceId || "",
+      workspaceSlug: workspaceId || "",
     },
     {
       enabled: workspaceId !== null,
