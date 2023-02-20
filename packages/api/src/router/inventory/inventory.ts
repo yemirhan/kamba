@@ -18,6 +18,40 @@ export const inventoryRoutes = router({
         },
       });
     }),
+  getLastUpdatedTen: protectedProcedure
+    .input(
+      z.object({
+        workspaceSlug: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.inventoryItem.findMany({
+        where: {
+          workspace: {
+            slug: input.workspaceSlug,
+          },
+        },
+        orderBy: {
+          updatedAt: "desc",
+        },
+        take: 10,
+      });
+    }),
+  stockCount: protectedProcedure
+    .input(
+      z.object({
+        workspaceSlug: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.inventoryItem.count({
+        where: {
+          workspace: {
+            slug: input.workspaceSlug,
+          },
+        },
+      });
+    }),
   byId: protectedProcedure
     .input(
       z.object({

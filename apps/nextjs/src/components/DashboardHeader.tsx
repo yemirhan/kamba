@@ -1,6 +1,6 @@
 import { api } from "@acme/api/src/client";
 import { UserButton } from "@clerk/nextjs";
-import { createStyles, Header, Group, Burger, Tooltip } from "@mantine/core";
+import { Burger, createStyles, Group, Header, Tooltip } from "@mantine/core";
 
 import { dark } from "@clerk/themes";
 import Link from "next/link";
@@ -134,7 +134,7 @@ export function DashboardHeader({
   ));
 
   return (
-    <Header height={56} className={classes.header} mb={120}>
+    <Header height={56} className={classes.header} mb={120} px={"xl"}>
       <div className={classes.inner}>
         {isMenuCollapsed !== undefined ? (
           <Group>

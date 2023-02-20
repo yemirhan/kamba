@@ -267,6 +267,7 @@ model MenuItem {
   price            Float                @default(0)
   description      String?
   ingredients      MenuItemIngredient[]
+  archived         Boolean              @default(false)
   images           MenuImage[]
   workspace        Workspace            @relation(fields: [workspaceId], references: [id])
   workspaceId      String

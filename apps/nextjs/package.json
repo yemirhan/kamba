@@ -9,6 +9,7 @@
     "start": "pnpm with-env next start",
     "type-check": "tsc --noEmit",
     "dev": "pnpm with-env next dev",
+    "next": "pnpm with-env next dev",
     "lint": "SKIP_ENV_VALIDATION=1 next lint"
   },
   "dependencies": {

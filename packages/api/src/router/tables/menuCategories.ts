@@ -1,4 +1,3 @@
-import { colors } from "./../../../../../apps/expo/src/utils/colors";
 import { Colors, Icon } from "@acme/db";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
@@ -109,6 +108,7 @@ export const menuCategoryRoutes = router({
         select: {
           name: true,
           image: true,
+
           color: true,
           icon: true,
           id: true,
@@ -116,6 +116,7 @@ export const menuCategoryRoutes = router({
             select: {
               name: true,
               price: true,
+              archived: true,
               description: true,
               images: true,
               id: true,
@@ -165,7 +166,12 @@ export const menuCategoryRoutes = router({
           });
           image = a.url;
         }
-      } catch (error) {}
+      } catch (error) {
+        return new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Error uploading image",
+        });
+      }
       return await ctx.prisma.menuCategory.create({
         data: {
           name: input.name,

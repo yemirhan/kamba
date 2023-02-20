@@ -372,7 +372,7 @@ export const menuItemsRoutes = router({
   delete: protectedProcedure
     .input(
       z.object({
-        workspaceId: z.string(),
+        workspaceSlug: z.string(),
         categoryId: z.string(),
         itemId: z.string(),
       }),
@@ -380,7 +380,7 @@ export const menuItemsRoutes = router({
     .mutation(async ({ ctx, input }) => {
       const workspace = await ctx.prisma.workspace.findUnique({
         where: {
-          slug: input.workspaceId,
+          slug: input.workspaceSlug,
         },
         select: {
           users: {
@@ -407,6 +407,94 @@ export const menuItemsRoutes = router({
       return await ctx.prisma.menuItem.delete({
         where: {
           id: input.itemId,
+        },
+      });
+    }),
+  archive: protectedProcedure
+    .input(
+      z.object({
+        workspaceSlug: z.string(),
+        categoryId: z.string(),
+        itemId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const workspace = await ctx.prisma.workspace.findUnique({
+        where: {
+          slug: input.workspaceSlug,
+        },
+        select: {
+          users: {
+            select: {
+              externalId: true,
+            },
+          },
+        },
+      });
+      if (!workspace)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Workspace not found",
+        });
+      if (
+        workspace.users.find((user) => user.externalId === ctx.clerkuser.id) ===
+        undefined
+      )
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You are not authorized to access this workspace",
+        });
+
+      return await ctx.prisma.menuItem.update({
+        where: {
+          id: input.itemId,
+        },
+        data: {
+          archived: true,
+        },
+      });
+    }),
+  unarchive: protectedProcedure
+    .input(
+      z.object({
+        workspaceSlug: z.string(),
+        categoryId: z.string(),
+        itemId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const workspace = await ctx.prisma.workspace.findUnique({
+        where: {
+          slug: input.workspaceSlug,
+        },
+        select: {
+          users: {
+            select: {
+              externalId: true,
+            },
+          },
+        },
+      });
+      if (!workspace)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Workspace not found",
+        });
+      if (
+        workspace.users.find((user) => user.externalId === ctx.clerkuser.id) ===
+        undefined
+      )
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You are not authorized to access this workspace",
+        });
+
+      return await ctx.prisma.menuItem.update({
+        where: {
+          id: input.itemId,
+        },
+        data: {
+          archived: false,
         },
       });
     }),

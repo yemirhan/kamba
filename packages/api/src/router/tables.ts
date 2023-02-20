@@ -14,13 +14,13 @@ export const tableRoutes = router({
   getTables: protectedProcedure
     .input(
       z.object({
-        workspaceId: z.string(),
+        workspaceSlug: z.string(),
       }),
     )
     .query(async ({ ctx, input }) => {
       return await ctx.prisma.tableModule.findUnique({
         where: {
-          slug: input.workspaceId,
+          slug: input.workspaceSlug,
         },
         select: {
           tables: {
