@@ -1,23 +1,15 @@
-import { useState } from "react";
-import { createStyles, Navbar, Group, Code } from "@mantine/core";
+import { createStyles, Navbar } from "@mantine/core";
 import {
-  IconBellRinging,
-  IconFingerprint,
-  IconKey,
-  IconSettings,
-  Icon2fa,
-  IconDatabaseImport,
-  IconReceipt2,
-  IconSwitchHorizontal,
-  IconLogout,
+  IconBell,
+  IconCategory,
+  IconHistory,
   IconHome,
   IconPageBreak,
-  IconLayoutKanban,
-  IconUsers,
-  IconQrcode,
+  IconSwitchHorizontal,
+  IconTemplate,
 } from "@tabler/icons";
-import { useRouter } from "next/router";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const useStyles = createStyles((theme, _params, getRef) => {
   const icon = getRef("icon");
@@ -114,9 +106,29 @@ export function InventoryNavbar({
       icon: IconHome,
     },
     {
+      link: `/${router.query.workspaceId}/inventory/sablon`,
+      label: "Şablonlar",
+      icon: IconTemplate,
+    },
+    {
+      link: `/${router.query.workspaceId}/inventory/bildirimler`,
+      label: "Bildirimler",
+      icon: IconBell,
+    },
+    {
+      link: `/${router.query.workspaceId}/inventory/kategoriler`,
+      label: "Kategoriler",
+      icon: IconCategory,
+    },
+    {
       link: `/${router.query.workspaceId}/inventory/liste`,
       label: "Envanter Listesi",
       icon: IconPageBreak,
+    },
+    {
+      link: `/${router.query.workspaceId}/inventory/gecmis`,
+      label: "Satış Geçmişi",
+      icon: IconHistory,
     },
   ];
   const links = data.map((item) => (

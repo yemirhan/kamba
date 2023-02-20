@@ -26,7 +26,14 @@ export function SortableItem({
 
     transition,
     isDragging,
-  } = useSortable({ id: id, disabled: !sortEnabled });
+  } = useSortable({
+    id: id,
+    disabled: !sortEnabled,
+    transition: {
+      duration: 300, // milliseconds
+      easing: "cubic-bezier(0.25, 1, 0.5, 1)",
+    },
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
