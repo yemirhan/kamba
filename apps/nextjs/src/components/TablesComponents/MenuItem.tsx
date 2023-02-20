@@ -1,9 +1,11 @@
 import { placeholder } from "@/utils/placeholder";
 import { RouterOutputs } from "@acme/api";
+import { api } from "@acme/api/src/client";
 import { ActionIcon, createStyles, Paper, Text } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
 import { IconPencil, IconTrash } from "@tabler/icons";
 import Image from "next/image";
-
+import { useRouter } from "next/router";
 const useStyles = createStyles((theme, _params, getRef) => {
   return {
     overlay: {
@@ -66,6 +68,19 @@ export const MenuItem = ({
 }: Partial<
   NonNullable<RouterOutputs["newMenuCategories"]["byId"]>["menuItems"][number]
 >) => {
+  const queryContext = api.useContext();
+  const { mutate: deleteMenuItem, isLoading } =
+    api.newMenuItems.delete.useMutation({
+      onSuccess: () => {
+        showNotification({
+          message: "İşlem Başarılı",
+          color: "red",
+          autoClose: 2000,
+        });
+        queryContext.newMenuItems.all.invalidate();
+      },
+    });
+  const { query } = useRouter();
   const { classes, theme } = useStyles();
   return (
     <Paper
@@ -81,7 +96,17 @@ export const MenuItem = ({
         <ActionIcon variant="filled" size={"lg"}>
           <IconPencil size={20} stroke={3} />
         </ActionIcon>
-        <ActionIcon variant="filled" size={"lg"}>
+        <ActionIcon
+          onClick={() =>
+            deleteMenuItem({
+              categoryId: query.categoryId as string,
+              itemId: id || "",
+              workspaceId: query.workspaceId as string,
+            })
+          }
+          variant="filled"
+          size={"lg"}
+        >
           <IconTrash size={20} stroke={3} />
         </ActionIcon>
       </div>
