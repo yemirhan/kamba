@@ -2,6 +2,7 @@ import { createStyles, Navbar } from "@mantine/core";
 import {
   IconBell,
   IconCategory,
+  IconChartAreaLine,
   IconHistory,
   IconHome,
   IconPageBreak,
@@ -129,6 +130,11 @@ export function InventoryNavbar({
       link: `/${router.query.workspaceId}/inventory/gecmis`,
       label: "Satış Geçmişi",
       icon: IconHistory,
+    },
+    {
+      link: `/${router.query.workspaceId}/inventory/analiz`,
+      label: "Analiz",
+      icon: IconChartAreaLine,
     },
   ];
   const links = data.map((item) => (

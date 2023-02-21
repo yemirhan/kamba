@@ -1,20 +1,20 @@
 // src/pages/_app.tsx
-import "../styles/globals.css";
-import type { AppType } from "next/app";
 import { api } from "@acme/api/src/client";
 import { ClerkProvider } from "@clerk/nextjs";
+import "@tremor/react/dist/esm/tremor.css";
+import type { AppType } from "next/app";
+import "../styles/globals.css";
 // import { Open_Sans, Fira_Mono } from "@next/font/google";
-import { ThemeProvider, useTheme } from "next-themes";
-import { useRouter } from "next/router";
+import { RouterTransition } from "@/components/RouterTransition";
 import { dark } from "@clerk/themes";
-import { useState } from "react";
 import {
   ColorScheme,
   ColorSchemeProvider,
   MantineProvider,
 } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
-import { RouterTransition } from "@/components/RouterTransition";
+import { ThemeProvider, useTheme } from "next-themes";
+import { useRouter } from "next/router";
 
 // const opensans = Open_Sans({
 //   subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext"],
