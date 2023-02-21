@@ -1,5 +1,5 @@
 import { ResponsiveBar } from "@nivo/bar";
-type barColorType = {
+export type barColorType = {
   accent: "accent";
   blueGreen: "blue_green";
   bluePurple: "blue_purple";
@@ -61,7 +61,7 @@ export const BarChart = ({
   legendMarginOnYAxis,
   legendWidth,
   legendHeight,
-  dataFrom
+  dataFrom,
 }: {
   data: any;
   layoutPreference: "horizontal" | "vertical" | undefined;
@@ -87,13 +87,13 @@ export const BarChart = ({
     | "left"
     | "top-left"
     | "center";
-  legendDirection?: "column" | "row",
-  legendEnabled: boolean,
-  legendMarginOnXAxis?: number
-  legendMarginOnYAxis?: number,
-  legendWidth?: number,
-  legendHeight?: number,
-  dataFrom?: "indexes" | "keys"
+  legendDirection?: "column" | "row";
+  legendEnabled: boolean;
+  legendMarginOnXAxis?: number;
+  legendMarginOnYAxis?: number;
+  legendWidth?: number;
+  legendHeight?: number;
+  dataFrom?: "indexes" | "keys";
 }) => {
   return (
     <ResponsiveBar
@@ -123,19 +123,17 @@ export const BarChart = ({
         legendOffset: -60,
       }}
       keys={keys || ["deger"]}
-      legends = {
-        [
-          {
-            anchor : legendAnchor || "top",
-            direction: legendDirection || "row",
-            translateX: legendEnabled ? legendMarginOnXAxis || 120 : 10000,
-            translateY: legendEnabled ? legendMarginOnYAxis || 0 : 10000,
-            itemWidth: legendWidth || 0,
-            itemHeight: legendHeight || 0,
-            dataFrom: dataFrom || "keys"
-          }
-        ]
-      }
+      legends={[
+        {
+          anchor: legendAnchor || "top",
+          direction: legendDirection || "row",
+          translateX: legendEnabled ? legendMarginOnXAxis || 120 : 10000,
+          translateY: legendEnabled ? legendMarginOnYAxis || 0 : 10000,
+          itemWidth: legendWidth || 0,
+          itemHeight: legendHeight || 0,
+          dataFrom: dataFrom || "keys",
+        },
+      ]}
     />
   );
 };

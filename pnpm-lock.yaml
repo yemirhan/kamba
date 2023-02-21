@@ -181,6 +181,7 @@ importers:
       '@nivo/bar': ^0.80.0
       '@nivo/core': ^0.80.0
       '@nivo/line': ^0.80.0
+      '@nivo/pie': ^0.80.0
       '@tabler/icons': ^1.112.0
       '@tanstack/react-query': ^4.23.0
       '@tremor/react': ^1.8.0
@@ -248,6 +249,7 @@ importers:
       '@nivo/bar': 0.80.0_wyuiu3ihipn7hpncy62nqhyrji
       '@nivo/core': 0.80.0_biqbaboplfbrettd7655fr4n2y
       '@nivo/line': 0.80.0_wyuiu3ihipn7hpncy62nqhyrji
+      '@nivo/pie': 0.80.0_wyuiu3ihipn7hpncy62nqhyrji
       '@tabler/icons': 1.117.0_biqbaboplfbrettd7655fr4n2y
       '@tanstack/react-query': 4.24.6_biqbaboplfbrettd7655fr4n2y
       '@tremor/react': 1.8.0_biqbaboplfbrettd7655fr4n2y
@@ -4378,6 +4380,22 @@ packages:
       - react-dom
     dev: false
 
+  /@nivo/arcs/0.80.0_wyuiu3ihipn7hpncy62nqhyrji:
+    resolution: {integrity: sha512-g5m/wM36Ey45J3hrVDBPMw1Z6GOgIRwgb5zTh7TFoPuhRBZEDQLmctk8XYOm0xOMVCzsm6WkU5wlSQUeBY6IHQ==}
+    peerDependencies:
+      '@nivo/core': 0.80.0
+      react: '>= 16.14.0 < 19.0.0'
+    dependencies:
+      '@nivo/colors': 0.80.0_vpsqasc34janocxdlqh4y4bymy
+      '@nivo/core': 0.80.0_biqbaboplfbrettd7655fr4n2y
+      '@react-spring/web': 9.4.5_biqbaboplfbrettd7655fr4n2y
+      d3-shape: 1.3.7
+      react: 18.2.0
+    transitivePeerDependencies:
+      - prop-types
+      - react-dom
+    dev: false
+
   /@nivo/axes/0.80.0_wyuiu3ihipn7hpncy62nqhyrji:
     resolution: {integrity: sha512-AsUyaSHGwQVSEK8QXpsn8X+poZxvakLMYW7crKY1xTGPNw+SU4SSBohPVumm2jMH3fTSLNxLhAjWo71GBJXfdA==}
     peerDependencies:
@@ -4485,6 +4503,24 @@ packages:
       d3-shape: 1.3.7
       react: 18.2.0
     transitivePeerDependencies:
+      - react-dom
+    dev: false
+
+  /@nivo/pie/0.80.0_wyuiu3ihipn7hpncy62nqhyrji:
+    resolution: {integrity: sha512-Zj2PtozUg5wizxdI/2o13YzwnBwf8lLrgc8vH7ucsgOu5nj6oLLpGTuNd3CBmRJHFGIGNT39bP63lKnB3P6qOQ==}
+    peerDependencies:
+      '@nivo/core': 0.80.0
+      react: '>= 16.14.0 < 19.0.0'
+    dependencies:
+      '@nivo/arcs': 0.80.0_wyuiu3ihipn7hpncy62nqhyrji
+      '@nivo/colors': 0.80.0_vpsqasc34janocxdlqh4y4bymy
+      '@nivo/core': 0.80.0_biqbaboplfbrettd7655fr4n2y
+      '@nivo/legends': 0.80.0_vpsqasc34janocxdlqh4y4bymy
+      '@nivo/tooltip': 0.80.0_wyuiu3ihipn7hpncy62nqhyrji
+      d3-shape: 1.3.7
+      react: 18.2.0
+    transitivePeerDependencies:
+      - prop-types
       - react-dom
     dev: false
 

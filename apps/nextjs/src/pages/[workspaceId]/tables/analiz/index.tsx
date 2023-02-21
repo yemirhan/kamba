@@ -1,6 +1,7 @@
 import { Dropdown } from "@/components/Analiz/AnalizFiltre/dropdown";
 import { BarChart } from "@/components/Analiz/BarChart";
 import { LineChart } from "@/components/Analiz/LineChart";
+import { PieChart } from "@/components/Analiz/PieChart";
 import { TablesLayoutNC } from "@/components/Tables/TablesLayoutNC";
 import { Card, Grid, Group, Text, Title } from "@mantine/core";
 const BarListData = [
@@ -93,6 +94,39 @@ const areaChartData = [
   },
 ];
 
+const pieChartData = [
+  {
+    id: "elixir",
+    label: "elixir",
+    value: 99,
+    color: "hsl(194, 70%, 50%)",
+  },
+  {
+    id: "stylus",
+    label: "stylus",
+    value: 586,
+    color: "hsl(104, 70%, 50%)",
+  },
+  {
+    id: "java",
+    label: "java",
+    value: 384,
+    color: "hsl(77, 70%, 50%)",
+  },
+  {
+    id: "css",
+    label: "css",
+    value: 39,
+    color: "hsl(127, 70%, 50%)",
+  },
+  {
+    id: "sass",
+    label: "sass",
+    value: 592,
+    color: "hsl(82, 70%, 50%)",
+  },
+];
+
 const Index = () => {
   return (
     <TablesLayoutNC>
@@ -137,6 +171,26 @@ const Index = () => {
                     marginTop={20}
                     textColor="white"
                     legendEnabled={false}
+                  />
+                </div>
+              </Card>
+            </Grid.Col>
+            <Grid.Col span={4}>
+              <Card withBorder radius="md" style={{ height: "30vh" }}>
+                <Group position="left">
+                  <Text style={{ fontSize: 14 }}>Günlere Göre Yoğunluk</Text>
+                </Group>
+                <div className="h-[100%]">
+                  <PieChart
+                    data={pieChartData}
+                    colors="green_blue"
+                    legendEnabled={false}
+                    marginBottom={40}
+                    marginLeft={30}
+                    marginRight={30}
+                    marginTop={20}
+                    innerRadius={0.5}
+                    arcLinkLabelsTextColor="#FFFFFF"
                   />
                 </div>
               </Card>
