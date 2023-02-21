@@ -6,28 +6,28 @@ import { Card, Grid, Group, Text, Title } from "@mantine/core";
 const BarListData = [
   {
     name: "Twitter",
-    value: 456,
+    deger: 456,
     href: "https://twitter.com/tremorlabs",
   },
   {
     name: "Google",
-    value: 351,
+    deger: 351,
     href: "https://google.com",
   },
   {
     name: "GitHub",
-    value: 271,
+    deger: 271,
     href: "https://github.com/tremorlabs/tremor",
   },
 
   {
     name: "Reddit",
-    value: 191,
+    deger: 191,
     href: "https://reddit.com",
   },
   {
     name: "Youtube",
-    value: 91,
+    deger: 91,
     href: "https://www.youtube.com/@tremorlabs3079",
   },
 ];
@@ -62,6 +62,35 @@ const areaChartData = [
       },
     ],
   },
+  {
+    id: "Deneme2",
+    data: [
+      {
+        x: "Jan 22",
+        y: 2590,
+      },
+      {
+        x: "Feb 22",
+        y: 2456,
+      },
+      {
+        x: "Mar 22",
+        y: 3122,
+      },
+      {
+        x: "Apr 22",
+        y: 3870,
+      },
+      {
+        x: "May 22",
+        y: 3275,
+      },
+      {
+        x: "Jun 22",
+        y: 3529,
+      },
+    ],
+  },
 ];
 
 const Index = () => {
@@ -89,6 +118,7 @@ const Index = () => {
                   marginRight={20}
                   marginTop={20}
                   barColor="nivo"
+                  legendEnabled={false}
                 />
               </Card>
             </Grid.Col>
@@ -106,6 +136,7 @@ const Index = () => {
                     marginRight={20}
                     marginTop={20}
                     textColor="white"
+                    legendEnabled={false}
                   />
                 </div>
               </Card>

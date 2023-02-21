@@ -53,6 +53,15 @@ export const BarChart = ({
   marginRight,
   marginBottom,
   barColor,
+  keys,
+  legendAnchor,
+  legendDirection,
+  legendEnabled,
+  legendMarginOnXAxis,
+  legendMarginOnYAxis,
+  legendWidth,
+  legendHeight,
+  dataFrom
 }: {
   data: any;
   layoutPreference: "horizontal" | "vertical" | undefined;
@@ -67,6 +76,24 @@ export const BarChart = ({
   marginRight: number;
   marginBottom: number;
   barColor: barColorType[keyof barColorType];
+  keys?: string[];
+  legendAnchor?:
+    | "top"
+    | "top-right"
+    | "right"
+    | "bottom-right"
+    | "bottom"
+    | "bottom-left"
+    | "left"
+    | "top-left"
+    | "center";
+  legendDirection?: "column" | "row",
+  legendEnabled: boolean,
+  legendMarginOnXAxis?: number
+  legendMarginOnYAxis?: number,
+  legendWidth?: number,
+  legendHeight?: number,
+  dataFrom?: "indexes" | "keys"
 }) => {
   return (
     <ResponsiveBar
@@ -95,6 +122,20 @@ export const BarChart = ({
         legendPosition: yAxisPosition,
         legendOffset: -60,
       }}
+      keys={keys || ["deger"]}
+      legends = {
+        [
+          {
+            anchor : legendAnchor || "top",
+            direction: legendDirection || "row",
+            translateX: legendEnabled ? legendMarginOnXAxis || 120 : 10000,
+            translateY: legendEnabled ? legendMarginOnYAxis || 0 : 10000,
+            itemWidth: legendWidth || 0,
+            itemHeight: legendHeight || 0,
+            dataFrom: dataFrom || "keys"
+          }
+        ]
+      }
     />
   );
 };

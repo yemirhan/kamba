@@ -14,6 +14,13 @@ export const LineChart = ({
   yAxisLegend,
   ylegendOffset,
   ylegendPosition,
+  legendAnchor,
+  legendDirection,
+  legendMarginOnXAxis,
+  legendMarginOnYAxis,
+  legendWidth,
+  legendHeight,
+  legendEnabled,
 }: {
   data: any;
   marginTop: number;
@@ -28,6 +35,22 @@ export const LineChart = ({
   yAxisLegend?: string | undefined;
   ylegendOffset?: number | undefined;
   ylegendPosition?: "middle" | "end" | "start" | undefined;
+  legendAnchor?:
+    | "top"
+    | "top-right"
+    | "right"
+    | "bottom-right"
+    | "bottom"
+    | "bottom-left"
+    | "left"
+    | "top-left"
+    | "center";
+  legendDirection?: "column" | "row";
+  legendMarginOnXAxis?: number;
+  legendMarginOnYAxis?: number;
+  legendWidth?: number;
+  legendHeight?: number;
+  legendEnabled: boolean;
 }) => {
   return (
     <ResponsiveLine
@@ -56,6 +79,16 @@ export const LineChart = ({
         legendOffset: ylegendOffset || 0,
         legendPosition: ylegendPosition || "middle",
       }}
+      legends={[
+        {
+          anchor: legendAnchor || "top",
+          direction: legendDirection || "row",
+          translateX: legendEnabled ? legendMarginOnXAxis || 0 : 10000,
+          translateY: legendEnabled ? legendMarginOnYAxis || 0 : 10000,
+          itemWidth: legendWidth || 0,
+          itemHeight: legendHeight || 0,
+        },
+      ]}
     />
   );
 };
