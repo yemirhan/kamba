@@ -1,9 +1,11 @@
 import { Dropdown } from "@/components/Analiz/AnalizFiltre/dropdown";
 import { BarChart } from "@/components/Analiz/BarChart";
+import { DataCard } from "@/components/Analiz/DataCard";
 import { LineChart } from "@/components/Analiz/LineChart";
 import { PieChart } from "@/components/Analiz/PieChart";
 import { TablesLayoutNC } from "@/components/Tables/TablesLayoutNC";
 import { Card, Grid, Group, Text, Title } from "@mantine/core";
+
 const BarListData = [
   {
     name: "Twitter",
@@ -127,10 +129,13 @@ const pieChartData = [
   },
 ];
 
+const borderEnabled = true;
+const backgroundColor = "";
 const Index = () => {
+  const sum = 0;
   return (
     <TablesLayoutNC>
-      <div className="flex h-[70vh] w-full flex-col p-2">
+      <div className="flex h-[90vh] w-full flex-col p-2">
         <div className="flex flex-row items-center justify-between">
           <Title>Analizler</Title>
           <Dropdown />
@@ -194,6 +199,16 @@ const Index = () => {
                   />
                 </div>
               </Card>
+            </Grid.Col>
+            <Grid.Col span={4}>
+              <DataCard
+                data={BarListData}
+                innerCardLeftText="İlerleme"
+                innerCardRightText="Değer"
+                titleText="Data"
+                titleWeight={"bold"}
+                valueKey="deger"
+              />
             </Grid.Col>
           </Grid>
         </div>
